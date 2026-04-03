@@ -16,7 +16,7 @@ jobs:
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-    if: github.repository_owner == 'discordjs'
+    if: github.repository_owner == 'marioparaschiv'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

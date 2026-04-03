@@ -34,7 +34,7 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       REF_TYPE: ${{ inputs.ref_type || github.ref_type }}
-    if: github.repository_owner == 'discordjs'
+    if: github.repository_owner == 'marioparaschiv'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -80,7 +80,7 @@ jobs:
 
       - name: Apply tag to api-extractor config
         if: ${{ env.REF_TYPE == 'tag' && !inputs.ref }}
-        run: sed -i 's!https://github.com/discordjs/discord.js/tree/main!https://github.com/discordjs/discord.js/tree/${{ github.ref_name }}!' "packages/${{ steps.extract-tag.outputs.package}}/api-extractor.json"
+        run: sed -i -E 's!https://github.com/[^/]*/[^/]*/tree/main!${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }}!' "packages/${{ steps.extract-tag.outputs.package}}/api-extractor.json"
 
       - name: Build docs
         run: pnpm run docs
@@ -96,7 +96,7 @@ jobs:
             fi
 
             cd "packages/${PACKAGE}"
-            sed -i 's!https://github.com/discordjs/discord.js/tree/main!https://github.com/discordjs/discord.js/tree/${{ inputs.ref }}!' api-extractor.json
+            sed -i -E 's!https://github.com/[^/]*/[^/]*/tree/main!${{ github.server_url }}/${{ github.repository }}/tree/${{ inputs.ref }}!' api-extractor.json
             ../../main/packages/api-extractor/bin/api-extractor run --local --minify
             ../../main/packages/scripts/bin/generateSplitDocumentation.js
             cd ../..
@@ -209,7 +209,7 @@ jobs:
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-    if: github.repository_owner == 'discordjs'
+    if: github.repository_owner == 'marioparaschiv'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

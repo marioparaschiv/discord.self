@@ -13,7 +13,7 @@ on:
 jobs:
   removal:
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'discordjs'
+    if: github.repository_owner == 'marioparaschiv'
     strategy:
       matrix:
         package:

@@ -235,10 +235,6 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		return this;
 	}
 
-	private formatAuthorization(prefix: '' | 'Bearer' | 'Bot', token: string) {
-		return prefix ? `${prefix} ${token}` : token;
-	}
-
 	private hasHeader(headers: Record<string, string>, name: string) {
 		const lowerCaseName = name.toLowerCase();
 		return Object.keys(headers).some((key) => key.toLowerCase() === lowerCaseName);
@@ -324,9 +320,9 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		const generatedHeaders =
 			options.browser === null
 				? ({
-						'User-Agent': `${DefaultUserAgent} ${options.userAgentAppendix}`.trim(),
+						'User-Agent': DefaultUserAgent,
 					} as const satisfies RequestHeaders)
-				: createBrowserMetadataHeaders(options.browser);
+				: await createBrowserMetadataHeaders(options.browser);
 
 		for (const [name, value] of Object.entries(generatedHeaders)) {
 			if (!this.hasHeader(headers as Record<string, string>, name) && !this.hasHeader(requestHeaders, name)) {
@@ -337,17 +333,14 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		// If this request requires authorization (allowing non-"authorized" requests for webhooks)
 		if (request.auth !== false) {
 			if (typeof request.auth === 'object') {
-				headers.Authorization = this.formatAuthorization(
-					request.auth.prefix ?? this.options.authPrefix,
-					request.auth.token,
-				);
+				headers.Authorization = request.auth.token;
 			} else {
 				// If we haven't received a token, throw an error
 				if (!this.#token) {
 					throw new Error('Expected token to be set for this request, but none was present');
 				}
 
-				headers.Authorization = this.formatAuthorization(this.options.authPrefix, this.#token);
+				headers.Authorization = this.#token;
 			}
 		}
 

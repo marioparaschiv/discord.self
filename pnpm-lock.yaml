@@ -968,6 +968,9 @@ importers:
       discord-api-types:
         specifier: ^0.38.43
         version: 0.38.43
+      httpcloak:
+        specifier: ^1.6.1
+        version: 1.6.1
       magic-bytes.js:
         specifier: ^1.13.0
         version: 1.13.0
@@ -2933,6 +2936,31 @@ packages:
     peerDependenciesMeta:
       tailwindcss:
         optional: true
+
+  '@httpcloak/darwin-arm64@1.6.1':
+    resolution: {integrity: sha512-vvqMHRHZb1P5Vg2p4AFI33cKfgfhBnQn1l/gF0aTrsIbr0OG/iCM8H0UG4OtGBYRa6OTeE9fr9WM0NfjIjOkIA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@httpcloak/darwin-x64@1.6.1':
+    resolution: {integrity: sha512-2Ub2Mh1usjrfpo6rpfJAcRDYB/6tE3PgSdJssio/BeSbrzOEbApOWz0dheZfx77pdsNmUmuKNbMYufndhwEtnA==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@httpcloak/linux-arm64@1.6.1':
+    resolution: {integrity: sha512-BcpzRIGAFtDy09mlwyCbWfLGA3gy+e7eqnPKkW+GbsZcky4COX5TqcUsccnlCRrMNJs8lFF5/dPdRGaYATO7iw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@httpcloak/linux-x64@1.6.1':
+    resolution: {integrity: sha512-pkULQ7HeeolZDuyN/gd4o7QJWjO++ph/69p9bw1EaVecWUyAznYrvW6nWNnYH9BF6I+Kge5nQGhuQc+C2VVzDg==}
+    cpu: [x64]
+    os: [linux]
+
+  '@httpcloak/win32-x64@1.6.1':
+    resolution: {integrity: sha512-tKciHnwUiRy5JAPwhNsC0xJjItjYvIDqshDCvsM5gyHXukqRV/zjfp1M97AonD85tRM7R1sSz8ubvANX0ADP+A==}
+    cpu: [x64]
+    os: [win32]
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -9143,6 +9171,10 @@ packages:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
 
+  httpcloak@1.6.1:
+    resolution: {integrity: sha512-xqrrCDB97Lw60ntVZXhiNUcVBUH2FHHoar5l2BR+W6PRiQIPxi7PKrbE/g+gTm5R//HBvVu3cETR0kdKvy+EWA==}
+    engines: {node: '>=14.0.0'}
+
   https-proxy-agent@5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
@@ -9655,6 +9687,9 @@ packages:
   kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
+
+  koffi@2.15.6:
+    resolution: {integrity: sha512-WQBpM5uo74UQ17UpsFN+PUOrQQg4/nYdey4SGVluQun2drYYfePziLLWdSmFb4wSdWlJC1aimXQnjhPCheRKuw==}
 
   langium@4.2.2:
     resolution: {integrity: sha512-JUshTRAfHI4/MF9dH2WupvjSXyn8JBuUEWazB8ZVJUtXutT0doDlAv1XKbZ1Pb5sMexa8FF4CFBc0iiul7gbUQ==}
@@ -14638,6 +14673,21 @@ snapshots:
       postcss-selector-parser: 7.1.1
     optionalDependencies:
       tailwindcss: 4.2.2
+
+  '@httpcloak/darwin-arm64@1.6.1':
+    optional: true
+
+  '@httpcloak/darwin-x64@1.6.1':
+    optional: true
+
+  '@httpcloak/linux-arm64@1.6.1':
+    optional: true
+
+  '@httpcloak/linux-x64@1.6.1':
+    optional: true
+
+  '@httpcloak/win32-x64@1.6.1':
+    optional: true
 
   '@humanfs/core@0.19.1': {}
 
@@ -22372,6 +22422,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  httpcloak@1.6.1:
+    dependencies:
+      koffi: 2.15.6
+    optionalDependencies:
+      '@httpcloak/darwin-arm64': 1.6.1
+      '@httpcloak/darwin-x64': 1.6.1
+      '@httpcloak/linux-arm64': 1.6.1
+      '@httpcloak/linux-x64': 1.6.1
+      '@httpcloak/win32-x64': 1.6.1
+
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
@@ -22833,6 +22893,8 @@ snapshots:
   kleur@3.0.3: {}
 
   kleur@4.1.5: {}
+
+  koffi@2.15.6: {}
 
   langium@4.2.2:
     dependencies:

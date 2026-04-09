@@ -32,18 +32,11 @@ export interface RESTOptions {
 	 */
 	api: string;
 	/**
-	 * The authorization prefix to use for requests, useful if you want to use
-	 * bearer tokens
-	 *
-	 * @defaultValue `'Bot'`
-	 */
-	authPrefix: '' | 'Bearer' | 'Bot';
-	/**
 	 * Browser-style metadata to generate for requests in self-account mode.
 	 *
-	 * This remains opt-in so existing bot-style behavior is unchanged by default.
+	 * Set this to `null` to disable the generated browser metadata headers.
 	 *
-	 * @defaultValue `null`
+	 * @defaultValue `{}`
 	 */
 	browser: RESTBrowserMetadata | null;
 	/**
@@ -303,20 +296,18 @@ export interface RESTBrowserMetadata {
 	locale?: string;
 	os?: string;
 	osVersion?: string;
+	preset?: string;
+	probeUrl?: string;
 	releaseChannel?: string;
 	secChUa?: string;
+	secChUaMobile?: '?0' | '?1';
+	secChUaPlatform?: string;
 	superProperties?: Record<string, unknown> | false;
 	timezone?: string;
 	userAgent?: string;
 }
 
 export interface AuthData {
-	/**
-	 * The authorization prefix to use for this request, useful if you use this with bearer tokens
-	 *
-	 * @defaultValue `REST.options.authPrefix`
-	 */
-	prefix?: '' | 'Bearer' | 'Bot';
 	/**
 	 * The authorization token to use for this request
 	 */

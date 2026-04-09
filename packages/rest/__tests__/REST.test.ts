@@ -7,12 +7,23 @@ import { MockAgent, setGlobalDispatcher } from 'undici';
 import type { Interceptable, MockInterceptor } from 'undici/types/mock-interceptor.js';
 import { beforeEach, afterEach, test, expect, vitest } from 'vitest';
 import { REST } from '../src/index.js';
+import { getCloakedBrowserHeaders } from '../src/lib/utils/httpcloak.js';
 import { genPath } from './util.js';
+
+vitest.mock('../src/lib/utils/httpcloak.js', () => ({
+	getCloakedBrowserHeaders: vitest.fn(async () => ({
+		acceptLanguage: 'en-US,en;q=0.9',
+		secChUa: '"Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"',
+		secChUaMobile: '?0',
+		secChUaPlatform: '"Windows"',
+		userAgent:
+			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+	})),
+}));
 
 const newSnowflake: Snowflake = DiscordSnowflake.generate().toString();
 
 const api = new REST().setToken('A-Very-Fake-Token');
-const rawTokenApi = new REST({ authPrefix: '' }).setToken('A-Very-Fake-Token');
 const browserMetadataApi = new REST({
 	browser: {
 		buildMetadata: {
@@ -47,9 +58,9 @@ beforeEach(() => {
 
 	mockPool = mockAgent.get('https://discord.com');
 	api.setAgent(mockAgent);
-	rawTokenApi.setAgent(mockAgent);
 	browserMetadataApi.setAgent(mockAgent);
 	fetchApi.setAgent(mockAgent);
+	vitest.mocked(getCloakedBrowserHeaders).mockClear();
 });
 
 afterEach(async () => {
@@ -256,7 +267,7 @@ test('getAuth', async () => {
 		.times(5);
 
 	// default
-	expect(await api.get('/getAuth')).toStrictEqual({ auth: 'Bot A-Very-Fake-Token' });
+	expect(await api.get('/getAuth')).toStrictEqual({ auth: 'A-Very-Fake-Token' });
 
 	// unauthorized
 	expect(
@@ -270,41 +281,12 @@ test('getAuth', async () => {
 		await api.get('/getAuth', {
 			auth: true,
 		}),
-	).toStrictEqual({ auth: 'Bot A-Very-Fake-Token' });
+	).toStrictEqual({ auth: 'A-Very-Fake-Token' });
 
-	// Custom Bot Auth
+	// Custom Auth
 	expect(
 		await api.get('/getAuth', {
 			auth: { token: 'A-Very-Different-Fake-Token' },
-		}),
-	).toStrictEqual({ auth: 'Bot A-Very-Different-Fake-Token' });
-
-	// Custom Bearer Auth
-	expect(
-		await api.get('/getAuth', {
-			auth: { token: 'A-Bearer-Fake-Token', prefix: 'Bearer' },
-		}),
-	).toStrictEqual({ auth: 'Bearer A-Bearer-Fake-Token' });
-});
-
-test('getAuth with raw token auth prefix', async () => {
-	mockPool
-		.intercept({
-			path: genPath('/getAuthRawToken'),
-			method: 'GET',
-		})
-		.reply(
-			200,
-			(from) => ({ auth: (from.headers as unknown as Record<string, string | undefined>).Authorization ?? null }),
-			responseOptions,
-		)
-		.times(2);
-
-	expect(await rawTokenApi.get('/getAuthRawToken')).toStrictEqual({ auth: 'A-Very-Fake-Token' });
-
-	expect(
-		await api.get('/getAuthRawToken', {
-			auth: { token: 'A-Very-Different-Fake-Token', prefix: '' },
 		}),
 	).toStrictEqual({ auth: 'A-Very-Different-Fake-Token' });
 });
@@ -357,9 +339,20 @@ test('browser metadata adds Discord client headers', async () => {
 
 	expect(response.acceptLanguage).toBe('en-GB,en-US;q=0.9,en;q=0.8');
 	expect(response.locale).toBe('en-GB');
-	expect(response.secChUa).toContain('"Chromium"');
+	expect(response.secChUa).toBe('"Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"');
 	expect(response.timezone).toBe('Europe/London');
-	expect(response.userAgent).toContain('Mozilla/5.0');
+	expect(response.userAgent).toContain('Chrome/146.0.0.0');
+	expect(getCloakedBrowserHeaders).toHaveBeenCalledWith(
+		expect.objectContaining({
+			buildMetadata: {
+				clientBuildNumber: 123_456,
+				hostVersion: '1.0.9000',
+				nativeBuildNumber: 444,
+			},
+			locale: 'en-GB',
+			timezone: 'Europe/London',
+		}),
+	);
 
 	expect(JSON.parse(Buffer.from(response.superProperties, 'base64').toString('utf8'))).toMatchObject({
 		browser: 'Chrome',

@@ -42,6 +42,34 @@ test('fetch gateway information', async () => {
 	expect(fetchGatewayInformation).toHaveBeenCalledOnce();
 });
 
+test('fetch selfbot gateway information', async () => {
+	NOW.mockReturnValue(0);
+	const fetchGatewayInformation = vi.fn(async () => ({ url: 'wss://gateway.discord.gg' }));
+
+	const manager = new WebSocketManager({
+		token: 'A-Very-Fake-Token',
+		intents: 0,
+		fetchGatewayInformation,
+	});
+
+	const initial = await manager.fetchGatewayInformation();
+	expect(initial).toEqual({ url: 'wss://gateway.discord.gg' });
+	expect(fetchGatewayInformation).toHaveBeenCalledOnce();
+
+	fetchGatewayInformation.mockClear();
+
+	const cached = await manager.fetchGatewayInformation();
+	expect(cached).toEqual({ url: 'wss://gateway.discord.gg' });
+	expect(fetchGatewayInformation).not.toHaveBeenCalled();
+
+	fetchGatewayInformation.mockClear();
+
+	NOW.mockReturnValue(Number.POSITIVE_INFINITY);
+	const cacheExpired = await manager.fetchGatewayInformation();
+	expect(cacheExpired).toEqual({ url: 'wss://gateway.discord.gg' });
+	expect(fetchGatewayInformation).toHaveBeenCalledOnce();
+});
+
 describe('get shard count', () => {
 	test('with shard count', async () => {
 		const manager = new WebSocketManager({
@@ -82,6 +110,19 @@ describe('get shard count', () => {
 		});
 
 		expect(await manager.getShardCount()).toBe(shardIds.end + 1);
+	});
+
+	test('with selfbot gateway information', async () => {
+		const manager = new WebSocketManager({
+			token: 'A-Very-Fake-Token',
+			intents: 0,
+			async fetchGatewayInformation() {
+				return { url: 'wss://gateway.discord.gg' };
+			},
+		});
+
+		expect(await manager.getShardCount()).toBe(1);
+		expect(await manager.getShardIds()).toStrictEqual([0]);
 	});
 });
 

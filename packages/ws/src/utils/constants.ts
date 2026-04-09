@@ -39,7 +39,7 @@ export const CompressionParameterMap = {
 export const DefaultWebSocketManagerOptions = {
 	async buildIdentifyThrottler(manager: WebSocketManager) {
 		const info = await manager.fetchGatewayInformation();
-		return new SimpleIdentifyThrottler(info.session_start_limit.max_concurrency);
+		return new SimpleIdentifyThrottler('session_start_limit' in info ? info.session_start_limit.max_concurrency : 1);
 	},
 	buildStrategy: (manager) => new SimpleShardingStrategy(manager),
 	shardCount: null,

@@ -28,11 +28,6 @@ packages:core:
       - any-glob-to-any-file:
           - packages/core/*
           - packages/core/**/*
-packages:create-discord-bot:
-  - changed-files:
-      - any-glob-to-any-file:
-          - packages/create-discord-bot/*
-          - packages/create-discord-bot/**/*
 packages:discord.js:
   - changed-files:
       - any-glob-to-any-file:
@@ -48,6 +43,11 @@ packages:formatters:
       - any-glob-to-any-file:
           - packages/formatters/*
           - packages/formatters/**/*
+packages:identity:
+  - changed-files:
+      - any-glob-to-any-file:
+          - packages/identity/*
+          - packages/identity/**/*
 packages:rest:
   - changed-files:
       - any-glob-to-any-file:

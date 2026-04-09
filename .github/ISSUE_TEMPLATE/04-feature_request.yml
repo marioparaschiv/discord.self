@@ -21,8 +21,8 @@ body:
         - builders
         - collection
         - core
-        - create-discord-bot
         - formatters
+        - identity
         - next
         - proxy
         - rest

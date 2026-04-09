@@ -35,6 +35,17 @@ const browserMetadataApi = new REST({
 		timezone: 'Europe/London',
 	},
 }).setToken('A-Very-Fake-Token');
+const identityHeaders = vitest.fn(async () => ({
+	'user-agent': 'Mozilla/5.0 identity',
+	'x-discord-locale': 'en-GB',
+	'x-super-properties': 'identity-super-properties',
+}));
+const identityApi = new REST({
+	identity: {
+		async ensureReady() {},
+		getHeaders: identityHeaders,
+	} as never,
+}).setToken('A-Very-Fake-Token');
 
 const makeRequestMock = vitest.fn(fetch);
 
@@ -59,8 +70,10 @@ beforeEach(() => {
 	mockPool = mockAgent.get('https://discord.com');
 	api.setAgent(mockAgent);
 	browserMetadataApi.setAgent(mockAgent);
+	identityApi.setAgent(mockAgent);
 	fetchApi.setAgent(mockAgent);
 	vitest.mocked(getCloakedBrowserHeaders).mockClear();
+	identityHeaders.mockClear();
 });
 
 afterEach(async () => {
@@ -363,6 +376,40 @@ test('browser metadata adds Discord client headers', async () => {
 		release_channel: 'stable',
 		system_locale: 'en-GB',
 	});
+});
+
+test('identity headers take precedence over generated browser metadata', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/identityHeaders'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				locale:
+					(from.headers as unknown as Record<string, string | undefined>)['x-discord-locale'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Discord-Locale'] ??
+					null,
+				superProperties:
+					(from.headers as unknown as Record<string, string | undefined>)['x-super-properties'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Super-Properties'] ??
+					null,
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
+
+	expect(await identityApi.get('/identityHeaders')).toStrictEqual({
+		locale: 'en-GB',
+		superProperties: 'identity-super-properties',
+		userAgent: 'Mozilla/5.0 identity',
+	});
+	expect(identityHeaders).toHaveBeenCalledOnce();
+	expect(getCloakedBrowserHeaders).not.toHaveBeenCalled();
 });
 
 test('per-request headers override generated browser metadata headers', async () => {

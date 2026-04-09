@@ -21,6 +21,7 @@ jobs:
           - '@discord.self/core'
           - '@discord.self/formatters'
           - '@discord.self/discord.js'
+          - '@discord.self/identity'
           - '@discord.self/rest'
           - '@discord.self/util'
           - '@discord.self/voice'

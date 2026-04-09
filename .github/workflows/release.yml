@@ -17,6 +17,7 @@ on:
           - '@discord.self/core'
           # - '@discord.self/docgen'
           - '@discord.self/formatters'
+          - '@discord.self/identity'
           - '@discord.self/rest'
           - '@discord.self/util'
           - '@discord.self/voice'

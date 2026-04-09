@@ -8,18 +8,7 @@ import type {
 
 export interface FetchingStrategyOptions extends Pick<
 	WebSocketManagerOptions,
-	| 'compression'
-	| 'encoding'
-	| 'handshakeTimeout'
-	| 'helloTimeout'
-	| 'identifyProperties'
-	| 'initialPresence'
-	| 'intents'
-	| 'largeThreshold'
-	| 'readyTimeout'
-	| 'token'
-	| 'useIdentifyCompression'
-	| 'version'
+	'compression' | 'encoding' | 'handshakeTimeout' | 'helloTimeout' | 'identifyProperties' | 'identity' | 'initialPresence' | 'intents' | 'largeThreshold' | 'readyTimeout' | 'token' | 'useIdentifyCompression' | 'version'
 > {
 	readonly gatewayInformation: GatewayInformation;
 	readonly shardCount: number;
@@ -46,6 +35,7 @@ export async function managerToFetchingStrategyOptions(manager: WebSocketManager
 		encoding: manager.options.encoding,
 		handshakeTimeout: manager.options.handshakeTimeout,
 		helloTimeout: manager.options.helloTimeout,
+		identity: manager.options.identity,
 		identifyProperties: manager.options.identifyProperties,
 		initialPresence: manager.options.initialPresence,
 		intents: manager.options.intents,

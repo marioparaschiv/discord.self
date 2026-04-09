@@ -88,7 +88,7 @@ jobs:
       - name: Build docs with main api-extractor
         if: ${{ inputs.ref && inputs.ref != 'main' }}
         run: |
-          declare -a PACKAGES=("collection" "core" "discord.js" "formatters" "rest" "util" "voice" "ws")
+          declare -a PACKAGES=("collection" "core" "discord.js" "formatters" "identity" "rest" "util" "voice" "ws")
           for PACKAGE in "${PACKAGES[@]}"; do
             if [ ! -d "packages/${PACKAGE}" ]; then
               echo "::notice::${PACKAGE} does not exist on this ref. Skipping..."

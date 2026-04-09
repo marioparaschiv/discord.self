@@ -43,6 +43,15 @@ runs:
         flags: formatters
         token: ${{ inputs.CODECOV_TOKEN }}
 
+    - name: Upload Identity Coverage
+      if: ${{ hashFiles('packages/identity/coverage/cobertura-coverage.xml') != '' }}
+      uses: codecov/codecov-action@v4
+      with:
+        files: ./packages/identity/coverage/cobertura-coverage.xml
+        disable_search: true
+        flags: identity
+        token: ${{ inputs.CODECOV_TOKEN }}
+
     - name: Upload Rest Coverage
       if: ${{ hashFiles('packages/rest/coverage/cobertura-coverage.xml') != '' }}
       uses: codecov/codecov-action@v4

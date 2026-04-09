@@ -20,6 +20,7 @@ export const DefaultRestOptions = {
 	browser: {},
 	cdn: 'https://cdn.discordapp.com',
 	headers: {},
+	identity: null,
 	invalidRequestWarningInterval: 0,
 	globalRequestsPerSecond: 50,
 	offset: 50,

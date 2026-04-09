@@ -1,0 +1,9 @@
+export const DEFAULT_TIMEOUT_MS = 30_000;
+export const DEFAULT_HTTPBIN_URL = 'https://httpbin.org/headers';
+export const DEFAULT_WARMUP_URL = 'https://discord.com/app';
+export const DEFAULT_COOKIE_DOMAIN = '.discord.com';
+export const DEFAULT_COOKIE_PATH = '/';
+export const DEFAULT_RELEASE_CHANNEL = 'stable';
+export const DEFAULT_X_DEBUG_OPTIONS = 'bugReporterEnabled';
+export const DEFAULT_ACCEPT_ENCODING = 'gzip, deflate, br, zstd';
+export const BUILD_NUMBER_REGEX = /parseInt\("(\d+)",10\)|buildNumber:"(\d+)"/;

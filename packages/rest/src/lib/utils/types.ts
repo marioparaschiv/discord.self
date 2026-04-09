@@ -1,6 +1,7 @@
 import type { Readable } from 'node:stream';
 import type { ReadableStream } from 'node:stream/web';
 import type { Collection } from '@discord.self/collection';
+import type { DiscordIdentity } from '@discord.self/identity';
 import type { Awaitable, RawFile } from '@discord.self/util';
 import type { Agent, Dispatcher, RequestInit, BodyInit, Response } from 'undici';
 import type { IHandler } from '../interfaces/Handler.js';
@@ -75,6 +76,14 @@ export interface RESTOptions {
 	 * @defaultValue `{}`
 	 */
 	headers: Record<string, string>;
+	/**
+	 * Shared Discord identity used to generate cloaked request headers.
+	 *
+	 * When provided, this takes precedence over the `browser` metadata option.
+	 *
+	 * @defaultValue `null`
+	 */
+	identity: DiscordIdentity | null;
 	/**
 	 * The number of invalid REST requests (those that return 401, 403, or 429) in a 10 minute window between emitted warnings (0 for no warnings).
 	 * That is, if set to 500, warnings will be emitted at invalid request number 500, 1000, 1500, and so on.

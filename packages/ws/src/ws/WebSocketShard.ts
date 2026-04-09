@@ -25,6 +25,7 @@ import {
 	ImportantGatewayOpcodes,
 	getInitialSendRateLimitState,
 } from '../utils/constants.js';
+import { resolveIdentifyProperties } from '../utils/identity.js';
 import type { SessionInfo } from './WebSocketManager.js';
 
 /* eslint-disable promise/prefer-await-to-then */
@@ -554,7 +555,10 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 
 		const data: GatewayIdentifyData = {
 			token: this.strategy.options.token,
-			properties: this.strategy.options.identifyProperties,
+			properties: await resolveIdentifyProperties(
+				this.strategy.options.identifyProperties,
+				this.strategy.options.identity,
+			),
 			intents: this.strategy.options.intents,
 			compress: this.identifyCompressionEnabled,
 			shard: [this.id, this.strategy.options.shardCount],

@@ -30,6 +30,7 @@ This repository is a patched, user-account-focused fork of `discord.js`. The wor
 - `@discord.self/collection` ([source][collection-source]) - A utility data structure used by the runtime
 - `@discord.self/core` ([source][core-source]) - A low-level convenience layer over REST and gateway
 - `@discord.self/formatters` ([source][formatters-source]) - Shared string formatting helpers
+- `@discord.self/identity` ([source][identity-source]) - Shared browser/session identity for REST and gateway
 - `@discord.self/rest` ([source][rest-source]) - The REST transport layer
 - `@discord.self/util` ([source][util-source]) - Shared utility helpers
 - `@discord.self/voice` ([source][voice-source]) - Voice support kept in-tree for later compatibility work
@@ -62,6 +63,7 @@ If you need API reference, inspect the package sources directly while the public
 [collection-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/collection
 [core-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/core
 [formatters-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/formatters
+[identity-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/identity
 [rest-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/rest
 [util-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/util
 [voice-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/voice

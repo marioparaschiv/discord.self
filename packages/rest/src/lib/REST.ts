@@ -25,7 +25,6 @@ import type {
 	HashData,
 	InternalRequest,
 	RouteLike,
-	RequestHeaders,
 	RouteData,
 	RequestData,
 	AuthData,
@@ -235,6 +234,11 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		return this;
 	}
 
+	public setIdentity(identity: RESTOptions['identity']) {
+		this.options.identity = identity;
+		return this;
+	}
+
 	private hasHeader(headers: Record<string, string>, name: string) {
 		const lowerCaseName = name.toLowerCase();
 		return Object.keys(headers).some((key) => key.toLowerCase() === lowerCaseName);
@@ -313,20 +317,21 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		}
 
 		// Create the required headers
-		const headers: RequestHeaders = {
+		const headers: Record<string, string> = {
 			...this.options.headers,
 		};
 
-		const generatedHeaders =
-			options.browser === null
-				? ({
+		const generatedHeaders = options.identity
+			? await options.identity.getHeaders()
+			: options.browser === null
+				? {
 						'User-Agent': DefaultUserAgent,
-					} as const satisfies RequestHeaders)
+					}
 				: await createBrowserMetadataHeaders(options.browser);
 
-		for (const [name, value] of Object.entries(generatedHeaders)) {
-			if (!this.hasHeader(headers as Record<string, string>, name) && !this.hasHeader(requestHeaders, name)) {
-				headers[name as keyof RequestHeaders] = value as never;
+		for (const [name, value] of Object.entries(generatedHeaders) as [string, string | undefined][]) {
+			if (value !== undefined && !this.hasHeader(headers, name) && !this.hasHeader(requestHeaders, name)) {
+				headers[name] = value;
 			}
 		}
 

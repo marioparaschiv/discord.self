@@ -5,7 +5,7 @@ import type { StructurePredicate } from '../util/loaders.ts';
 /**
  * Defines the structure of an event.
  */
-export type Event<EventName extends keyof ClientEventTypes & string = keyof ClientEventTypes & string> = {
+export type Event<EventName extends string & keyof ClientEventTypes = string & keyof ClientEventTypes> = {
 	/**
 	 * The function to execute when the event is emitted.
 	 *

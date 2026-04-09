@@ -9,11 +9,13 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 // Load the events and commands
 const events = await loadEvents(new URL('events/', import.meta.url));
 
-function registerEvent<EventName extends keyof ClientEventTypes & string>(event: Event<EventName>) {
-	const listener = (...args: ClientEventTypes[EventName]) => {
-		void Promise.resolve(event.execute(...args)).catch((error) => {
+function registerEvent<EventName extends string & keyof ClientEventTypes>(event: Event<EventName>) {
+	const listener = async (...args: ClientEventTypes[EventName]) => {
+		try {
+			await event.execute(...args);
+		} catch (error) {
 			console.error(`Error executing event ${String(event.name)}:`, error);
-		});
+		}
 	};
 
 	if (event.once) {

@@ -1,14 +1,12 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "@discordjs/discord.js",
+	"name": "discord.self",
 	"version": "0.0.0",
-	"description": "A powerful library for interacting with the Discord API",
+	"description": "A user-account-focused patched fork of discord.js",
 	"private": true,
 	"scripts": {
 		"build": "turbo run build --concurrency=4",
 		"build:affected": "turbo run build --filter=...[origin/main] --concurrency=4",
-		"build:apps": "turbo run build:local --filter=...{apps/*} --concurrency=4",
-		"build:apps:affected": "turbo run build:local --filter=...{apps/*}[origin/main] --concurrency=4",
 		"test": "turbo run test --concurrency=4",
 		"test:affected": "turbo run test --filter=...[origin/main] --concurrency=4",
 		"lint": "turbo run lint --concurrency=4",
@@ -21,9 +19,7 @@
 		"docs:affected": "turbo run docs --filter=...[origin/main] --concurrency=4",
 		"prepare": "is-ci || husky",
 		"update": "pnpm --recursive update --interactive",
-		"update:latest": "pnpm --recursive update --interactive --latest",
-		"create-package": "turbo gen create-package --args",
-		"release": "bun ./packages/actions/src/releasePackages/index.ts"
+		"update:latest": "pnpm --recursive update --interactive --latest"
 	},
 	"type": "module",
 	"contributors": [
@@ -36,20 +32,19 @@
 	"keywords": [
 		"discord",
 		"api",
-		"bot",
 		"client",
 		"node",
-		"discordapp"
+		"discordapp",
+		"selfbot"
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/discordjs/discord.js.git"
+		"url": "https://github.com/marioparaschiv/discord.self.git"
 	},
 	"bugs": {
-		"url": "https://github.com/discordjs/discord.js/issues"
+		"url": "https://github.com/marioparaschiv/discord.self/issues"
 	},
-	"homepage": "https://discord.js.org",
-	"funding": "https://github.com/discordjs/discord.js?sponsor",
+	"homepage": "https://github.com/marioparaschiv/discord.self",
 	"devDependencies": {
 		"@commitlint/cli": "^20.5.0",
 		"@commitlint/config-angular": "^20.5.0",

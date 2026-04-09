@@ -22,78 +22,39 @@
 
 ## About
 
-This repository contains multiple packages with separate [releases][github-releases]. You can find the assembled Discord API wrapper at [`discord.js`][source]. It is a powerful [Node.js](https://nodejs.org/en) module that allows you to easily interact with the [Discord API](https://discord.com/developers/docs/intro).
+This repository is a patched, user-account-focused fork of `discord.js`. The workspace is being reduced to the runtime pieces needed for a self-account client and its transport layers.
 
 ## Packages
 
-- `discord.js` ([source][source]) - A powerful Node.js module for interacting with the Discord API
-- `create-discord-bot` ([source][create-discord-bot-source]) - A CLI tool to quickly scaffold a Discord bot project
-- `@discordjs/brokers` ([source][brokers-source]) - A collection of brokers for use with discord.js
-- `@discordjs/builders` ([source][builders-source]) - A utility package for easily building Discord API payloads
-- `@discordjs/collection` ([source][collection-source]) - A powerful utility data structure
-- `@discordjs/core` ([source][core-source]) - A thinly abstracted wrapper around the core components of the Discord API
-- `@discordjs/formatters` ([source][formatters-source]) - A collection of functions for formatting strings
-- `@discordjs/proxy` ([source][proxy-source]) - A wrapper around `@discordjs/rest` for running an HTTP proxy
-- `@discordjs/rest` ([source][rest-source]) - A module for interacting with the Discord REST API
-- `@discordjs/structures` ([source][structures-source]) - A wrapper around Discord's structures
-- `@discordjs/util` ([source][util-source]) - A collection of utility functions
-- `@discordjs/voice` ([source][voice-source]) - A module for interacting with the Discord Voice API
-- `@discordjs/ws` ([source][ws-source]) - A wrapper around Discord's gateway
-
-## Containers
-
-- `discordjs/proxy` ([source][proxy-container-source]) - A lightweight HTTP proxy for Discord's API
+- `discord.js` ([source][source]) - The main client package being adapted for user-account sessions
+- `@discordjs/collection` ([source][collection-source]) - A utility data structure used by the runtime
+- `@discordjs/formatters` ([source][formatters-source]) - Shared string formatting helpers
+- `@discordjs/rest` ([source][rest-source]) - The REST transport layer
+- `@discordjs/util` ([source][util-source]) - Shared utility helpers
+- `@discordjs/ws` ([source][ws-source]) - The gateway transport layer
 
 ## Links
 
-- [Website][website] ([source][website-source])
-- [Documentation][documentation]
-- [Guide][guide] ([source][guide-source])
-  Also see the v13 to v14 [Update Guide][guide-update], which includes updated and removed items from the library.
-- [discord.js Discord server][discord]
+- [GitHub][repo]
+- [Source package][source]
 - [Discord Developers Discord server][discord-developers]
-- [GitHub][source]
-- [npm][npm]
 - [Related libraries][related-libs]
-
-### Extensions
-
-- [RPC][rpc] ([source][rpc-source])
 
 ## Contributing
 
-Please read through our [contribution guidelines][contributing] before starting a pull request. We welcome contributions of all kinds, not just code! If you're stuck for ideas, look for the [good first issue][good-first-issue] label on issues in the repository. If you have any questions about the project, feel free to ask them on [Discord][discord]. Before creating your own issue or pull request, always check to see if one already exists! Don't rush contributions, take your time and ensure you're doing it correctly.
+Please read through our [contribution guidelines][contributing] before starting a pull request. Before creating your own issue or pull request, check whether the work already exists and keep changes scoped.
 
 ## Help
 
-If you don't understand something in the documentation, you are experiencing problems, or you just need a gentle nudge in the right direction, please join our [Discord server][discord].
+If you need API reference, inspect the package sources directly while the public docs are being trimmed with the rest of the workspace.
 
-[website]: https://discord.js.org
-[website-source]: https://github.com/discordjs/discord.js/tree/main/apps/website
-[documentation]: https://discord.js.org/docs
-[guide]: https://discordjs.guide
-[guide-source]: https://github.com/discordjs/discord.js/tree/main/apps/guide
-[guide-update]: https://discordjs.guide/legacy/additional-info/changes-in-v14
-[discord]: https://discord.gg/djs
+[repo]: https://github.com/marioparaschiv/discord.self
 [discord-developers]: https://discord.gg/discord-developers
-[source]: https://github.com/discordjs/discord.js/tree/main/packages/discord.js
-[npm]: https://www.npmjs.com/package/discord.js
+[source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/discord.js
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
-[rpc]: https://www.npmjs.com/package/discord-rpc
-[rpc-source]: https://github.com/discordjs/RPC
-[contributing]: https://github.com/discordjs/discord.js/blob/main/.github/CONTRIBUTING.md
-[github-releases]: https://github.com/discordjs/discord.js/releases
-[create-discord-bot-source]: https://github.com/discordjs/discord.js/tree/main/packages/create-discord-bot
-[brokers-source]: https://github.com/discordjs/discord.js/tree/main/packages/brokers
-[builders-source]: https://github.com/discordjs/discord.js/tree/main/packages/builders
-[collection-source]: https://github.com/discordjs/discord.js/tree/main/packages/collection
-[core-source]: https://github.com/discordjs/discord.js/tree/main/packages/core
-[formatters-source]: https://github.com/discordjs/discord.js/tree/main/packages/formatters
-[proxy-source]: https://github.com/discordjs/discord.js/tree/main/packages/proxy
-[rest-source]: https://github.com/discordjs/discord.js/tree/main/packages/rest
-[structures-source]: https://github.com/discordjs/discord.js/tree/main/packages/structures
-[util-source]: https://github.com/discordjs/discord.js/tree/main/packages/util
-[voice-source]: https://github.com/discordjs/discord.js/tree/main/packages/voice
-[ws-source]: https://github.com/discordjs/discord.js/tree/main/packages/ws
-[proxy-container-source]: https://github.com/discordjs/discord.js/tree/main/apps/proxy-container
-[good-first-issue]: https://github.com/discordjs/discord.js/contribute
+[contributing]: https://github.com/marioparaschiv/discord.self/blob/main/.github/CONTRIBUTING.md
+[collection-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/collection
+[formatters-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/formatters
+[rest-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/rest
+[util-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/util
+[ws-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/ws

@@ -1,5 +1,5 @@
 name: Bug report
-description: Report an issue with discord.js or another package.
+description: Report an issue with discord.js or one of the remaining runtime packages.
 labels: [bug, need repro]
 body:
   - type: markdown
@@ -7,26 +7,17 @@ body:
       value: |
         Thank you for filing an issue! If you are here to ask a question, use Discord instead: https://discord.gg/djs
 
-        This issue form is for discord.js, including other packages.
+        This issue form is for the user-account runtime packages in this repository.
   - type: dropdown
     id: package
     attributes:
       label: Which package is this bug report for?
       options:
         - discord.js
-        - brokers
-        - builders
         - collection
-        - core
-        - create-discord-bot
         - formatters
-        - next
-        - proxy
         - rest
-        - structures
-        - ui
         - util
-        - voice
         - ws
     validations:
       required: true

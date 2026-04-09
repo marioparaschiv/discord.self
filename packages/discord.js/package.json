@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "discord.js",
   "version": "14.16.3",
-  "description": "A powerful library for interacting with the Discord API",
+  "description": "A patched discord.js client focused on user-account sessions",
   "scripts": {
     "test": "pnpm run docs:test && pnpm run test:typescript",
     "test:typescript": "tsc --noEmit && tsd",
@@ -50,21 +50,20 @@
   "keywords": [
     "discord",
     "api",
-    "bot",
     "client",
     "node",
-    "discordapp"
+    "discordapp",
+    "selfbot"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/discordjs/discord.js.git",
+    "url": "https://github.com/marioparaschiv/discord.self.git",
     "directory": "packages/discord.js"
   },
   "bugs": {
-    "url": "https://github.com/discordjs/discord.js/issues"
+    "url": "https://github.com/marioparaschiv/discord.self/issues"
   },
-  "homepage": "https://discord.js.org",
-  "funding": "https://github.com/discordjs/discord.js?sponsor",
+  "homepage": "https://github.com/marioparaschiv/discord.self",
   "dependencies": {
     "@discordjs/collection": "workspace:^",
     "@discordjs/formatters": "workspace:^",
@@ -82,7 +81,6 @@
   },
   "devDependencies": {
     "@discordjs/api-extractor": "workspace:^",
-    "@discordjs/builders": "workspace:^",
     "@discordjs/docgen": "workspace:^",
     "@discordjs/scripts": "workspace:^",
     "@favware/cliff-jumper": "^6.0.0",

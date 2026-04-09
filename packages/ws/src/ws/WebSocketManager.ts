@@ -2,7 +2,6 @@ import type { Collection } from '@discordjs/collection';
 import { range, type Awaitable } from '@discordjs/util';
 import { AsyncEventEmitter } from '@vladfrangu/async_event_emitter';
 import type {
-	APIGatewayBotInfo,
 	GatewayIdentifyProperties,
 	GatewayPresenceUpdateData,
 	RESTGetAPIGatewayBotResult,
@@ -50,12 +49,22 @@ export interface SessionInfo {
 	shardId: number;
 }
 
+export interface SelfbotGatewayInfo {
+	url: string;
+}
+
+export type GatewayInformation = RESTGetAPIGatewayBotResult | SelfbotGatewayInfo;
+
+function isBotGatewayInfo(data: GatewayInformation): data is RESTGetAPIGatewayBotResult {
+	return 'session_start_limit' in data && 'shards' in data;
+}
+
 /**
  * Required options for the WebSocketManager
  */
 export interface RequiredWebSocketManagerOptions {
 	/**
-	 * Function for retrieving the information returned by the `/gateway/bot` endpoint.
+	 * Function for retrieving the information returned by the `/gateway` or `/gateway/bot` endpoint.
 	 * We recommend using a REST client that respects Discord's rate limits, such as `@discordjs/rest`.
 	 *
 	 * @example
@@ -69,7 +78,7 @@ export interface RequiredWebSocketManagerOptions {
 	 * });
 	 * ```
 	 */
-	fetchGatewayInformation(): Awaitable<RESTGetAPIGatewayBotResult>;
+	fetchGatewayInformation(): Awaitable<GatewayInformation>;
 	/**
 	 * The intents to request
 	 */
@@ -231,10 +240,10 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 	public readonly options: Omit<WebSocketManagerOptions, 'token'>;
 
 	/**
-	 * Internal cache for a GET /gateway/bot result
+	 * Internal cache for a GET /gateway or /gateway/bot result
 	 */
 	private gatewayInformation: {
-		data: APIGatewayBotInfo;
+		data: GatewayInformation;
 		expiresAt: number;
 	} | null = null;
 
@@ -295,8 +304,10 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 
 		const data = await this.options.fetchGatewayInformation();
 
-		// For single sharded bots session_start_limit.reset_after will be 0, use 5 seconds as a minimum expiration time
-		this.gatewayInformation = { data, expiresAt: Date.now() + (data.session_start_limit.reset_after || 5_000) };
+		const expiresAt = isBotGatewayInfo(data)
+			? Date.now() + (data.session_start_limit.reset_after || 5_000)
+			: Date.now() + 300_000;
+		this.gatewayInformation = { data, expiresAt };
 		return this.gatewayInformation.data;
 	}
 
@@ -345,7 +356,7 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 			}
 		} else {
 			const data = await this.fetchGatewayInformation();
-			shardIds = [...range(this.options.shardCount ?? data.shards)];
+			shardIds = [...range(this.options.shardCount ?? (isBotGatewayInfo(data) ? data.shards : 1))];
 		}
 
 		this.shardIds = shardIds;
@@ -360,7 +371,7 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 		const shardIds = await this.getShardIds();
 		const data = await this.fetchGatewayInformation();
 
-		if (data.session_start_limit.remaining < shardIds.length) {
+		if (isBotGatewayInfo(data) && data.session_start_limit.remaining < shardIds.length) {
 			throw new Error(
 				`Not enough sessions remaining to spawn ${shardIds.length} shards; only ${
 					data.session_start_limit.remaining

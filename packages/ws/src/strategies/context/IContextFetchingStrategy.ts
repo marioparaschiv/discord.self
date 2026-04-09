@@ -1,6 +1,10 @@
 import type { Awaitable } from '@discordjs/util';
-import type { APIGatewayBotInfo } from 'discord-api-types/v10';
-import type { SessionInfo, WebSocketManager, WebSocketManagerOptions } from '../../ws/WebSocketManager.js';
+import type {
+	GatewayInformation,
+	SessionInfo,
+	WebSocketManager,
+	WebSocketManagerOptions,
+} from '../../ws/WebSocketManager.js';
 
 export interface FetchingStrategyOptions extends Pick<
 	WebSocketManagerOptions,
@@ -17,7 +21,7 @@ export interface FetchingStrategyOptions extends Pick<
 	| 'useIdentifyCompression'
 	| 'version'
 > {
-	readonly gatewayInformation: APIGatewayBotInfo;
+	readonly gatewayInformation: GatewayInformation;
 	readonly shardCount: number;
 }
 

@@ -26,18 +26,22 @@ This repository is a patched, user-account-focused fork of `discord.js`. The wor
 
 ## Packages
 
+- `create-discord-bot` ([source][create-discord-bot-source]) - The existing scaffolder package that can be adapted into a selfbot starter later
 - `discord.js` ([source][source]) - The main client package being adapted for user-account sessions
 - `@discordjs/collection` ([source][collection-source]) - A utility data structure used by the runtime
 - `@discordjs/core` ([source][core-source]) - A low-level convenience layer over REST and gateway
 - `@discordjs/formatters` ([source][formatters-source]) - Shared string formatting helpers
 - `@discordjs/rest` ([source][rest-source]) - The REST transport layer
 - `@discordjs/util` ([source][util-source]) - Shared utility helpers
+- `@discordjs/voice` ([source][voice-source]) - Voice support kept in-tree for later compatibility work
 - `@discordjs/ws` ([source][ws-source]) - The gateway transport layer
 
 ## Links
 
 - [GitHub][repo]
 - [Source package][source]
+- [Documentation][documentation]
+- [Guide][guide]
 - [Discord Developers Discord server][discord-developers]
 - [Related libraries][related-libs]
 
@@ -52,11 +56,15 @@ If you need API reference, inspect the package sources directly while the public
 [repo]: https://github.com/marioparaschiv/discord.self
 [discord-developers]: https://discord.gg/discord-developers
 [source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/discord.js
+[documentation]: https://discord.js.org/docs
+[guide]: https://discordjs.guide
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/marioparaschiv/discord.self/blob/main/.github/CONTRIBUTING.md
 [collection-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/collection
 [core-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/core
+[create-discord-bot-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/create-discord-bot
 [formatters-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/formatters
 [rest-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/rest
 [util-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/util
+[voice-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/voice
 [ws-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/ws

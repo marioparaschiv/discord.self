@@ -16,9 +16,11 @@ body:
         - discord.js
         - collection
         - core
+        - create-discord-bot
         - formatters
         - rest
         - util
+        - voice
         - ws
     validations:
       required: true

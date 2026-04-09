@@ -1,3 +1,13 @@
+apps:guide:
+  - changed-files:
+      - any-glob-to-any-file:
+          - apps/guide/*
+          - apps/guide/**/*
+apps:website:
+  - changed-files:
+      - any-glob-to-any-file:
+          - apps/website/*
+          - apps/website/**/*
 packages:api-extractor:
   - changed-files:
       - any-glob-to-any-file:
@@ -18,6 +28,11 @@ packages:core:
       - any-glob-to-any-file:
           - packages/core/*
           - packages/core/**/*
+packages:create-discord-bot:
+  - changed-files:
+      - any-glob-to-any-file:
+          - packages/create-discord-bot/*
+          - packages/create-discord-bot/**/*
 packages:discord.js:
   - changed-files:
       - any-glob-to-any-file:
@@ -43,6 +58,11 @@ packages:util:
       - any-glob-to-any-file:
           - packages/util/*
           - packages/util/**/*
+packages:voice:
+  - changed-files:
+      - any-glob-to-any-file:
+          - packages/voice/*
+          - packages/voice/**/*
 packages:ws:
   - changed-files:
       - any-glob-to-any-file:

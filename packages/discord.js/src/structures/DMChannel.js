@@ -1,6 +1,6 @@
 'use strict';
 
-const { userMention } = require('@discordjs/formatters');
+const { userMention } = require('@discord.self/formatters');
 const { ChannelType } = require('discord-api-types/v10');
 const { DMMessageManager } = require('../managers/DMMessageManager.js');
 const { Partials } = require('../util/Partials.js');

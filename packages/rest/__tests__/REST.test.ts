@@ -18,7 +18,7 @@ const makeRequestMock = vitest.fn(fetch);
 
 const fetchApi = new REST({ makeRequest: makeRequestMock }).setToken('A-Very-Fake-Token');
 
-// @discordjs/rest uses the `content-type` header to detect whether to parse
+// @discord.self/rest uses the `content-type` header to detect whether to parse
 // the response as JSON or as an ArrayBuffer.
 const responseOptions: MockInterceptor.MockResponseOptions = {
 	headers: {

@@ -1,7 +1,7 @@
 'use strict';
 
-const { makeURLSearchParams } = require('@discordjs/rest');
-const { isJSONEncodable } = require('@discordjs/util');
+const { makeURLSearchParams } = require('@discord.self/rest');
+const { isJSONEncodable } = require('@discord.self/util');
 const { InteractionResponseType, MessageFlags, Routes, InteractionType } = require('discord-api-types/v10');
 const { DiscordjsError, ErrorCodes } = require('../../errors/index.js');
 const { MessageFlagsBitField } = require('../../util/MessageFlagsBitField.js');

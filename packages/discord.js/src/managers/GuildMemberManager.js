@@ -1,10 +1,10 @@
 'use strict';
 
 const { setTimeout, clearTimeout } = require('node:timers');
-const { Collection } = require('@discordjs/collection');
-const { makeURLSearchParams } = require('@discordjs/rest');
-const { GatewayRateLimitError } = require('@discordjs/util');
-const { WebSocketShardEvents } = require('@discordjs/ws');
+const { Collection } = require('@discord.self/collection');
+const { makeURLSearchParams } = require('@discord.self/rest');
+const { GatewayRateLimitError } = require('@discord.self/util');
+const { WebSocketShardEvents } = require('@discord.self/ws');
 const { DiscordSnowflake } = require('@sapphire/snowflake');
 const { Routes, GatewayOpcodes, GatewayDispatchEvents } = require('discord-api-types/v10');
 const { DiscordjsError, DiscordjsTypeError, DiscordjsRangeError, ErrorCodes } = require('../errors/index.js');

@@ -1,6 +1,6 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
+const { Collection } = require('@discord.self/collection');
 const { DiscordSnowflake } = require('@sapphire/snowflake');
 const { Base } = require('./Base.js');
 const { TeamMember } = require('./TeamMember.js');

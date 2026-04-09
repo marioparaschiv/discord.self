@@ -1,7 +1,7 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
-const { makeURLSearchParams } = require('@discordjs/rest');
+const { Collection } = require('@discord.self/collection');
+const { makeURLSearchParams } = require('@discord.self/rest');
 const { Routes } = require('discord-api-types/v10');
 const { User } = require('../structures/User.js');
 const { CachedManager } = require('./CachedManager.js');

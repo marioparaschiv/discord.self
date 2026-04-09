@@ -1,6 +1,6 @@
 'use strict';
 
-const { lazy } = require('@discordjs/util');
+const { lazy } = require('@discord.self/util');
 const { ApplicationCommandOptionType } = require('discord-api-types/v10');
 const { transformResolved } = require('../util/Util.js');
 const { CommandInteraction } = require('./CommandInteraction.js');

@@ -1,6 +1,6 @@
-import type { REST } from '@discordjs/rest';
-import { calculateShardId, GatewayRateLimitError } from '@discordjs/util';
-import { WebSocketShardEvents } from '@discordjs/ws';
+import type { REST } from '@discord.self/rest';
+import { calculateShardId, GatewayRateLimitError } from '@discord.self/util';
+import { WebSocketShardEvents } from '@discord.self/ws';
 import { DiscordSnowflake } from '@sapphire/snowflake';
 import { AsyncEventEmitter } from '@vladfrangu/async_event_emitter';
 import {

@@ -44,7 +44,7 @@ bun add discord.js
 
 - [zlib-sync](https://www.npmjs.com/package/zlib-sync) for WebSocket data compression and inflation (`npm install zlib-sync`)
 - [bufferutil](https://www.npmjs.com/package/bufferutil) for a much faster WebSocket connection (`npm install bufferutil`)
-- [@discordjs/voice](https://www.npmjs.com/package/@discordjs/voice) for interacting with the Discord Voice API (`npm install @discordjs/voice`)
+- [@discord.self/voice](https://www.npmjs.com/package/@discord.self/voice) for interacting with the Discord Voice API (`npm install @discord.self/voice`)
 
 ## Example usage
 

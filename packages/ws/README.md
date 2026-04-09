@@ -6,8 +6,8 @@
 	<br />
 	<p>
 		<a href="https://discord.gg/djs"><img src="https://img.shields.io/badge/join_us-on_discord-5865F2?logo=discord&logoColor=white" alt="Discord server" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/ws"><img src="https://img.shields.io/npm/v/@discordjs/ws.svg?maxAge=3600" alt="npm version" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/ws"><img src="https://img.shields.io/npm/dt/@discordjs/ws.svg?maxAge=3600" alt="npm downloads" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/ws"><img src="https://img.shields.io/npm/v/@discord.self/ws.svg?maxAge=3600" alt="npm version" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/ws"><img src="https://img.shields.io/npm/dt/@discord.self/ws.svg?maxAge=3600" alt="npm downloads" /></a>
 		<a href="https://github.com/discordjs/discord.js/actions"><img src="https://github.com/discordjs/discord.js/actions/workflows/tests.yml/badge.svg" alt="Build status" /></a>
 		<a href="https://github.com/discordjs/discord.js/commits/main/packages/ws"><img alt="Last commit." src="https://img.shields.io/github/last-commit/discordjs/discord.js?logo=github&logoColor=ffffff&path=packages%2Fws" /></a>
 		<a href="https://codecov.io/gh/discordjs/discord.js"><img src="https://codecov.io/gh/discordjs/discord.js/branch/main/graph/badge.svg?precision=2&flag=ws" alt="Code coverage" /></a>
@@ -21,17 +21,17 @@
 
 ## About
 
-`@discordjs/ws` is a powerful wrapper around Discord's gateway.
+`@discord.self/ws` is a powerful wrapper around Discord's gateway.
 
 ## Installation
 
 **Node.js 22.12.0 or newer is required.**
 
 ```sh
-npm install @discordjs/ws
-yarn add @discordjs/ws
-pnpm add @discordjs/ws
-bun add @discordjs/ws
+npm install @discord.self/ws
+yarn add @discord.self/ws
+pnpm add @discord.self/ws
+bun add @discord.self/ws
 ```
 
 ### Optional packages
@@ -44,8 +44,8 @@ bun add @discordjs/ws
 The example uses [ES modules](https://nodejs.org/api/esm.html#enabling).
 
 ```ts
-import { WebSocketManager, WebSocketShardEvents, CompressionMethod } from '@discordjs/ws';
-import { REST } from '@discordjs/rest';
+import { WebSocketManager, WebSocketShardEvents, CompressionMethod } from '@discord.self/ws';
+import { REST } from '@discord.self/rest';
 import type { RESTGetAPIGatewayBotResult } from 'discord-api-types/v10';
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN);
@@ -117,8 +117,8 @@ const manager = new WebSocketManager({
 You can also have the shards spawn in worker threads:
 
 ```ts
-import { WebSocketManager, WorkerShardingStrategy } from '@discordjs/ws';
-import { REST } from '@discordjs/rest';
+import { WebSocketManager, WorkerShardingStrategy } from '@discord.self/ws';
+import { REST } from '@discord.self/rest';
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 const manager = new WebSocketManager({
@@ -138,8 +138,8 @@ const manager = new WebSocketManager({
 **Note**: By default, this will cause the workers to effectively only be responsible for the WebSocket connection, they simply pass up all the events back to the main process for the manager to emit. If you want to have the workers handle events as well, you can pass in a `workerPath` option to the `WorkerShardingStrategy` constructor:
 
 ```ts
-import { WebSocketManager, WorkerShardingStrategy } from '@discordjs/ws';
-import { REST } from '@discordjs/rest';
+import { WebSocketManager, WorkerShardingStrategy } from '@discord.self/ws';
+import { REST } from '@discord.self/rest';
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 const manager = new WebSocketManager({
@@ -163,7 +163,7 @@ const manager = new WebSocketManager({
 And your `worker.ts` file:
 
 ```ts
-import { WorkerBootstrapper, WebSocketShardEvents } from '@discordjs/ws';
+import { WorkerBootstrapper, WebSocketShardEvents } from '@discord.self/ws';
 import { parentPort } from 'node:worker_threads';
 
 const bootstrapper = new WorkerBootstrapper();
@@ -219,6 +219,6 @@ If you don't understand something in the documentation, you are experiencing pro
 [discord]: https://discord.gg/djs
 [discord-developers]: https://discord.gg/discord-developers
 [source]: https://github.com/discordjs/discord.js/tree/main/packages/ws
-[npm]: https://www.npmjs.com/package/@discordjs/ws
+[npm]: https://www.npmjs.com/package/@discord.self/ws
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/discordjs/discord.js/blob/main/.github/CONTRIBUTING.md

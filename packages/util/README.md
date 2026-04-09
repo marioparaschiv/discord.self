@@ -18,17 +18,17 @@
 
 ## About
 
-`@discordjs/util` is a collection of utility functions for use with discord.js.
+`@discord.self/util` is a collection of utility functions for use with discord.js.
 
 ## Installation
 
 **Node.js 22.12.0 or newer is required.**
 
 ```sh
-npm install @discordjs/util
-yarn add @discordjs/util
-pnpm add @discordjs/util
-bun add @discordjs/util
+npm install @discord.self/util
+yarn add @discord.self/util
+pnpm add @discord.self/util
+bun add @discord.self/util
 ```
 
 ## Links
@@ -62,6 +62,6 @@ If you don't understand something in the documentation, you are experiencing pro
 [discord]: https://discord.gg/djs
 [discord-developers]: https://discord.gg/discord-developers
 [source]: https://github.com/discordjs/discord.js/tree/main/packages/util
-[npm]: https://www.npmjs.com/package/@discordjs/util
+[npm]: https://www.npmjs.com/package/@discord.self/util
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/discordjs/discord.js/blob/main/.github/CONTRIBUTING.md

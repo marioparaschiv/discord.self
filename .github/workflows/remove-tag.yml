@@ -17,21 +17,14 @@ jobs:
     strategy:
       matrix:
         package:
-          - '@discordjs/brokers'
-          - '@discordjs/builders'
-          - '@discordjs/collection'
-          - '@discordjs/core'
-          - 'create-discord-app'
-          - 'create-discord-bot'
-          - '@discordjs/formatters'
-          - 'discord.js'
-          - '@discordjs/next'
-          - '@discordjs/proxy'
-          - '@discordjs/rest'
-          - '@discordjs/structures'
-          - '@discordjs/util'
-          - '@discordjs/voice'
-          - '@discordjs/ws'
+          - '@discord.self/collection'
+          - '@discord.self/core'
+          - '@discord.self/formatters'
+          - '@discord.self/discord.js'
+          - '@discord.self/rest'
+          - '@discord.self/util'
+          - '@discord.self/voice'
+          - '@discord.self/ws'
       fail-fast: false
     steps:
       - name: Checkout repository

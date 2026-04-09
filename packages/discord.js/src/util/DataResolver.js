@@ -3,7 +3,7 @@
 const { Buffer } = require('node:buffer');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { lazy } = require('@discordjs/util');
+const { lazy } = require('@discord.self/util');
 const { fetch } = require('undici');
 const { DiscordjsError, DiscordjsTypeError, ErrorCodes } = require('../errors/index.js');
 const { BaseInvite } = require('../structures/BaseInvite.js');

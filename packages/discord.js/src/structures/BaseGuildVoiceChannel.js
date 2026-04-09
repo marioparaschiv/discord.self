@@ -1,6 +1,6 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
+const { Collection } = require('@discord.self/collection');
 const { PermissionFlagsBits } = require('discord-api-types/v10');
 const { GuildMessageManager } = require('../managers/GuildMessageManager.js');
 const { GuildChannel } = require('./GuildChannel.js');

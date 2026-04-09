@@ -3,12 +3,11 @@
   "mainEntryPointFilePath": "<projectFolder>/typings/index.d.ts",
   "bundledPackages": [
     "discord-api-types",
-    "@discordjs/builders",
-    "@discordjs/collection",
-    "@discordjs/formatters",
-    "@discordjs/rest",
-    "@discordjs/util",
-    "@discordjs/ws"
+    "@discord.self/collection",
+    "@discord.self/formatters",
+    "@discord.self/rest",
+    "@discord.self/util",
+    "@discord.self/ws"
   ],
   "docModel": {
     "projectFolderUrl": "https://github.com/marioparaschiv/discord.self/tree/main/packages/discord.js"

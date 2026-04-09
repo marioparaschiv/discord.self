@@ -13,7 +13,7 @@ There are many ways to create an audio resource. Below are some example scenario
 ```js
 const { createReadStream } = require('node:fs');
 const { join } = require('node:path');
-const { createAudioResource, StreamType } = require('@discordjs/voice');
+const { createAudioResource, StreamType } = require('@discord.self/voice');
 
 // Basic, default options are:
 // Input type is unknown, so will use FFmpeg to convert to Opus under-the-hood
@@ -52,7 +52,7 @@ The underlying streams of an audio resource are destroyed and flushed once an au
 For most scenarios, you will create an audio resource for immediate use by an audio player. The audio player will propagate errors from the resource for you, so you can attach `error` handlers to the player instead of the resource.
 
 ```js
-const { createAudioResource, createAudioPlayer } = require('@discordjs/voice');
+const { createAudioResource, createAudioPlayer } = require('@discord.self/voice');
 
 const player = createAudioPlayer();
 // An AudioPlayer will always emit an "error" event with a .resource property
@@ -71,7 +71,7 @@ player.play(resource);
 However, you can also attach an error handler specifically to the audio resource if you'd like to. This is **not recommended**, as you are not allowed to change the state of an audio player from the error handlers of an audio resource (on the other hand, you are allowed to do this from the error handle of an audio player, as shown above.)
 
 ```js
-const { createAudioResource, createAudioPlayer } = require('@discordjs/voice');
+const { createAudioResource, createAudioPlayer } = require('@discord.self/voice');
 
 const player = createAudioPlayer();
 
@@ -109,7 +109,7 @@ Both of the examples below will skip the FFmpeg component of the pipeline to imp
 
 ```js
 const { createReadStream } = require('node:fs');
-const { createAudioResource, StreamType } = require('@discordjs/voice');
+const { createAudioResource, StreamType } = require('@discord.self/voice');
 
 let resource = createAudioResource(createReadStream('my_file.ogg'), {
 	inputType: StreamType.OggOpus,
@@ -135,7 +135,7 @@ This is achieved by probing a small chunk of the beginning of the audio stream t
 
 ```js
 const { createReadStream } = require('node:fs');
-const { demuxProbe, createAudioResource } = require('@discordjs/voice');
+const { demuxProbe, createAudioResource } = require('@discord.self/voice');
 
 async function probeAndCreateResource(readableStream) {
 	const { stream, type } = await demuxProbe(readableStream);

@@ -21,7 +21,7 @@ exports.AttachmentFlagsBitField = require('./util/AttachmentFlagsBitField.js').A
 exports.BaseManager = require('./managers/BaseManager.js').BaseManager;
 exports.BitField = require('./util/BitField.js').BitField;
 exports.ChannelFlagsBitField = require('./util/ChannelFlagsBitField.js').ChannelFlagsBitField;
-exports.Collection = require('@discordjs/collection').Collection;
+exports.Collection = require('@discord.self/collection').Collection;
 exports.Colors = require('./util/Colors.js').Colors;
 exports.Constants = require('./util/Constants.js');
 exports.Events = require('./util/Events.js').Events;
@@ -254,6 +254,6 @@ exports.WidgetMember = require('./structures/WidgetMember.js').WidgetMember;
 
 // External
 __exportStar(require('discord-api-types/v10'), exports);
-__exportStar(require('@discordjs/rest'), exports);
-__exportStar(require('@discordjs/util'), exports);
-__exportStar(require('@discordjs/ws'), exports);
+__exportStar(require('@discord.self/rest'), exports);
+__exportStar(require('@discord.self/util'), exports);
+__exportStar(require('@discord.self/ws'), exports);

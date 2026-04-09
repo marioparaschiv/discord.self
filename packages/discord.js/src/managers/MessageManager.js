@@ -1,8 +1,8 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
-const { makeURLSearchParams } = require('@discordjs/rest');
-const { isFileBodyEncodable, isJSONEncodable } = require('@discordjs/util');
+const { Collection } = require('@discord.self/collection');
+const { makeURLSearchParams } = require('@discord.self/rest');
+const { isFileBodyEncodable, isJSONEncodable } = require('@discord.self/util');
 const { Routes } = require('discord-api-types/v10');
 const { DiscordjsTypeError, ErrorCodes } = require('../errors/index.js');
 const { Message } = require('../structures/Message.js');

@@ -2,32 +2,32 @@
 title: Installation
 ---
 
-"Voice" refers to Discord bots being able to send audio in voice channels. This is supported in discord.js via [@discordjs/voice](https://github.com/discordjs/discord.js/tree/main/packages/voice), a standalone library made by the developers of discord.js. While you can use it with any Node.js Discord API library, this guide will focus on using it with discord.js.
+"Voice" refers to Discord bots being able to send audio in voice channels. This is supported in discord.js via [@discord.self/voice](https://github.com/discordjs/discord.js/tree/main/packages/voice), a standalone library made by the developers of discord.js. While you can use it with any Node.js Discord API library, this guide will focus on using it with discord.js.
 
 ## Installation
 
 ### Barebones
 
-To add voice functionality to your discord.js bot, you will need the `@discordjs/voice` package. If your system does not support aes-256-gcm you also need one of the encryption packages listed below. For example:
+To add voice functionality to your discord.js bot, you will need the `@discord.self/voice` package. If your system does not support aes-256-gcm you also need one of the encryption packages listed below. For example:
 
 <Callout>
 	You can verify aes-256-gcm support by running `require('node:crypto').getCiphers().includes('aes-256-gcm')`.
 </Callout>
 
 ```sh tab="npm"
-npm install @discordjs/voice
+npm install @discord.self/voice
 ```
 
 ```sh tab="yarn"
-yarn add @discordjs/voice
+yarn add @discord.self/voice
 ```
 
 ```sh tab="pnpm"
-pnpm add @discordjs/voice
+pnpm add @discord.self/voice
 ```
 
 ```sh tab="bun"
-bun add @discordjs/voice
+bun add @discord.self/voice
 ```
 
 After this, you'll be able to play Ogg and WebM Opus files without any other dependencies. If you want to play audio from other sources, or want to improve performance, consider installing some of the extra dependencies listed below.
@@ -79,17 +79,17 @@ After this, you'll be able to play Ogg and WebM Opus files without any other dep
 
 ## Debugging Dependencies
 
-The library includes a helper function that helps you to find out which dependencies you've successfully installed. This information is also very helpful if you ever need to submit an issue on the `@discordjs/voice` issue tracker.
+The library includes a helper function that helps you to find out which dependencies you've successfully installed. This information is also very helpful if you ever need to submit an issue on the `@discord.self/voice` issue tracker.
 
 ```js
-const { generateDependencyReport } = require('@discordjs/voice');
+const { generateDependencyReport } = require('@discord.self/voice');
 
 console.log(generateDependencyReport());
 
 /*
 --------------------------------------------------
 Core Dependencies
-- @discordjs/voice: 0.3.1
+- @discord.self/voice: 0.3.1
 - prism-media: 1.2.9
 
 Opus Libraries
@@ -116,7 +116,7 @@ DAVE Protocol
 - **Opus Libraries**
   - If you want to play audio from many different file types, or alter volume in real-time, you will need to have one of these.
 - **Encryption Libraries**
-  - You should have at least one encryption library installed to use `@discordjs/voice`.
+  - You should have at least one encryption library installed to use `@discord.self/voice`.
 - **FFmpeg**
   - If you want to play audio from many different file types, you will need to have FFmpeg installed.
   - If `libopus` is enabled, you will be able to benefit from increased performance if real-time volume alteration is disabled.

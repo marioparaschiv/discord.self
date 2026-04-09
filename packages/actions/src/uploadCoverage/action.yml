@@ -7,24 +7,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Upload Brokers Coverage
-      if: ${{ hashFiles('packages/brokers/coverage/cobertura-coverage.xml') != '' }}
-      uses: codecov/codecov-action@v4
-      with:
-        files: ./packages/brokers/coverage/cobertura-coverage.xml
-        disable_search: true
-        flags: brokers
-        token: ${{ inputs.CODECOV_TOKEN }}
-
-    - name: Upload Builders Coverage
-      if: ${{ hashFiles('packages/builders/coverage/cobertura-coverage.xml') != '' }}
-      uses: codecov/codecov-action@v4
-      with:
-        files: ./packages/builders/coverage/cobertura-coverage.xml
-        disable_search: true
-        flags: builders
-        token: ${{ inputs.CODECOV_TOKEN }}
-
     - name: Upload Collection Coverage
       if: ${{ hashFiles('packages/collection/coverage/cobertura-coverage.xml') != '' }}
       uses: codecov/codecov-action@v4
@@ -61,24 +43,6 @@ runs:
         flags: formatters
         token: ${{ inputs.CODECOV_TOKEN }}
 
-    - name: Upload Next Coverage
-      if: ${{ hashFiles('packages/next/coverage/cobertura-coverage.xml') != '' }}
-      uses: codecov/codecov-action@v4
-      with:
-        files: ./packages/next/coverage/cobertura-coverage.xml
-        disable_search: true
-        flags: next
-        token: ${{ inputs.CODECOV_TOKEN }}
-
-    - name: Upload Proxy Coverage
-      if: ${{ hashFiles('packages/proxy/coverage/cobertura-coverage.xml') != '' }}
-      uses: codecov/codecov-action@v4
-      with:
-        files: ./packages/proxy/coverage/cobertura-coverage.xml
-        disable_search: true
-        flags: proxy
-        token: ${{ inputs.CODECOV_TOKEN }}
-
     - name: Upload Rest Coverage
       if: ${{ hashFiles('packages/rest/coverage/cobertura-coverage.xml') != '' }}
       uses: codecov/codecov-action@v4
@@ -86,15 +50,6 @@ runs:
         files: ./packages/rest/coverage/cobertura-coverage.xml
         disable_search: true
         flags: rest
-        token: ${{ inputs.CODECOV_TOKEN }}
-
-    - name: Upload Structures Coverage
-      if: ${{ hashFiles('packages/structures/coverage/cobertura-coverage.xml') != '' }}
-      uses: codecov/codecov-action@v4
-      with:
-        files: ./packages/structures/coverage/cobertura-coverage.xml
-        disable_search: true
-        flags: structures
         token: ${{ inputs.CODECOV_TOKEN }}
 
     - name: Upload Util Coverage

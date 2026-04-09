@@ -1,6 +1,6 @@
 'use strict';
 
-const { lazy } = require('@discordjs/util');
+const { lazy } = require('@discord.self/util');
 
 const getMessage = lazy(() => require('./Message.js').Message);
 

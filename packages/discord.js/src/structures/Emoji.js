@@ -1,6 +1,6 @@
 'use strict';
 
-const { formatEmoji } = require('@discordjs/formatters');
+const { formatEmoji } = require('@discord.self/formatters');
 const { DiscordSnowflake } = require('@sapphire/snowflake');
 const { Base } = require('./Base.js');
 

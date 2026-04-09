@@ -1,4 +1,4 @@
-import type { Awaitable } from '@discordjs/util';
+import type { Awaitable } from '@discord.self/util';
 import type {
 	GatewayInformation,
 	SessionInfo,

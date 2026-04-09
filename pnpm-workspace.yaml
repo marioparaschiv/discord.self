@@ -1,7 +1,20 @@
 packages:
-  - apps/*
-  - packages/*
-  - packages/create-discord-bot/template/**/*
+  - apps/guide
+  - apps/website
+  - packages/actions
+  - packages/api-extractor
+  - packages/api-extractor-model
+  - packages/api-extractor-utils
+  - packages/collection
+  - packages/core
+  - packages/discord.js
+  - packages/docgen
+  - packages/formatters
+  - packages/rest
+  - packages/scripts
+  - packages/util
+  - packages/voice
+  - packages/ws
 
 allowBuilds:
   '@discordjs/opus': true

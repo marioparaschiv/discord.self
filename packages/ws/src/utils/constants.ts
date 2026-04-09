@@ -1,6 +1,6 @@
 import process from 'node:process';
-import { Collection } from '@discordjs/collection';
-import { lazy } from '@discordjs/util';
+import { Collection } from '@discord.self/collection';
+import { lazy } from '@discord.self/util';
 import { APIVersion, GatewayOpcodes } from 'discord-api-types/v10';
 import { SimpleShardingStrategy } from '../strategies/sharding/SimpleShardingStrategy.js';
 import { SimpleIdentifyThrottler } from '../throttling/SimpleIdentifyThrottler.js';
@@ -23,7 +23,7 @@ export enum CompressionMethod {
 	ZstdNative,
 }
 
-export const DefaultDeviceProperty = `@discordjs/ws [VI]{{inject}}[/VI]` as `@discordjs/ws ${string}`;
+export const DefaultDeviceProperty = `@discord.self/ws [VI]{{inject}}[/VI]` as `@discord.self/ws ${string}`;
 
 const getDefaultSessionStore = lazy(() => new Collection<number, SessionInfo | null>());
 

@@ -1,7 +1,7 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
-const { lazy } = require('@discordjs/util');
+const { Collection } = require('@discord.self/collection');
+const { lazy } = require('@discord.self/util');
 const { transformResolved } = require('../util/Util.js');
 const { BaseInteraction } = require('./BaseInteraction.js');
 const { InteractionWebhook } = require('./InteractionWebhook.js');

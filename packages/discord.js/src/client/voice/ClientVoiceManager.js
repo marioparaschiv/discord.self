@@ -1,6 +1,6 @@
 'use strict';
 
-const { WebSocketShardEvents, CloseCodes } = require('@discordjs/ws');
+const { WebSocketShardEvents, CloseCodes } = require('@discord.self/ws');
 
 /**
  * Manages voice connections for the client
@@ -17,7 +17,7 @@ class ClientVoiceManager {
     Object.defineProperty(this, 'client', { value: client });
 
     /**
-     * Maps guild ids to voice adapters created for use with `@discordjs/voice`.
+     * Maps guild ids to voice adapters created for use with `@discord.self/voice`.
      *
      * @type {Map<Snowflake, Object>}
      */

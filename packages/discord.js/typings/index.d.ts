@@ -2,10 +2,10 @@ import { Buffer } from 'node:buffer';
 import { ChildProcess } from 'node:child_process';
 import { Stream } from 'node:stream';
 import { MessagePort, Worker } from 'node:worker_threads';
-import { Collection, ReadonlyCollection } from '@discordjs/collection';
-import { BaseImageURLOptions, ImageURLOptions, RawFile, REST, RESTOptions, EmojiURLOptions } from '@discordjs/rest';
-import { Awaitable, FileBodyEncodable, JSONEncodable } from '@discordjs/util';
-import { WebSocketManager, WebSocketManagerOptions } from '@discordjs/ws';
+import { Collection, ReadonlyCollection } from '@discord.self/collection';
+import { BaseImageURLOptions, ImageURLOptions, RawFile, REST, RESTOptions, EmojiURLOptions } from '@discord.self/rest';
+import { Awaitable, FileBodyEncodable, JSONEncodable } from '@discord.self/util';
+import { WebSocketManager, WebSocketManagerOptions } from '@discord.self/ws';
 import { AsyncEventEmitter } from '@vladfrangu/async_event_emitter';
 import {
   ActivityFlags,
@@ -1083,7 +1083,7 @@ export class ContainerComponent extends Component<APIContainerComponent> {
   public readonly components: ComponentInContainer[];
 }
 
-export { Collection, type ReadonlyCollection } from '@discordjs/collection';
+export { Collection, type ReadonlyCollection } from '@discord.self/collection';
 
 export interface CollectorEventTypes<Key, Value, Extras extends unknown[] = []> {
   collect: [Value, ...Extras];
@@ -7420,7 +7420,7 @@ export type Serialized<Value> = Value extends bigint | symbol | (() => any)
 
 /**
  * @remarks
- * Use `DiscordGatewayAdapterLibraryMethods` from `@discordjs/voice` instead.
+ * Use `DiscordGatewayAdapterLibraryMethods` from `@discord.self/voice` instead.
  */
 export interface InternalDiscordGatewayAdapterLibraryMethods {
   destroy(): void;
@@ -7430,7 +7430,7 @@ export interface InternalDiscordGatewayAdapterLibraryMethods {
 
 /**
  * @remarks
- * Use `DiscordGatewayAdapterImplementerMethods` from `@discordjs/voice` instead.
+ * Use `DiscordGatewayAdapterImplementerMethods` from `@discord.self/voice` instead.
  */
 export interface InternalDiscordGatewayAdapterImplementerMethods {
   destroy(): void;
@@ -7439,7 +7439,7 @@ export interface InternalDiscordGatewayAdapterImplementerMethods {
 
 /**
  * @remarks
- * Use `DiscordGatewayAdapterCreator` from `@discordjs/voice` instead.
+ * Use `DiscordGatewayAdapterCreator` from `@discord.self/voice` instead.
  */
 export type InternalDiscordGatewayAdapterCreator = (
   methods: InternalDiscordGatewayAdapterLibraryMethods,
@@ -7448,7 +7448,7 @@ export type InternalDiscordGatewayAdapterCreator = (
 // #endregion
 
 // External
-export * from '@discordjs/rest';
-export * from '@discordjs/util';
-export * from '@discordjs/ws';
+export * from '@discord.self/rest';
+export * from '@discord.self/util';
+export * from '@discord.self/ws';
 export * from 'discord-api-types/v10';

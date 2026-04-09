@@ -3,11 +3,6 @@ apps:guide:
       - any-glob-to-any-file:
           - apps/guide/*
           - apps/guide/**/*
-apps:proxy-container:
-  - changed-files:
-      - any-glob-to-any-file:
-          - apps/proxy-container/*
-          - apps/proxy-container/**/*
 apps:website:
   - changed-files:
       - any-glob-to-any-file:
@@ -23,16 +18,6 @@ packages:api-extractor-model:
       - any-glob-to-any-file:
           - packages/api-extractor-model/*
           - packages/api-extractor-model/**/*
-packages:brokers:
-  - changed-files:
-      - any-glob-to-any-file:
-          - packages/brokers/*
-          - packages/brokers/**/*
-packages:builders:
-  - changed-files:
-      - any-glob-to-any-file:
-          - packages/builders/*
-          - packages/builders/**/*
 packages:collection:
   - changed-files:
       - any-glob-to-any-file:
@@ -63,31 +48,11 @@ packages:formatters:
       - any-glob-to-any-file:
           - packages/formatters/*
           - packages/formatters/**/*
-packages:next:
-  - changed-files:
-      - any-glob-to-any-file:
-          - packages/next/*
-          - packages/next/**/*
-packages:proxy:
-  - changed-files:
-      - any-glob-to-any-file:
-          - packages/proxy/*
-          - packages/proxy/**/*
 packages:rest:
   - changed-files:
       - any-glob-to-any-file:
           - packages/rest/*
           - packages/rest/**/*
-packages:structures:
-  - changed-files:
-      - any-glob-to-any-file:
-          - packages/structures/*
-          - packages/structures/**/*
-packages:ui:
-  - changed-files:
-      - any-glob-to-any-file:
-          - packages/ui/*
-          - packages/ui/**/*
 packages:util:
   - changed-files:
       - any-glob-to-any-file:

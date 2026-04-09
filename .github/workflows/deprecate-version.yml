@@ -7,18 +7,13 @@ on:
         required: true
         type: choice
         options:
-          - '@discordjs/brokers'
-          - '@discordjs/builders'
           - '@discord.self/collection'
           - '@discord.self/core'
           - 'create-discord-app'
           - '@discord.self/create-discord-bot'
           - '@discord.self/formatters'
           - '@discord.self/discord.js'
-          - '@discordjs/next'
-          - '@discordjs/proxy'
           - '@discord.self/rest'
-          - '@discordjs/structures'
           - '@discord.self/util'
           - '@discord.self/voice'
           - '@discord.self/ws'

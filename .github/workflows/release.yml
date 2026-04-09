@@ -13,17 +13,12 @@ on:
         options:
           - all
           - '@discord.self/discord.js'
-          - '@discordjs/brokers'
-          - '@discordjs/builders'
           - '@discord.self/collection'
           - '@discord.self/core'
           - '@discord.self/create-discord-bot'
           # - '@discord.self/docgen'
           - '@discord.self/formatters'
-          - '@discordjs/next'
-          - '@discordjs/proxy'
           - '@discord.self/rest'
-          - '@discordjs/structures'
           - '@discord.self/util'
           - '@discord.self/voice'
           - '@discord.self/ws'
@@ -31,7 +26,7 @@ on:
         description: 'Comma separated list of packages to exclude from release (if not depended upon)'
         required: false
         type: string
-        default: '@discord.self/docgen,@discordjs/next'
+        default: '@discord.self/docgen'
       dry_run:
         description: Perform a dry run?
         type: boolean

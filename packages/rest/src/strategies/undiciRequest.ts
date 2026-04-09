@@ -1,6 +1,7 @@
 import { Buffer } from 'node:buffer';
 import { STATUS_CODES } from 'node:http';
-import { types } from 'node:util';
+import { promisify, types } from 'node:util';
+import { brotliDecompress, gunzip, inflate } from 'node:zlib';
 import { type RequestInit, request, Headers, FormData as UndiciFormData, Agent } from 'undici';
 import type { HeaderRecord } from 'undici/types/header.js';
 import type { ResponseLike } from '../shared.js';
@@ -8,6 +9,9 @@ import type { ResponseLike } from '../shared.js';
 export type RequestOptions = Exclude<Parameters<typeof request>[1], undefined>;
 
 let localAgent: Agent | null = null;
+const brotliDecompressAsync = promisify(brotliDecompress);
+const gunzipAsync = promisify(gunzip);
+const inflateAsync = promisify(inflate);
 
 export async function makeRequest(url: string, init: RequestInit): Promise<ResponseLike> {
 	// The cast is necessary because `headers` and `method` are narrower types in `undici.request`
@@ -26,25 +30,72 @@ export async function makeRequest(url: string, init: RequestInit): Promise<Respo
 	}
 
 	const res = await request(url, options);
+	const headers = new Headers(res.headers as HeaderRecord);
+	const decodedBody = decodeResponseBody(res.body, headers.get('content-encoding'));
+	const decodedText = decodeResponseText(decodedBody);
 	return {
 		body: res.body,
 		async arrayBuffer() {
-			return res.body.arrayBuffer();
+			const body = await decodedBody;
+			return body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength) as ArrayBuffer;
 		},
 		async json() {
-			return res.body.json();
+			return JSON.parse(await decodedText) as unknown;
 		},
 		async text() {
-			return res.body.text();
+			return decodedText;
 		},
 		get bodyUsed() {
 			return res.body.bodyUsed;
 		},
-		headers: new Headers(res.headers as HeaderRecord),
+		headers,
 		status: res.statusCode,
 		statusText: STATUS_CODES[res.statusCode]!,
 		ok: res.statusCode >= 200 && res.statusCode < 300,
 	};
+}
+
+async function decodeResponseText(body: Promise<Buffer>): Promise<string> {
+	return new TextDecoder().decode(await body);
+}
+
+async function decodeResponseBody(
+	body: Awaited<ReturnType<typeof request>>['body'],
+	contentEncoding: string | null,
+): Promise<Buffer> {
+	const buffer = Buffer.from(await body.arrayBuffer());
+	if (!contentEncoding) {
+		return buffer;
+	}
+
+	const encodings = contentEncoding
+		.split(',')
+		.map((encoding) => encoding.trim().toLowerCase())
+		.filter(Boolean)
+		.reverse();
+
+	let decoded = buffer;
+
+	for (const encoding of encodings) {
+		switch (encoding) {
+			case 'br':
+				decoded = await brotliDecompressAsync(decoded);
+				break;
+			case 'deflate':
+				decoded = await inflateAsync(decoded);
+				break;
+			case 'gzip':
+			case 'x-gzip':
+				decoded = await gunzipAsync(decoded);
+				break;
+			case 'identity':
+				break;
+			default:
+				break;
+		}
+	}
+
+	return decoded;
 }
 
 export async function resolveBody(body: RequestInit['body']): Promise<Exclude<RequestOptions['body'], undefined>> {

@@ -5,5 +5,5 @@ export const DEFAULT_COOKIE_DOMAIN = '.discord.com';
 export const DEFAULT_COOKIE_PATH = '/';
 export const DEFAULT_RELEASE_CHANNEL = 'stable';
 export const DEFAULT_X_DEBUG_OPTIONS = 'bugReporterEnabled';
-export const DEFAULT_ACCEPT_ENCODING = 'gzip, deflate, br, zstd';
+export const DEFAULT_ACCEPT_ENCODING = 'gzip, deflate, br';
 export const BUILD_NUMBER_REGEX = /parseInt\("(\d+)",10\)|buildNumber:"(\d+)"/;

@@ -81,7 +81,27 @@ export async function makeNetworkRequest(
 
 	let res: ResponseLike;
 	try {
-		res = await manager.options.makeRequest(url, { ...options, signal: controller.signal });
+		if (manager.options.identity) {
+			const identityOptions: RequestInit = {
+				...options,
+				signal: controller.signal,
+			};
+
+			if (options.headers) {
+				identityOptions.headers = Object.fromEntries(
+					Object.entries(options.headers as Record<string, string | undefined>).filter(
+						([, value]) => value !== undefined,
+					),
+				) as Record<string, string>;
+			}
+
+			res = await manager.options.identity.getRequestHandler()(
+				url,
+				identityOptions as unknown as globalThis.RequestInit,
+			);
+		} else {
+			res = await manager.options.makeRequest(url, { ...options, signal: controller.signal });
+		}
 	} catch (error: unknown) {
 		if (!(error instanceof Error)) throw error;
 		// Retry the specified number of times if needed

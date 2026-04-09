@@ -1,7 +1,10 @@
 import { mkdirSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
 import type { DiscordIdentityStorage, SerializedDiscordIdentity } from './types.js';
+
+const require = createRequire(import.meta.url);
+const { DatabaseSync } = require('node:sqlite') as typeof import('node:sqlite');
 
 const DEFAULT_TABLE_NAME = 'discord_identity_sessions';
 const DEFAULT_SQLITE_FILENAME = 'discord-identity.sqlite';
@@ -15,7 +18,7 @@ export interface SQLiteAdapterOptions {
 }
 
 export class SQLiteAdapter implements DiscordIdentityStorage {
-	#database: DatabaseSync;
+	#database: InstanceType<typeof DatabaseSync>;
 	#deleteStatement;
 	#getStatement;
 	#setStatement;

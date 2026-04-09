@@ -1,4 +1,6 @@
 import { Blob, Buffer } from 'node:buffer';
+import { promisify } from 'node:util';
+import { gzip } from 'node:zlib';
 import { MockAgent, setGlobalDispatcher, FormData as UndiciFormData } from 'undici';
 import type { Interceptable, MockInterceptor } from 'undici/types/mock-interceptor.js';
 import { beforeEach, afterEach, test, expect, vitest } from 'vitest';
@@ -7,6 +9,7 @@ import { makeRequest, resolveBody } from '../src/strategies/undiciRequest.js';
 import { genPath } from './util.js';
 
 const makeRequestMock = vitest.fn(makeRequest);
+const gzipAsync = promisify(gzip);
 
 const api = new REST({ makeRequest: makeRequestMock }).setToken('A-Very-Fake-Token');
 
@@ -116,4 +119,20 @@ test('use passed undici request', async () => {
 
 	expect(await api.post('/simplePost')).toStrictEqual({ test: true });
 	expect(makeRequestMock).toHaveBeenCalledTimes(1);
+});
+
+test('decompresses gzip-compressed JSON responses', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/gzipJson'),
+			method: 'GET',
+		})
+		.reply(200, await gzipAsync(JSON.stringify({ test: true })), {
+			headers: {
+				'content-encoding': 'gzip',
+				'content-type': 'application/json',
+			},
+		});
+
+	expect(await api.get('/gzipJson')).toStrictEqual({ test: true });
 });

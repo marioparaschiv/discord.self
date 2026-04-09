@@ -139,13 +139,6 @@ class Guild extends AnonymousGuild {
       this._patch(data);
       if (!data.channels) this.available = false;
     }
-
-    /**
-     * The id of the shard this Guild belongs to.
-     *
-     * @type {number}
-     */
-    this.shardId = data.shardId;
   }
 
   _patch(data) {
@@ -1516,7 +1509,7 @@ class Guild extends AnonymousGuild {
       this.client.voice.adapters.set(this.id, methods);
       return {
         sendPayload: data => {
-          this.client.ws.send(this.shardId, data);
+          this.client.ws.send(data);
           return true;
         },
         destroy: () => {

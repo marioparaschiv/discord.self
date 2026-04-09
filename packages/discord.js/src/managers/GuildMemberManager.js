@@ -302,7 +302,7 @@ class GuildMemberManager extends CachedManager {
       this.client.incrementMaxListeners();
       this.client.on(Events.GuildMembersChunk, handler);
 
-      this.guild.client.ws.send(this.guild.shardId, {
+      this.guild.client.ws.send({
         op: GatewayOpcodes.RequestGuildMembers,
         // eslint-disable-next-line id-length
         d: requestData,

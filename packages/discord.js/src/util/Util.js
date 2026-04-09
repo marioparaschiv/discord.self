@@ -3,11 +3,10 @@
 const { parse } = require('node:path');
 const { Collection } = require('@discord.self/collection');
 const { lazy } = require('@discord.self/util');
-const { ChannelType, RouteBases, Routes } = require('discord-api-types/v10');
-const { fetch } = require('undici');
+const { ChannelType } = require('discord-api-types/v10');
 const { Colors } = require('./Colors.js');
 // eslint-disable-next-line import-x/order
-const { DiscordjsError, DiscordjsRangeError, DiscordjsTypeError, ErrorCodes } = require('../errors/index.js');
+const { DiscordjsRangeError, DiscordjsTypeError, ErrorCodes } = require('../errors/index.js');
 
 // Fixes circular dependencies.
 const getAttachment = lazy(() => require('../structures/Attachment.js').Attachment);
@@ -61,34 +60,6 @@ function flatten(obj, ...props) {
   }
 
   return out;
-}
-
-/**
- * @typedef {Object} FetchRecommendedShardCountOptions
- * @property {number} [guildsPerShard=1000] Number of guilds assigned per shard
- * @property {number} [multipleOf=1] The multiple the shard count should round up to. (16 for large bot sharding)
- */
-
-/**
- * Gets the recommended shard count from Discord.
- *
- * @param {string} token Discord auth token
- * @param {FetchRecommendedShardCountOptions} [options] Options for fetching the recommended shard count
- * @returns {Promise<number>} The recommended number of shards
- */
-async function fetchRecommendedShardCount(token, { guildsPerShard = 1_000, multipleOf = 1 } = {}) {
-  if (!token) throw new DiscordjsError(ErrorCodes.TokenMissing);
-  const response = await fetch(RouteBases.api + Routes.gatewayBot(), {
-    method: 'GET',
-    headers: { Authorization: `Bot ${token.replace(/^bot\s*/i, '')}` },
-  });
-  if (!response.ok) {
-    if (response.status === 401) throw new DiscordjsError(ErrorCodes.TokenInvalid);
-    throw response;
-  }
-
-  const { shards } = await response.json();
-  return Math.ceil((shards * (1_000 / guildsPerShard)) / multipleOf) * multipleOf;
 }
 
 /**
@@ -583,7 +554,6 @@ function resolveSKUId(resolvable) {
 exports.cleanCodeBlockContent = cleanCodeBlockContent;
 exports.cleanContent = cleanContent;
 exports.discordSort = discordSort;
-exports.fetchRecommendedShardCount = fetchRecommendedShardCount;
 exports.flatten = flatten;
 exports.parseEmoji = parseEmoji;
 exports.parseWebhookURL = parseWebhookURL;

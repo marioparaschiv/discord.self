@@ -8,10 +8,9 @@ import type { GatewaySendPayload } from 'discord-api-types/v10';
  * or you can simply use the {@link @discord.self/ws#(WebSocketManager:class)}.
  */
 export interface Gateway {
-	getShardCount(): Awaitable<number>;
 	on(
 		event: WebSocketShardEvents.Dispatch,
 		listener: (...params: ManagerShardEventsMap[WebSocketShardEvents.Dispatch]) => Awaitable<void>,
 	): this;
-	send(shardId: number, payload: GatewaySendPayload): Awaitable<void>;
+	send(payload: GatewaySendPayload): Awaitable<void>;
 }

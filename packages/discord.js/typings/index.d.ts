@@ -920,7 +920,7 @@ export class Client<Ready extends boolean = boolean>
   private readonly readyTimeout: NodeJS.Timeout | null;
   private _broadcast(packet: GatewaySendPayload): void;
   private _eval(script: string): unknown;
-  private _handlePacket(packet?: GatewayDispatchPayload, shardId?: number): boolean;
+  private _handlePacket(packet?: GatewayDispatchPayload): boolean;
   private _checkReady(): void;
   private _triggerClientReady(): void;
   private _validateOptions(options: ClientOptions): void;
@@ -940,7 +940,6 @@ export class Client<Ready extends boolean = boolean>
   public readyTimestamp: If<Ready, number>;
   public rest: REST;
   public sweepers: Sweepers;
-  public shard: ShardClientUtil | null;
   public status: Status;
   public token: If<Ready, string, string | null>;
   public get uptime(): If<Ready, number>;
@@ -1025,11 +1024,11 @@ export class ClientUser extends User {
   public edit(options: ClientUserEditOptions): Promise<this>;
   public setActivity(options?: ActivityOptions): ClientPresence;
   public setActivity(name: string, options?: Omit<ActivityOptions, 'name'>): ClientPresence;
-  public setAFK(afk?: boolean, shardId?: number | readonly number[]): ClientPresence;
+  public setAFK(afk?: boolean): ClientPresence;
   public setAvatar(avatar: Base64Resolvable | BufferResolvable | null): Promise<this>;
   public setBanner(banner: Base64Resolvable | BufferResolvable | null): Promise<this>;
   public setPresence(data: PresenceData): ClientPresence;
-  public setStatus(status: PresenceStatusData, shardId?: number | readonly number[]): ClientPresence;
+  public setStatus(status: PresenceStatusData): ClientPresence;
   public setUsername(username: string): Promise<this>;
 }
 
@@ -1435,7 +1434,6 @@ export class Guild extends AnonymousGuild {
   public get safetyAlertsChannel(): TextChannel | null;
   public safetyAlertsChannelId: Snowflake | null;
   public scheduledEvents: GuildScheduledEventManager;
-  public shardId: number;
   public soundboardSounds: GuildSoundboardSoundManager;
   public stageInstances: StageInstanceManager;
   public stickers: GuildStickerManager;
@@ -3185,113 +3183,6 @@ export interface ShardEventTypes {
   spawn: [process: ChildProcess | Worker];
 }
 
-export class Shard extends AsyncEventEmitter<ShardEventTypes> {
-  private constructor(manager: ShardingManager, id: number);
-  private readonly _evals: Map<string, Promise<unknown>>;
-  private readonly _exitListener: (...args: any[]) => void;
-  private readonly _fetches: Map<string, Promise<unknown>>;
-  private _handleExit(respawn?: boolean, timeout?: number): void;
-  private _handleMessage(message: unknown): void;
-  private incrementMaxListeners(emitter: ChildProcess | Worker): void;
-  private decrementMaxListeners(emitter: ChildProcess | Worker): void;
-
-  public args: string[];
-  public execArgv: string[];
-  public env: unknown;
-  public id: number;
-  public manager: ShardingManager;
-  public process: ChildProcess | null;
-  public ready: boolean;
-  public silent: boolean;
-  public worker: Worker | null;
-  public eval(script: string): Promise<unknown>;
-  public eval<Result>(fn: (client: Client) => Result): Promise<Result>;
-  public eval<Result, Context>(
-    fn: (client: Client<true>, context: Serialized<Context>) => Result,
-    context: Context,
-  ): Promise<Result>;
-  public fetchClientValue(prop: string): Promise<unknown>;
-  public kill(): void;
-  public respawn(options?: { delay?: number; timeout?: number }): Promise<ChildProcess>;
-  public send(message: unknown): Promise<Shard>;
-  public spawn(timeout?: number): Promise<ChildProcess>;
-}
-
-export class ShardClientUtil {
-  private constructor(client: Client<true>, mode: ShardingManagerMode);
-  private _handleMessage(message: unknown): void;
-  private _respond(type: string, message: unknown): void;
-  private incrementMaxListeners(emitter: ChildProcess | Worker): void;
-  private decrementMaxListeners(emitter: ChildProcess | Worker): void;
-
-  public client: Client;
-  public mode: ShardingManagerMode;
-  public parentPort: MessagePort | null;
-  public broadcastEval<Result>(fn: (client: Client) => Awaitable<Result>): Promise<Serialized<Result>[]>;
-  public broadcastEval<Result, Context>(
-    fn: (client: Client<true>, context: Serialized<Context>) => Awaitable<Result>,
-    options: { context: Context; shard: number },
-  ): Promise<Serialized<Result>>;
-  public broadcastEval<Result, Context>(
-    fn: (client: Client<true>, context: Serialized<Context>) => Awaitable<Result>,
-    options: { context: Context },
-  ): Promise<Serialized<Result>[]>;
-  public broadcastEval<Result>(
-    fn: (client: Client) => Awaitable<Result>,
-    options: { shard: number },
-  ): Promise<Serialized<Result>>;
-  public fetchClientValues(prop: string): Promise<unknown[]>;
-  public fetchClientValues(prop: string, shard: number): Promise<unknown>;
-  public respawnAll(options?: MultipleShardRespawnOptions): Promise<void>;
-  public send(message: unknown): Promise<void>;
-
-  public static singleton(client: Client<true>, mode: ShardingManagerMode): ShardClientUtil;
-  public static shardIdForGuildId(guildId: Snowflake, shardCount: number): number;
-}
-
-export interface ShardingManagerEventTypes {
-  shardCreate: [shard: Shard];
-}
-
-export class ShardingManager extends AsyncEventEmitter<ShardingManagerEventTypes> {
-  public constructor(file: string, options?: ShardingManagerOptions);
-  private _performOnShards(method: string, args: readonly unknown[]): Promise<unknown[]>;
-  private _performOnShards(method: string, args: readonly unknown[], shard: number): Promise<unknown>;
-
-  public file: string;
-  public respawn: boolean;
-  public silent: boolean;
-  public shardArgs: string[];
-  public shards: Collection<number, Shard>;
-  public token: string | null;
-  public totalShards: number | 'auto';
-  public shardList: number[] | 'auto';
-  public broadcast(message: unknown): Promise<Shard[]>;
-  public broadcastEval<Result>(fn: (client: Client) => Awaitable<Result>): Promise<Serialized<Result>[]>;
-  public broadcastEval<Result, Context>(
-    fn: (client: Client<true>, context: Serialized<Context>) => Awaitable<Result>,
-    options: { context: Context; shard: number },
-  ): Promise<Serialized<Result>>;
-  public broadcastEval<Result, Context>(
-    fn: (client: Client<true>, context: Serialized<Context>) => Awaitable<Result>,
-    options: { context: Context },
-  ): Promise<Serialized<Result>[]>;
-  public broadcastEval<Result>(
-    fn: (client: Client) => Awaitable<Result>,
-    options: { shard: number },
-  ): Promise<Serialized<Result>>;
-  public createShard(id: number): Shard;
-  public fetchClientValues(prop: string): Promise<unknown[]>;
-  public fetchClientValues(prop: string, shard: number): Promise<unknown>;
-  public respawnAll(options?: MultipleShardRespawnOptions): Promise<Collection<number, Shard>>;
-  public spawn(options?: MultipleShardSpawnOptions): Promise<Collection<number, Shard>>;
-}
-
-export interface FetchRecommendedShardCountOptions {
-  guildsPerShard?: number;
-  multipleOf?: number;
-}
-
 export {
   DiscordSnowflake as SnowflakeUtil,
   type SnowflakeGenerateOptions,
@@ -3765,7 +3656,6 @@ export function cleanContent(str: string, channel: TextBasedChannel): string;
 export function discordSort<Key, Value extends { id: Snowflake; rawPosition: number }>(
   collection: ReadonlyCollection<Key, Value>,
 ): Collection<Key, Value>;
-export function fetchRecommendedShardCount(token: string, options?: FetchRecommendedShardCountOptions): Promise<number>;
 export function flatten(obj: unknown, ...props: Record<string, boolean | string>[]): unknown;
 
 export function parseEmoji(text: string): PartialEmoji | null;
@@ -4933,9 +4823,7 @@ export interface ActivitiesOptions {
   url?: string;
 }
 
-export interface ActivityOptions extends ActivitiesOptions {
-  shardId?: number | readonly number[];
-}
+export interface ActivityOptions extends ActivitiesOptions {}
 
 export interface AddGuildMemberOptions {
   accessToken: string;
@@ -5829,16 +5717,6 @@ export enum Events {
   VoiceStateUpdate = 'voiceStateUpdate',
   Warn = 'warn',
   WebhooksUpdate = 'webhooksUpdate',
-}
-
-export enum ShardEvents {
-  Death = 'death',
-  Disconnect = 'disconnect',
-  Error = 'error',
-  Message = 'message',
-  Ready = 'ready',
-  Resume = 'resume',
-  Spawn = 'spawn',
 }
 
 export enum Status {
@@ -6943,18 +6821,6 @@ export type MessageTarget =
   | TextBasedChannel
   | Webhook<WebhookType.Incoming>;
 
-export interface MultipleShardRespawnOptions {
-  respawnDelay?: number;
-  shardDelay?: number;
-  timeout?: number;
-}
-
-export interface MultipleShardSpawnOptions {
-  amount?: number | 'auto';
-  delay?: number;
-  timeout?: number;
-}
-
 export interface BaseOverwriteData {
   allow?: PermissionResolvable;
   deny?: PermissionResolvable;
@@ -6991,7 +6857,6 @@ export interface PartialRecipient {
 export interface PresenceData {
   activities?: readonly ActivitiesOptions[];
   afk?: boolean;
-  shardId?: number | readonly number[];
   status?: PresenceStatusData;
 }
 
@@ -7145,19 +7010,6 @@ export interface SetParentOptions {
 export interface SetRolePositionOptions {
   reason?: string;
   relative?: boolean;
-}
-
-export type ShardingManagerMode = 'process' | 'worker';
-
-export interface ShardingManagerOptions {
-  execArgv?: readonly string[];
-  mode?: ShardingManagerMode;
-  respawn?: boolean;
-  shardArgs?: readonly string[];
-  shardList?: readonly number[] | 'auto';
-  silent?: boolean;
-  token?: string;
-  totalShards?: number | 'auto';
 }
 
 export interface ShowModalOptions {

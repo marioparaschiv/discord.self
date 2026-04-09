@@ -23,12 +23,10 @@ class ClientVoiceManager {
      */
     this.adapters = new Map();
 
-    client.ws.on(WebSocketShardEvents.Closed, (code, shardId) => {
+    client.ws.on(WebSocketShardEvents.Closed, code => {
       if (code === CloseCodes.Normal) {
-        for (const [guildId, adapter] of this.adapters.entries()) {
-          if (client.guilds.cache.get(guildId)?.shardId === shardId) {
-            adapter.destroy();
-          }
+        for (const adapter of this.adapters.values()) {
+          adapter.destroy();
         }
       }
     });

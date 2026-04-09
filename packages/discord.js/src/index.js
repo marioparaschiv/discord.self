@@ -4,9 +4,6 @@ const { __exportStar } = require('tslib');
 
 // "Root" classes (starting points)
 exports.Client = require('./client/Client.js').Client;
-exports.Shard = require('./sharding/Shard.js').Shard;
-exports.ShardClientUtil = require('./sharding/ShardClientUtil.js').ShardClientUtil;
-exports.ShardingManager = require('./sharding/ShardingManager.js').ShardingManager;
 
 // Errors
 exports.DiscordjsError = require('./errors/DJSError.js').DiscordjsError;
@@ -34,7 +31,6 @@ exports.Options = require('./util/Options.js').Options;
 exports.Partials = require('./util/Partials.js').Partials;
 exports.PermissionsBitField = require('./util/PermissionsBitField.js').PermissionsBitField;
 exports.RoleFlagsBitField = require('./util/RoleFlagsBitField.js').RoleFlagsBitField;
-exports.ShardEvents = require('./util/ShardEvents.js').ShardEvents;
 exports.SKUFlagsBitField = require('./util/SKUFlagsBitField.js').SKUFlagsBitField;
 exports.SnowflakeUtil = require('@sapphire/snowflake').DiscordSnowflake;
 exports.Status = require('./util/Status.js').Status;
@@ -48,7 +44,6 @@ __exportStar(require('./util/DataResolver.js'), exports);
 exports.cleanCodeBlockContent = require('./util/Util.js').cleanCodeBlockContent;
 exports.cleanContent = require('./util/Util.js').cleanContent;
 exports.discordSort = require('./util/Util.js').discordSort;
-exports.fetchRecommendedShardCount = require('./util/Util.js').fetchRecommendedShardCount;
 exports.flatten = require('./util/Util.js').flatten;
 exports.parseEmoji = require('./util/Util.js').parseEmoji;
 exports.parseWebhookURL = require('./util/Util.js').parseWebhookURL;

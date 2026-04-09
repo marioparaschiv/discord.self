@@ -138,7 +138,6 @@ class ClientUser extends User {
    * @property {PresenceStatusData} [status] Status of the user
    * @property {boolean} [afk] Whether the user is AFK
    * @property {ActivitiesOptions[]} [activities] Activity the user is playing
-   * @property {number|number[]} [shardId] Shard id(s) to have the activity set on
    */
 
   /**
@@ -168,14 +167,13 @@ class ClientUser extends User {
    * Sets the status of the client user.
    *
    * @param {PresenceStatusData} status Status to change to
-   * @param {number|number[]} [shardId] Shard id(s) to have the activity set on
    * @returns {Promise<ClientPresence>}
    * @example
    * // Set the client user's status
    * client.user.setStatus('idle');
    */
-  async setStatus(status, shardId) {
-    return this.setPresence({ status, shardId });
+  async setStatus(status) {
+    return this.setPresence({ status });
   }
 
   /**
@@ -186,7 +184,6 @@ class ClientUser extends User {
    * @property {string} [state] State of the activity
    * @property {string} [url] Twitch / YouTube stream URL
    * @property {ActivityType} [type] Type of the activity
-   * @property {number|number[]} [shardId] Shard Id(s) to have the activity set on
    */
 
   /**
@@ -200,21 +197,20 @@ class ClientUser extends User {
    * client.user.setActivity('discord.js', { type: ActivityType.Watching });
    */
   async setActivity(name, options = {}) {
-    if (!name) return this.setPresence({ activities: [], shardId: options.shardId });
+    if (!name) return this.setPresence({ activities: [] });
 
     const activity = { ...options, ...(typeof name === 'object' ? name : { name }) };
-    return this.setPresence({ activities: [activity], shardId: activity.shardId });
+    return this.setPresence({ activities: [activity] });
   }
 
   /**
    * Sets/removes the AFK flag for the client user.
    *
    * @param {boolean} [afk=true] Whether or not the user is AFK
-   * @param {number|number[]} [shardId] Shard Id(s) to have the AFK flag set on
    * @returns {Promise<ClientPresence>}
    */
-  async setAFK(afk = true, shardId = undefined) {
-    return this.setPresence({ afk, shardId });
+  async setAFK(afk = true) {
+    return this.setPresence({ afk });
   }
 }
 

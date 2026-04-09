@@ -1,7 +1,6 @@
-import type { GatewaySendPayload } from 'discord-api-types/v10';
 import { GatewayOpcodes } from 'discord-api-types/v10';
 import { describe, expect, test, vi } from 'vitest';
-import { WebSocketManager, type IShardingStrategy } from '../../src/index.js';
+import { WebSocketManager, WebSocketShardStatus } from '../../src/index.js';
 import { mockGatewayInformation } from '../gateway.mock.js';
 
 vi.useFakeTimers();
@@ -71,48 +70,19 @@ test('fetch selfbot gateway information', async () => {
 });
 
 describe('get shard count', () => {
-	test('with shard count', async () => {
+	test('starts idle before connecting', async () => {
 		const manager = new WebSocketManager({
 			token: 'A-Very-Fake-Token',
 			intents: 0,
-			shardCount: 2,
 			async fetchGatewayInformation() {
 				return mockGatewayInformation;
 			},
 		});
 
-		expect(await manager.getShardCount()).toBe(2);
+		expect(await manager.fetchStatus()).toBe(WebSocketShardStatus.Idle);
 	});
 
-	test('with shard ids array', async () => {
-		const shardIds = [5, 9];
-		const manager = new WebSocketManager({
-			token: 'A-Very-Fake-Token',
-			intents: 0,
-			shardIds,
-			async fetchGatewayInformation() {
-				return mockGatewayInformation;
-			},
-		});
-
-		expect(await manager.getShardCount()).toBe(shardIds.at(-1)! + 1);
-	});
-
-	test('with shard id range', async () => {
-		const shardIds = { start: 5, end: 9 };
-		const manager = new WebSocketManager({
-			token: 'A-Very-Fake-Token',
-			intents: 0,
-			shardIds,
-			async fetchGatewayInformation() {
-				return mockGatewayInformation;
-			},
-		});
-
-		expect(await manager.getShardCount()).toBe(shardIds.end + 1);
-	});
-
-	test('with selfbot gateway information', async () => {
+	test('uses selfbot gateway information', async () => {
 		const manager = new WebSocketManager({
 			token: 'A-Very-Fake-Token',
 			intents: 0,
@@ -121,87 +91,46 @@ describe('get shard count', () => {
 			},
 		});
 
-		expect(await manager.getShardCount()).toBe(1);
-		expect(await manager.getShardIds()).toStrictEqual([0]);
+		expect(await manager.fetchGatewayInformation()).toEqual({ url: 'wss://gateway.discord.gg' });
 	});
 });
 
-test('update shard count', async () => {
-	const fetchGatewayInformation = vi.fn(async () => mockGatewayInformation);
-
+test('send still rejects before the gateway session is connected', async () => {
 	const manager = new WebSocketManager({
 		token: 'A-Very-Fake-Token',
 		intents: 0,
-		shardCount: 2,
-		fetchGatewayInformation,
-	});
-
-	expect(await manager.getShardCount()).toBe(2);
-	expect(fetchGatewayInformation).not.toHaveBeenCalled();
-
-	fetchGatewayInformation.mockClear();
-
-	await manager.updateShardCount(3);
-	expect(await manager.getShardCount()).toBe(3);
-	expect(fetchGatewayInformation).toHaveBeenCalled();
-});
-
-test('it handles passing in both shardIds and shardCount', async () => {
-	const shardIds = { start: 2, end: 3 };
-	const manager = new WebSocketManager({
-		token: 'A-Very-Fake-Token',
-		intents: 0,
-		shardIds,
-		shardCount: 4,
 		async fetchGatewayInformation() {
 			return mockGatewayInformation;
 		},
 	});
 
-	expect(await manager.getShardCount()).toBe(4);
-	expect(await manager.getShardIds()).toStrictEqual([2, 3]);
+	await expect(
+		manager.send({
+			op: GatewayOpcodes.RequestGuildMembers,
+			// eslint-disable-next-line id-length
+			d: { guild_id: '1234', limit: 0, query: '' },
+		}),
+	).rejects.toThrow();
+	expect(await manager.fetchStatus()).toBe(WebSocketShardStatus.Idle);
 });
 
-test('strategies', async () => {
-	class MockStrategy implements IShardingStrategy {
-		public spawn = vi.fn();
-
-		public connect = vi.fn();
-
-		public destroy = vi.fn();
-
-		public send = vi.fn();
-
-		public fetchStatus = vi.fn();
-	}
-
-	const strategy = new MockStrategy();
-
-	const shardIds = [0, 1, 2];
-
+test('destroy clears the gateway session', async () => {
 	const manager = new WebSocketManager({
 		token: 'A-Very-Fake-Token',
 		intents: 0,
-		shardIds,
 		async fetchGatewayInformation() {
 			return mockGatewayInformation;
 		},
-		buildStrategy: () => strategy,
 	});
 
-	await manager.connect();
-	expect(strategy.spawn).toHaveBeenCalledWith(shardIds);
-	expect(strategy.connect).toHaveBeenCalled();
+	await expect(
+		manager.send({
+			op: GatewayOpcodes.RequestGuildMembers,
+			// eslint-disable-next-line id-length
+			d: { guild_id: '1234', limit: 0, query: '' },
+		}),
+	).rejects.toThrow();
 
-	const destroyOptions = { reason: ':3' };
-	await manager.destroy(destroyOptions);
-	expect(strategy.destroy).toHaveBeenCalledWith(destroyOptions);
-
-	const send: GatewaySendPayload = {
-		op: GatewayOpcodes.RequestGuildMembers,
-		// eslint-disable-next-line id-length
-		d: { guild_id: '1234', limit: 0, query: '' },
-	};
-	await manager.send(0, send);
-	expect(strategy.send).toHaveBeenCalledWith(0, send);
+	await manager.destroy({ reason: ':3' });
+	expect(await manager.fetchStatus()).toBe(WebSocketShardStatus.Idle);
 });

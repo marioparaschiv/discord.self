@@ -4,7 +4,7 @@ import { lazy } from '@discord.self/util';
 import { APIVersion, GatewayOpcodes } from 'discord-api-types/v10';
 import { SimpleShardingStrategy } from '../strategies/sharding/SimpleShardingStrategy.js';
 import { SimpleIdentifyThrottler } from '../throttling/SimpleIdentifyThrottler.js';
-import type { SessionInfo, OptionalWebSocketManagerOptions, WebSocketManager } from '../ws/WebSocketManager.js';
+import type { SessionInfo, OptionalWebSocketManagerOptions } from '../ws/WebSocketManager.js';
 import type { SendRateLimitState } from '../ws/WebSocketShard.js';
 
 /**
@@ -37,14 +37,13 @@ export const CompressionParameterMap = {
  * Default options used by the manager
  */
 export const DefaultWebSocketManagerOptions = {
-	async buildIdentifyThrottler(manager: WebSocketManager) {
-		const info = await manager.fetchGatewayInformation();
-		return new SimpleIdentifyThrottler('session_start_limit' in info ? info.session_start_limit.max_concurrency : 1);
+	async buildIdentifyThrottler() {
+		return new SimpleIdentifyThrottler(1);
 	},
 	buildStrategy: (manager) => new SimpleShardingStrategy(manager),
 	identity: null,
-	shardCount: null,
-	shardIds: null,
+	shardCount: 1,
+	shardIds: [0],
 	largeThreshold: null,
 	initialPresence: null,
 	identifyProperties: {

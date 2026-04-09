@@ -1,13 +1,10 @@
-/* eslint-disable id-length */
-import type { GatewayDispatchPayload, GatewaySendPayload } from 'discord-api-types/v10';
-import { GatewayDispatchEvents, GatewayOpcodes } from 'discord-api-types/v10';
+import { GatewayOpcodes } from 'discord-api-types/v10';
 import { test, vi, expect, afterEach } from 'vitest';
 import {
 	WebSocketManager,
 	WorkerSendPayloadOp,
 	WorkerReceivePayloadOp,
 	WorkerShardingStrategy,
-	WebSocketShardEvents,
 	type WorkerReceivePayload,
 	type WorkerSendPayload,
 	type SessionInfo,
@@ -17,16 +14,6 @@ import { mockGatewayInformation } from '../gateway.mock.js';
 const mockConstructor = vi.fn();
 const mockSend = vi.fn();
 const mockTerminate = vi.fn();
-
-const memberChunkData = {
-	op: GatewayOpcodes.Dispatch,
-	s: 123,
-	t: GatewayDispatchEvents.GuildMembersChunk,
-	d: {
-		guild_id: '123',
-		members: [],
-	},
-} as unknown as GatewayDispatchPayload;
 
 const sessionInfo: SessionInfo = {
 	shardId: 0,
@@ -78,15 +65,6 @@ vi.mock('node:worker_threads', async () => {
 
 				case WorkerSendPayloadOp.Send: {
 					if (message.payload.op === GatewayOpcodes.RequestGuildMembers) {
-						const response: WorkerReceivePayload = {
-							op: WorkerReceivePayloadOp.Event,
-							shardId: message.shardId,
-							event: WebSocketShardEvents.Dispatch,
-							data: [memberChunkData],
-						};
-						this.emit('message', response);
-
-						// Fetch session info
 						const sessionFetch: WorkerReceivePayload = {
 							op: WorkerReceivePayloadOp.RetrieveSessionInfo,
 							shardId: message.shardId,
@@ -136,45 +114,23 @@ afterEach(() => {
 	mockTerminate.mockClear();
 });
 
-test('spawn, connect, send a message, session info, and destroy', async () => {
-	const mockRetrieveSessionInfo = vi.fn();
-	const mockUpdateSessionInfo = vi.fn();
-	const manager = new WebSocketManager({
-		token: 'A-Very-Fake-Token',
-		intents: 0,
-		async fetchGatewayInformation() {
-			return mockGatewayInformation;
-		},
-		shardIds: [0, 1],
-		retrieveSessionInfo: mockRetrieveSessionInfo,
-		updateSessionInfo: mockUpdateSessionInfo,
-		buildStrategy: (manager) => new WorkerShardingStrategy(manager, { shardsPerWorker: 'all' }),
-	});
+test('rejects worker sharding configuration in the single-session fork', () => {
+	expect(
+		() =>
+			new WebSocketManager({
+				token: 'A-Very-Fake-Token',
+				intents: 0,
+				async fetchGatewayInformation() {
+					return mockGatewayInformation;
+				},
+				shardIds: [0, 1],
+				retrieveSessionInfo: vi.fn(),
+				updateSessionInfo: vi.fn(),
+				buildStrategy: (manager) => new WorkerShardingStrategy(manager, { shardsPerWorker: 'all' }),
+			}),
+	).toThrow('Sharding is not supported in this fork');
 
-	const managerEmitSpy = vi.spyOn(manager, 'emit');
-
-	await manager.connect();
-	expect(mockConstructor).toHaveBeenCalledWith(
-		expect.stringContaining('defaultWorker.js'),
-		expect.objectContaining({ workerData: expect.objectContaining({ shardIds: [0, 1] }) }),
-	);
-
-	const payload: GatewaySendPayload = {
-		op: GatewayOpcodes.RequestGuildMembers,
-		d: { guild_id: '123', limit: 0, query: '' },
-	};
-	await manager.send(0, payload);
-	expect(mockSend).toHaveBeenCalledWith(0, payload);
-	expect(managerEmitSpy).toHaveBeenCalledWith(
-		WebSocketShardEvents.Dispatch,
-		{
-			...memberChunkData,
-		},
-		0,
-	);
-	expect(mockRetrieveSessionInfo).toHaveBeenCalledWith(0);
-	expect(mockUpdateSessionInfo).toHaveBeenCalledWith(0, { ...sessionInfo, sequence: sessionInfo.sequence + 1 });
-
-	await manager.destroy({ reason: 'souji is a soft boi :3' });
-	expect(mockTerminate).toHaveBeenCalled();
+	expect(mockConstructor).not.toHaveBeenCalled();
+	expect(mockSend).not.toHaveBeenCalled();
+	expect(mockTerminate).not.toHaveBeenCalled();
 });

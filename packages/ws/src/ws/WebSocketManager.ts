@@ -1,6 +1,6 @@
 import type { Collection } from '@discord.self/collection';
 import type { DiscordIdentity } from '@discord.self/identity';
-import { range, type Awaitable } from '@discord.self/util';
+import { type Awaitable } from '@discord.self/util';
 import { AsyncEventEmitter } from '@vladfrangu/async_event_emitter';
 import type {
 	GatewayIdentifyProperties,
@@ -58,6 +58,34 @@ export type GatewayInformation = RESTGetAPIGatewayBotResult | SelfbotGatewayInfo
 
 function isBotGatewayInfo(data: GatewayInformation): data is RESTGetAPIGatewayBotResult {
 	return 'session_start_limit' in data && 'shards' in data;
+}
+
+function normalizeShardIds(shardIds: number[] | ShardRange | null) {
+	if (!shardIds) {
+		return [0];
+	}
+
+	if (Array.isArray(shardIds)) {
+		return shardIds;
+	}
+
+	const ids: number[] = [];
+	for (let current = shardIds.start; current <= shardIds.end; current++) {
+		ids.push(current);
+	}
+
+	return ids;
+}
+
+function assertSingleSessionOptions(shardCount: number | null, shardIds: number[] | ShardRange | null) {
+	if (shardCount !== null && shardCount !== 1) {
+		throw new Error('Sharding is not supported in this fork; shardCount must be 1 or null');
+	}
+
+	const normalizedShardIds = normalizeShardIds(shardIds);
+	if (normalizedShardIds.length !== 1 || normalizedShardIds[0] !== 0) {
+		throw new Error('Sharding is not supported in this fork; shardIds must be [0] or null');
+	}
 }
 
 /**
@@ -286,10 +314,14 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 			throw new TypeError('fetchGatewayInformation is required');
 		}
 
+		assertSingleSessionOptions(options.shardCount ?? null, options.shardIds ?? null);
+
 		super();
 		this.options = {
 			...DefaultWebSocketManagerOptions,
 			...options,
+			shardCount: 1,
+			shardIds: [0],
 		};
 		this.strategy = this.options.buildStrategy(this);
 		this.#token = options.token ?? null;
@@ -324,8 +356,10 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 	 * @param shardCount - The new shard count to use
 	 */
 	public async updateShardCount(shardCount: number | null) {
+		assertSingleSessionOptions(shardCount, [0]);
 		await this.strategy.destroy({ reason: 'User is adjusting their shards' });
-		this.options.shardCount = shardCount;
+		this.options.shardCount = 1;
+		this.options.shardIds = [0];
 
 		const shardIds = await this.getShardIds(true);
 		await this.strategy.spawn(shardIds);
@@ -337,12 +371,7 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 	 * Yields the total number of shards across for your bot, accounting for Discord recommendations
 	 */
 	public async getShardCount(): Promise<number> {
-		if (this.options.shardCount) {
-			return this.options.shardCount;
-		}
-
-		const shardIds = await this.getShardIds();
-		return Math.max(...shardIds) + 1;
+		return 1;
 	}
 
 	/**
@@ -353,39 +382,13 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 			return this.shardIds;
 		}
 
-		let shardIds: number[];
-		if (this.options.shardIds) {
-			if (Array.isArray(this.options.shardIds)) {
-				shardIds = this.options.shardIds;
-			} else {
-				const { start, end } = this.options.shardIds;
-				shardIds = [...range({ start, end: end + 1 })];
-			}
-		} else {
-			const data = await this.fetchGatewayInformation();
-			shardIds = [...range(this.options.shardCount ?? (isBotGatewayInfo(data) ? data.shards : 1))];
-		}
-
-		this.shardIds = shardIds;
-		return shardIds;
+		this.shardIds = [0];
+		return this.shardIds;
 	}
 
 	public async connect() {
-		const shardCount = await this.getShardCount();
-		// Spawn shards and adjust internal state
-		await this.updateShardCount(shardCount);
-
-		const shardIds = await this.getShardIds();
-		const data = await this.fetchGatewayInformation();
-
-		if (isBotGatewayInfo(data) && data.session_start_limit.remaining < shardIds.length) {
-			throw new Error(
-				`Not enough sessions remaining to spawn ${shardIds.length} shards; only ${
-					data.session_start_limit.remaining
-				} remaining; resets at ${new Date(Date.now() + data.session_start_limit.reset_after).toISOString()}`,
-			);
-		}
-
+		await this.fetchGatewayInformation();
+		await this.updateShardCount(1);
 		await this.strategy.connect();
 	}
 

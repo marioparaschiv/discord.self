@@ -71,45 +71,17 @@ test('fetch selfbot gateway information', async () => {
 });
 
 describe('get shard count', () => {
-	test('with shard count', async () => {
+	test('always resolves to a single session', async () => {
 		const manager = new WebSocketManager({
 			token: 'A-Very-Fake-Token',
 			intents: 0,
-			shardCount: 2,
 			async fetchGatewayInformation() {
 				return mockGatewayInformation;
 			},
 		});
 
-		expect(await manager.getShardCount()).toBe(2);
-	});
-
-	test('with shard ids array', async () => {
-		const shardIds = [5, 9];
-		const manager = new WebSocketManager({
-			token: 'A-Very-Fake-Token',
-			intents: 0,
-			shardIds,
-			async fetchGatewayInformation() {
-				return mockGatewayInformation;
-			},
-		});
-
-		expect(await manager.getShardCount()).toBe(shardIds.at(-1)! + 1);
-	});
-
-	test('with shard id range', async () => {
-		const shardIds = { start: 5, end: 9 };
-		const manager = new WebSocketManager({
-			token: 'A-Very-Fake-Token',
-			intents: 0,
-			shardIds,
-			async fetchGatewayInformation() {
-				return mockGatewayInformation;
-			},
-		});
-
-		expect(await manager.getShardCount()).toBe(shardIds.end + 1);
+		expect(await manager.getShardCount()).toBe(1);
+		expect(await manager.getShardIds()).toStrictEqual([0]);
 	});
 
 	test('with selfbot gateway information', async () => {
@@ -126,40 +98,46 @@ describe('get shard count', () => {
 	});
 });
 
-test('update shard count', async () => {
-	const fetchGatewayInformation = vi.fn(async () => mockGatewayInformation);
-
+test('update shard count keeps a single session', async () => {
 	const manager = new WebSocketManager({
 		token: 'A-Very-Fake-Token',
 		intents: 0,
-		shardCount: 2,
-		fetchGatewayInformation,
-	});
-
-	expect(await manager.getShardCount()).toBe(2);
-	expect(fetchGatewayInformation).not.toHaveBeenCalled();
-
-	fetchGatewayInformation.mockClear();
-
-	await manager.updateShardCount(3);
-	expect(await manager.getShardCount()).toBe(3);
-	expect(fetchGatewayInformation).toHaveBeenCalled();
-});
-
-test('it handles passing in both shardIds and shardCount', async () => {
-	const shardIds = { start: 2, end: 3 };
-	const manager = new WebSocketManager({
-		token: 'A-Very-Fake-Token',
-		intents: 0,
-		shardIds,
-		shardCount: 4,
 		async fetchGatewayInformation() {
 			return mockGatewayInformation;
 		},
 	});
 
-	expect(await manager.getShardCount()).toBe(4);
-	expect(await manager.getShardIds()).toStrictEqual([2, 3]);
+	await manager.updateShardCount(1);
+	expect(await manager.getShardCount()).toBe(1);
+	expect(await manager.getShardIds()).toStrictEqual([0]);
+});
+
+test('rejects explicit shard count', () => {
+	expect(
+		() =>
+			new WebSocketManager({
+				token: 'A-Very-Fake-Token',
+				intents: 0,
+				shardCount: 2,
+				async fetchGatewayInformation() {
+					return mockGatewayInformation;
+				},
+			}),
+	).toThrow('Sharding is not supported in this fork');
+});
+
+test('rejects explicit shard ids', () => {
+	expect(
+		() =>
+			new WebSocketManager({
+				token: 'A-Very-Fake-Token',
+				intents: 0,
+				shardIds: [1],
+				async fetchGatewayInformation() {
+					return mockGatewayInformation;
+				},
+			}),
+	).toThrow('Sharding is not supported in this fork');
 });
 
 test('strategies', async () => {
@@ -177,12 +155,9 @@ test('strategies', async () => {
 
 	const strategy = new MockStrategy();
 
-	const shardIds = [0, 1, 2];
-
 	const manager = new WebSocketManager({
 		token: 'A-Very-Fake-Token',
 		intents: 0,
-		shardIds,
 		async fetchGatewayInformation() {
 			return mockGatewayInformation;
 		},
@@ -190,7 +165,7 @@ test('strategies', async () => {
 	});
 
 	await manager.connect();
-	expect(strategy.spawn).toHaveBeenCalledWith(shardIds);
+	expect(strategy.spawn).toHaveBeenCalledWith([0]);
 	expect(strategy.connect).toHaveBeenCalled();
 
 	const destroyOptions = { reason: ':3' };

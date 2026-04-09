@@ -1,7 +1,7 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
-const { messageLink } = require('@discordjs/formatters');
+const { Collection } = require('@discord.self/collection');
+const { messageLink } = require('@discord.self/formatters');
 const { DiscordSnowflake } = require('@sapphire/snowflake');
 const {
   InteractionType,

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "@discordjs/rest",
+	"name": "@discord.self/rest",
 	"version": "2.5.0",
 	"description": "The REST API for discord.js",
 	"scripts": {
@@ -83,8 +83,8 @@
 	"homepage": "https://discord.js.org",
 	"funding": "https://github.com/discordjs/discord.js?sponsor",
 	"dependencies": {
-		"@discordjs/collection": "workspace:^",
-		"@discordjs/util": "workspace:^",
+		"@discord.self/collection": "workspace:^",
+		"@discord.self/util": "workspace:^",
 		"@sapphire/async-queue": "^1.5.5",
 		"@sapphire/snowflake": "^3.5.5",
 		"@vladfrangu/async_event_emitter": "^2.4.7",
@@ -95,8 +95,8 @@
 		"uuid": "^13.0.0"
 	},
 	"devDependencies": {
-		"@discordjs/api-extractor": "workspace:^",
-		"@discordjs/scripts": "workspace:^",
+		"@discord.self/api-extractor": "workspace:^",
+		"@discord.self/scripts": "workspace:^",
 		"@favware/cliff-jumper": "^6.0.0",
 		"@types/node": "^22.19.15",
 		"@vitest/coverage-v8": "^4.1.2",

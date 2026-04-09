@@ -6,8 +6,8 @@
 	<br />
 	<p>
 		<a href="https://discord.gg/djs"><img src="https://img.shields.io/badge/join_us-on_discord-5865F2?logo=discord&logoColor=white" alt="Discord server" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/voice"><img src="https://img.shields.io/npm/v/@discordjs/voice.svg?maxAge=3600" alt="npm version" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/voice"><img src="https://img.shields.io/npm/dt/@discordjs/voice.svg?maxAge=3600" alt="npm downloads" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/voice"><img src="https://img.shields.io/npm/v/@discord.self/voice.svg?maxAge=3600" alt="npm version" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/voice"><img src="https://img.shields.io/npm/dt/@discord.self/voice.svg?maxAge=3600" alt="npm downloads" /></a>
 		<a href="https://github.com/discordjs/discord.js/actions"><img src="https://github.com/discordjs/discord.js/actions/workflows/tests.yml/badge.svg" alt="Build status" /></a>
 		<a href="https://github.com/discordjs/discord.js/commits/main/packages/voice"><img alt="Last commit." src="https://img.shields.io/github/last-commit/discordjs/discord.js?logo=github&logoColor=ffffff&path=packages%2Fvoice" /></a>
 		<a href="https://opencollective.com/discordjs"><img src="https://img.shields.io/opencollective/backers/discordjs?maxAge=3600&logo=opencollective" alt="backers" /></a>
@@ -21,7 +21,7 @@
 
 ## About
 
-`@discordjs/voice` is a TypeScript implementation of the Discord Voice API for Node.js.
+`@discord.self/voice` is a TypeScript implementation of the Discord Voice API for Node.js.
 
 **Features:**
 
@@ -37,10 +37,10 @@
 **Node.js 22.12.0 or newer is required.**
 
 ```sh
-npm install @discordjs/voice
-yarn add @discordjs/voice
-pnpm add @discordjs/voice
-bun add @discordjs/voice
+npm install @discord.self/voice
+yarn add @discord.self/voice
+pnpm add @discord.self/voice
+bun add @discord.self/voice
 ```
 
 ## Dependencies
@@ -114,7 +114,7 @@ If you don't understand something in the documentation, you are experiencing pro
 [discord]: https://discord.gg/djs
 [discord-developers]: https://discord.gg/discord-developers
 [source]: https://github.com/discordjs/discord.js/tree/main/packages/voice
-[npm]: https://www.npmjs.com/package/@discordjs/voice
+[npm]: https://www.npmjs.com/package/@discord.self/voice
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/discordjs/discord.js/blob/main/.github/CONTRIBUTING.md
 [voice-examples]: https://github.com/discordjs/voice-examples

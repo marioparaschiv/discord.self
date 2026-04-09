@@ -9,19 +9,19 @@ on:
         options:
           - '@discordjs/brokers'
           - '@discordjs/builders'
-          - '@discordjs/collection'
-          - '@discordjs/core'
+          - '@discord.self/collection'
+          - '@discord.self/core'
           - 'create-discord-app'
-          - 'create-discord-bot'
-          - '@discordjs/formatters'
-          - 'discord.js'
+          - '@discord.self/create-discord-bot'
+          - '@discord.self/formatters'
+          - '@discord.self/discord.js'
           - '@discordjs/next'
           - '@discordjs/proxy'
-          - '@discordjs/rest'
+          - '@discord.self/rest'
           - '@discordjs/structures'
-          - '@discordjs/util'
-          - '@discordjs/voice'
-          - '@discordjs/ws'
+          - '@discord.self/util'
+          - '@discord.self/voice'
+          - '@discord.self/ws'
       version:
         description: Version(s)
         required: true

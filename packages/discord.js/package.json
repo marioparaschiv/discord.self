@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "discord.js",
+  "name": "@discord.self/discord.js",
   "version": "14.16.3",
   "description": "A patched discord.js client focused on user-account sessions",
   "scripts": {
@@ -20,6 +20,7 @@
   "types": "./typings/index.d.ts",
   "exports": {
     ".": {
+      "types": "./typings/index.d.ts",
       "import": {
         "types": "./typings/index.d.mts",
         "default": "./src/index.js"
@@ -65,11 +66,11 @@
   },
   "homepage": "https://github.com/marioparaschiv/discord.self",
   "dependencies": {
-    "@discordjs/collection": "workspace:^",
-    "@discordjs/formatters": "workspace:^",
-    "@discordjs/rest": "workspace:^",
-    "@discordjs/util": "workspace:^",
-    "@discordjs/ws": "workspace:^",
+    "@discord.self/collection": "workspace:^",
+    "@discord.self/formatters": "workspace:^",
+    "@discord.self/rest": "workspace:^",
+    "@discord.self/util": "workspace:^",
+    "@discord.self/ws": "workspace:^",
     "@sapphire/snowflake": "3.5.5",
     "@vladfrangu/async_event_emitter": "^2.4.7",
     "discord-api-types": "^0.38.43",
@@ -80,9 +81,9 @@
     "undici": "7.24.6"
   },
   "devDependencies": {
-    "@discordjs/api-extractor": "workspace:^",
-    "@discordjs/docgen": "workspace:^",
-    "@discordjs/scripts": "workspace:^",
+    "@discord.self/api-extractor": "workspace:^",
+    "@discord.self/docgen": "workspace:^",
+    "@discord.self/scripts": "workspace:^",
     "@favware/cliff-jumper": "^6.0.0",
     "@types/node": "^22.19.15",
     "cross-env": "^10.1.0",

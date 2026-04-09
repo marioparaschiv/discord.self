@@ -8,18 +8,18 @@ Make sure you're using the latest LTS version of Node. To check your Node versio
 
 ### Various packages are now included in v14
 
-If you previously had `@discordjs/builders`, `@discordjs/formatters`, `@discordjs/rest`, or `discord-api-types` manually installed, it's _highly_ recommended that you uninstall the packages to avoid package version conflicts.
+If you previously had `@discordjs/builders`, `@discord.self/formatters`, `@discord.self/rest`, or `discord-api-types` manually installed, it's _highly_ recommended that you uninstall the packages to avoid package version conflicts.
 
 ```sh tab="npm"
-npm uninstall @discordjs/builders @discordjs/formatters @discordjs/rest discord-api-types
+npm uninstall @discordjs/builders @discord.self/formatters @discord.self/rest discord-api-types
 ```
 
 ```sh tab="yarn"
-yarn remove @discordjs/builders @discordjs/formatters @discordjs/rest discord-api-types
+yarn remove @discordjs/builders @discord.self/formatters @discord.self/rest discord-api-types
 ```
 
 ```sh tab="pnpm"
-pnpm remove @discordjs/builders @discordjs/formatters @discordjs/rest discord-api-types
+pnpm remove @discordjs/builders @discord.self/formatters @discord.self/rest discord-api-types
 ```
 
 ## Breaking Changes
@@ -671,4 +671,4 @@ Added the `threadName` property in `Webhook#send()` options which allows a webho
 
 ### WebSocketManager
 
-discord.js uses `@discordjs/ws` internally
+discord.js uses `@discord.self/ws` internally

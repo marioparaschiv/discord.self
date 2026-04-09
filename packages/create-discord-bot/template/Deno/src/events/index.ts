@@ -1,17 +1,17 @@
-import type { ClientEvents } from 'discord.js';
+import type { ClientEventTypes } from '@discord.self/discord.js';
 import { z } from 'zod';
 import type { StructurePredicate } from '../util/loaders.ts';
 
 /**
  * Defines the structure of an event.
  */
-export type Event<EventName extends keyof ClientEvents = keyof ClientEvents> = {
+export type Event<EventName extends keyof ClientEventTypes & string = keyof ClientEventTypes & string> = {
 	/**
 	 * The function to execute when the event is emitted.
 	 *
 	 * @param parameters - The parameters of the event
 	 */
-	execute(...parameters: ClientEvents[EventName]): Promise<void> | void;
+	execute(...parameters: ClientEventTypes[EventName]): Promise<void> | void;
 	/**
 	 * The name of the event to listen to
 	 */

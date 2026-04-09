@@ -67,13 +67,13 @@ jobs:
           COREPACK_ENABLE_STRICT: 0
         run: |
           pnpm self-update 10
-          pnpm install --filter @discordjs/actions --frozen-lockfile --prefer-offline --loglevel error
+          pnpm install --filter @discord.self/actions --frozen-lockfile --prefer-offline --loglevel error
 
       - name: Publish packages (non-main ref)
         if: ${{ inputs.ref != 'main' }}
         uses: ./main/packages/actions/src/releasePackages
         with:
-          exclude: '@discordjs/docgen'
+          exclude: '@discord.self/docgen'
           dry: ${{ inputs.dry_run }}
           dev: true
           tag: ${{ inputs.tag || 'dev' }}
@@ -85,7 +85,7 @@ jobs:
         if: ${{ inputs.ref == 'main' }}
         uses: ./packages/actions/src/releasePackages
         with:
-          exclude: '@discordjs/docgen'
+          exclude: '@discord.self/docgen'
           dry: ${{ inputs.dry_run }}
           dev: true
           tag: ${{ inputs.tag || 'dev' }}

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "create-discord-bot",
+	"name": "@discord.self/create-discord-bot",
 	"version": "4.1.0",
 	"description": "A simple way to create a startup Discord bot.",
 	"scripts": {
@@ -55,7 +55,7 @@
 		"validate-npm-package-name": "^7.0.2"
 	},
 	"devDependencies": {
-		"@discordjs/api-extractor": "workspace:^",
+		"@discord.self/api-extractor": "workspace:^",
 		"@favware/cliff-jumper": "^6.0.0",
 		"@types/node": "^22.19.15",
 		"@types/prompts": "^2.4.9",

@@ -2,9 +2,9 @@
 
 const process = require('node:process');
 const { clearTimeout, setImmediate, setTimeout } = require('node:timers');
-const { Collection } = require('@discordjs/collection');
-const { REST, RESTEvents, makeURLSearchParams } = require('@discordjs/rest');
-const { WebSocketManager, WebSocketShardEvents, WebSocketShardStatus } = require('@discordjs/ws');
+const { Collection } = require('@discord.self/collection');
+const { REST, RESTEvents, makeURLSearchParams } = require('@discord.self/rest');
+const { WebSocketManager, WebSocketShardEvents, WebSocketShardStatus } = require('@discord.self/ws');
 const { AsyncEventEmitter } = require('@vladfrangu/async_event_emitter');
 const { GatewayDispatchEvents, GatewayIntentBits, OAuth2Scopes, Routes } = require('discord-api-types/v10');
 const { DiscordjsError, DiscordjsTypeError, ErrorCodes } = require('../errors/index.js');
@@ -379,7 +379,7 @@ class Client extends AsyncEventEmitter {
   }
 
   /**
-   * Attaches event handlers to the WebSocketShardManager from `@discordjs/ws`.
+   * Attaches event handlers to the WebSocketShardManager from `@discord.self/ws`.
    *
    * @private
    */

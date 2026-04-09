@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "@discordjs/util",
+	"name": "@discord.self/util",
 	"version": "1.1.1",
 	"description": "Utilities shared across Discord.js packages",
 	"scripts": {
@@ -65,8 +65,8 @@
 		"discord-api-types": "^0.38.43"
 	},
 	"devDependencies": {
-		"@discordjs/api-extractor": "workspace:^",
-		"@discordjs/scripts": "workspace:^",
+		"@discord.self/api-extractor": "workspace:^",
+		"@discord.self/scripts": "workspace:^",
 		"@favware/cliff-jumper": "^6.0.0",
 		"@types/node": "^22.19.15",
 		"@vitest/coverage-v8": "^4.1.2",

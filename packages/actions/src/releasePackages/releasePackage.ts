@@ -16,7 +16,7 @@ async function checkRegistry(release: ReleaseEntry) {
 }
 
 async function gitTagAndRelease(release: ReleaseEntry, dry: boolean) {
-	const tagName = `${release.name === 'discord.js' ? `` : `${release.name}@`}${release.version}`;
+	const tagName = `${release.name === '@discord.self/discord.js' ? `` : `${release.name}@`}${release.version}`;
 
 	if (dry) {
 		info(`[DRY] Release would be "${tagName}", skipping release creation.`);
@@ -33,7 +33,7 @@ async function gitTagAndRelease(release: ReleaseEntry, dry: boolean) {
 			name: tagName,
 			body: release.changelog ?? '',
 			generate_release_notes: release.changelog === undefined,
-			make_latest: release.name === 'discord.js' ? 'true' : 'false',
+			make_latest: release.name === '@discord.self/discord.js' ? 'true' : 'false',
 		});
 	} catch (error) {
 		warning(`Failed to create github release: ${error}`);
@@ -85,8 +85,8 @@ export async function releasePackage(release: ReleaseEntry, dry: boolean, devTag
 	}
 
 	// Evil, but I can't think of a cleaner mechanism
-	if (release.name === 'create-discord-bot') {
-		await $`pnpm --filter=create-discord-bot run rename-to-app`;
+	if (release.name === '@discord.self/create-discord-bot') {
+		await $`pnpm --filter=@discord.self/create-discord-bot run rename-to-app`;
 		// eslint-disable-next-line require-atomic-updates
 		release.name = 'create-discord-app';
 		await releasePackage(release, dry, devTag, false);

@@ -32,7 +32,7 @@ When testing local changes, you may notice you need to manually recompile TypeSc
 
 To avoid this you can use the `--watch` parameter in the package build script to automatically recompile the project when changes are detected.
 
-For example, to automatically recompile the `@discordjs/rest` project when changes are detected, run `pnpm turbo run build --filter='@discordjs/rest' -- --watch` in the root folder of where you cloned the discord.js repo.
+For example, to automatically recompile the `@discord.self/rest` project when changes are detected, run `pnpm turbo run build --filter='@discord.self/rest' -- --watch` in the root folder of where you cloned the discord.js repo.
 
 ## Adding new packages
 

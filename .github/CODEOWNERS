@@ -3,27 +3,27 @@
 
 * @iCrawl
 
-package.json @discordjs/core
-pnpm-lock.yaml @discordjs/core
+package.json @discord.self/core
+pnpm-lock.yaml @discord.self/core
 
-/.github/ISSUE_TEMPLATE/ @discordjs/guide @discordjs/core
+/.github/ISSUE_TEMPLATE/ @discord.self/guide @discord.self/core
 
-/apps/guide/ @discordjs/website @discordjs/guide
-/apps/guide/content/ @discordjs/guide
-/apps/website/ @discordjs/website
+/apps/guide/ @discord.self/website @discord.self/guide
+/apps/guide/content/ @discord.self/guide
+/apps/website/ @discord.self/website
 
-/packages/actions/ @discordjs/actions
-/packages/api-extractor/ @discordjs/api-extractor-utils
-/packages/api-extractor-model/ @discordjs/api-extractor-utils
-/packages/api-extractor-utils/ @discordjs/api-extractor-utils
-/packages/collection/ @discordjs/collection
-/packages/core/ @discordjs/core
-/packages/create-discord-bot/ @discordjs/guide
-/packages/discord.js/ @discordjs/core
+/packages/actions/ @discord.self/actions
+/packages/api-extractor/ @discord.self/api-extractor-utils
+/packages/api-extractor-model/ @discord.self/api-extractor-utils
+/packages/api-extractor-utils/ @discord.self/api-extractor-utils
+/packages/collection/ @discord.self/collection
+/packages/core/ @discord.self/core
+/packages/create-discord-bot/ @discord.self/guide
+/packages/discord.js/ @discord.self/core
 /packages/docgen/ @iCrawl
-/packages/formatters/ @discordjs/formatters
-/packages/rest/ @discordjs/rest
-/packages/scripts/ @discordjs/scripts
-/packages/util/ @discordjs/util
-/packages/voice/ @discordjs/core
-/packages/ws/ @discordjs/ws
+/packages/formatters/ @discord.self/formatters
+/packages/rest/ @discord.self/rest
+/packages/scripts/ @discord.self/scripts
+/packages/util/ @discord.self/util
+/packages/voice/ @discord.self/core
+/packages/ws/ @discord.self/ws

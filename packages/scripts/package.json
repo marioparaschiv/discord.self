@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "@discordjs/scripts",
+	"name": "@discord.self/scripts",
 	"version": "0.1.0",
 	"description": "A set of scripts that we use for our workflows",
 	"private": true,
@@ -61,8 +61,8 @@
 	"funding": "https://github.com/discordjs/discord.js?sponsor",
 	"dependencies": {
 		"@actions/glob": "^0.6.1",
-		"@discordjs/api-extractor-model": "workspace:^",
-		"@discordjs/api-extractor-utils": "workspace:^",
+		"@discord.self/api-extractor-model": "workspace:^",
+		"@discord.self/api-extractor-utils": "workspace:^",
 		"@microsoft/tsdoc": "~0.15.1",
 		"@microsoft/tsdoc-config": "~0.17.1",
 		"@vercel/blob": "^2.3.2",

@@ -1,5 +1,5 @@
-import { API } from '@discordjs/core/http-only';
-import { REST } from 'discord.js';
+import { API } from '@discord.self/core/http-only';
+import { REST } from '@discord.self/discord.js';
 import { loadCommands } from './loaders.ts';
 
 const commands = await loadCommands(new URL('../commands/', import.meta.url));

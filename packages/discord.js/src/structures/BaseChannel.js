@@ -1,6 +1,6 @@
 'use strict';
 
-const { channelLink, channelMention } = require('@discordjs/formatters');
+const { channelLink, channelMention } = require('@discord.self/formatters');
 const { DiscordSnowflake } = require('@sapphire/snowflake');
 const { ChannelType, Routes } = require('discord-api-types/v10');
 const { ChannelFlagsBitField } = require('../util/ChannelFlagsBitField.js');

@@ -10,7 +10,7 @@ on:
     tags:
       - '**'
       - '!create-discord-app@*'
-      - '!create-discord-bot@*'
+      - '!@discord.self/create-discord-bot@*'
   workflow_dispatch:
     inputs:
       ref:

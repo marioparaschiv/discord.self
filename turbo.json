@@ -17,19 +17,19 @@
 			"outputs": ["dist/**", "storybook-static/**"],
 			"outputLogs": "errors-only"
 		},
-		"@discordjs/guide#build:local": {
+		"@discord.self/guide#build:local": {
 			"dependsOn": ["^build"],
 			"inputs": ["public/**", "src/**", "next.config.ts", "package.json", "tsconfig.json"],
 			"outputs": [".next/**", ".next/cache/**", ".source/**"],
 			"outputLogs": "full"
 		},
-		"@discordjs/guide#build:prod": {
+		"@discord.self/guide#build:prod": {
 			"dependsOn": ["^build"],
 			"inputs": ["public/**", "src/**", "next.config.ts", "package.json", "tsconfig.json"],
 			"outputs": [".next/**", ".next/cache/**", ".source/**"],
 			"outputLogs": "full"
 		},
-		"@discordjs/website#build:local": {
+		"@discord.self/website#build:local": {
 			"env": [
 				"VERCEL_ENV",
 				"NEXT_PUBLIC_LOCAL_DEV",
@@ -60,7 +60,7 @@
 			"outputs": [".next/**", ".next/cache/**", "src/assets/readme/**"],
 			"outputLogs": "full"
 		},
-		"@discordjs/website#build:prod": {
+		"@discord.self/website#build:prod": {
 			"env": [
 				"VERCEL_ENV",
 				"NEXT_PUBLIC_LOCAL_DEV",
@@ -121,7 +121,7 @@
 			"outputs": [],
 			"outputLogs": "errors-only"
 		},
-		"@discordjs/guide#lint": {
+		"@discord.self/guide#lint": {
 			"dependsOn": ["^build", "build:local"],
 			"inputs": [
 				"../../eslint.config.js",
@@ -135,7 +135,7 @@
 			"outputs": [],
 			"outputLogs": "errors-only"
 		},
-		"@discordjs/website#lint": {
+		"@discord.self/website#lint": {
 			"dependsOn": ["^build", "build:local"],
 			"inputs": [
 				"../../eslint.config.js",
@@ -165,7 +165,7 @@
 			"outputs": [],
 			"outputLogs": "errors-only"
 		},
-		"@discordjs/guide#format": {
+		"@discord.self/guide#format": {
 			"dependsOn": ["^build"],
 			"inputs": [
 				"../../eslint.config.js",
@@ -216,13 +216,13 @@
 			"persistent": true,
 			"outputLogs": "full"
 		},
-		"@discordjs/guide#dev": {
+		"@discord.self/guide#dev": {
 			"dependsOn": ["^build"],
 			"cache": false,
 			"persistent": true,
 			"outputLogs": "full"
 		},
-		"@discordjs/website#dev": {
+		"@discord.self/website#dev": {
 			"env": ["VERCEL_ENV", "NEXT_PUBLIC_LOCAL_DEV"],
 			"dependsOn": ["^build", "^docs"],
 			"cache": false,

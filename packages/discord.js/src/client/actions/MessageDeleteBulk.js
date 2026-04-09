@@ -1,6 +1,6 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
+const { Collection } = require('@discord.self/collection');
 const { Events } = require('../../util/Events.js');
 const { Action } = require('./Action.js');
 

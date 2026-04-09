@@ -1,7 +1,7 @@
 'use strict';
 
 const process = require('node:process');
-const { Collection } = require('@discordjs/collection');
+const { Collection } = require('@discord.self/collection');
 const { OverwriteType, Routes } = require('discord-api-types/v10');
 const { DiscordjsTypeError, ErrorCodes } = require('../errors/index.js');
 const { PermissionOverwrites } = require('../structures/PermissionOverwrites.js');

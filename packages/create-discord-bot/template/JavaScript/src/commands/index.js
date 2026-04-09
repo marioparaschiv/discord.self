@@ -4,8 +4,8 @@ import { z } from 'zod';
  * Defines the structure of a command.
  *
  * @typedef {object} Command
- * @property {import('discord.js').RESTPostAPIApplicationCommandsJSONBody} data The data for the command
- * @property {(interaction: import('discord.js').CommandInteraction) => Promise<void> | void} execute The function to execute when the command is called
+ * @property {import('@discord.self/discord.js').RESTPostAPIApplicationCommandsJSONBody} data The data for the command
+ * @property {(interaction: import('@discord.self/discord.js').CommandInteraction) => Promise<void> | void} execute The function to execute when the command is called
  */
 
 /**

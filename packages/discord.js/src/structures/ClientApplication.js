@@ -1,6 +1,6 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
+const { Collection } = require('@discord.self/collection');
 const { Routes } = require('discord-api-types/v10');
 const { ApplicationCommandManager } = require('../managers/ApplicationCommandManager.js');
 const { ApplicationEmojiManager } = require('../managers/ApplicationEmojiManager.js');

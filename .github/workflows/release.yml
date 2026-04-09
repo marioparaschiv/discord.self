@@ -12,26 +12,26 @@ on:
         required: false
         options:
           - all
-          - discord.js
+          - '@discord.self/discord.js'
           - '@discordjs/brokers'
           - '@discordjs/builders'
-          - '@discordjs/collection'
-          - '@discordjs/core'
-          - 'create-discord-bot'
-          # - '@discordjs/docgen'
-          - '@discordjs/formatters'
+          - '@discord.self/collection'
+          - '@discord.self/core'
+          - '@discord.self/create-discord-bot'
+          # - '@discord.self/docgen'
+          - '@discord.self/formatters'
           - '@discordjs/next'
           - '@discordjs/proxy'
-          - '@discordjs/rest'
+          - '@discord.self/rest'
           - '@discordjs/structures'
-          - '@discordjs/util'
-          - '@discordjs/voice'
-          - '@discordjs/ws'
+          - '@discord.self/util'
+          - '@discord.self/voice'
+          - '@discord.self/ws'
       exclude:
         description: 'Comma separated list of packages to exclude from release (if not depended upon)'
         required: false
         type: string
-        default: '@discordjs/docgen,@discordjs/next'
+        default: '@discord.self/docgen,@discordjs/next'
       dry_run:
         description: Perform a dry run?
         type: boolean
@@ -87,7 +87,7 @@ jobs:
           COREPACK_ENABLE_STRICT: 0
         run: |
           pnpm self-update 10
-          pnpm install --filter @discordjs/actions --frozen-lockfile --prefer-offline --loglevel error
+          pnpm install --filter @discord.self/actions --frozen-lockfile --prefer-offline --loglevel error
 
       - name: Release packages (non-main ref)
         if: ${{ inputs.ref && inputs.ref != 'main' }}

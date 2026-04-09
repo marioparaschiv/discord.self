@@ -1,6 +1,6 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
+const { Collection } = require('@discord.self/collection');
 const { _transformAPIAutoModerationAction } = require('../util/Transformers.js');
 const { Base } = require('./Base.js');
 

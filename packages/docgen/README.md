@@ -43,6 +43,6 @@ If you don't understand something in the documentation, you are experiencing pro
 [discord]: https://discord.gg/djs
 [discord-developers]: https://discord.gg/discord-developers
 [source]: https://github.com/discordjs/discord.js/tree/main/packages/docgen
-[npm]: https://www.npmjs.com/package/@discordjs/docgen
+[npm]: https://www.npmjs.com/package/@discord.self/docgen
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/discordjs/discord.js/blob/main/.github/CONTRIBUTING.md

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
-	"name": "@discordjs/website",
+	"name": "@discord.self/website",
 	"version": "0.1.0",
 	"description": "Imagine a bot... the most popular way to build discord bots",
 	"private": true,

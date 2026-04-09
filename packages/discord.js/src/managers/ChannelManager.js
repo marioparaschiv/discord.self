@@ -1,7 +1,7 @@
 'use strict';
 
 const process = require('node:process');
-const { lazy, isFileBodyEncodable, isJSONEncodable } = require('@discordjs/util');
+const { lazy, isFileBodyEncodable, isJSONEncodable } = require('@discord.self/util');
 const { Routes } = require('discord-api-types/v10');
 const { BaseChannel } = require('../structures/BaseChannel.js');
 const { MessagePayload } = require('../structures/MessagePayload.js');

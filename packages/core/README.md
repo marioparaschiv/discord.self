@@ -6,8 +6,8 @@
 	<br />
 	<p>
 		<a href="https://discord.gg/djs"><img src="https://img.shields.io/badge/join_us-on_discord-5865F2?logo=discord&logoColor=white" alt="Discord server" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/core"><img src="https://img.shields.io/npm/v/@discordjs/core.svg?maxAge=3600" alt="npm version" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/core"><img src="https://img.shields.io/npm/dt/@discordjs/core.svg?maxAge=3600" alt="npm downloads" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/core"><img src="https://img.shields.io/npm/v/@discord.self/core.svg?maxAge=3600" alt="npm version" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/core"><img src="https://img.shields.io/npm/dt/@discord.self/core.svg?maxAge=3600" alt="npm downloads" /></a>
 		<a href="https://github.com/discordjs/discord.js/actions"><img src="https://github.com/discordjs/discord.js/actions/workflows/tests.yml/badge.svg" alt="Build status" /></a>
 		<a href="https://github.com/discordjs/discord.js/commits/main/packages/core"><img alt="Last commit." src="https://img.shields.io/github/last-commit/discordjs/discord.js?logo=github&logoColor=ffffff&path=packages%2Fcore" /></a>
 		<a href="https://opencollective.com/discordjs"><img src="https://img.shields.io/opencollective/backers/discordjs?maxAge=3600&logo=opencollective" alt="backers" /></a>
@@ -21,16 +21,16 @@
 
 ## About
 
-`@discordjs/core` is a thinly abstracted wrapper around the "core" components of the Discord API: REST, and gateway.
+`@discord.self/core` is a thinly abstracted wrapper around the "core" components of the Discord API: REST, and gateway.
 
 ## Installation
 
 **Node.js 22.12.0 or newer is required.**
 
 ```sh
-npm install @discordjs/core
-yarn add @discordjs/core
-pnpm add @discordjs/core
+npm install @discord.self/core
+yarn add @discord.self/core
+pnpm add @discord.self/core
 ```
 
 ## Example usage
@@ -45,9 +45,9 @@ import {
 	InteractionType,
 	MessageFlags,
 	type RESTGetAPIGatewayBotResult,
-} from '@discordjs/core';
-import { REST } from '@discordjs/rest';
-import { WebSocketManager } from '@discordjs/ws';
+} from '@discord.self/core';
+import { REST } from '@discord.self/rest';
+import { WebSocketManager } from '@discord.self/ws';
 
 // Create REST and WebSocket managers directly
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
@@ -81,8 +81,8 @@ gateway.connect();
 ## Independent REST API Usage
 
 ```ts
-import { API } from '@discordjs/core/http-only';
-import { REST } from '@discordjs/rest';
+import { API } from '@discord.self/core/http-only';
+import { REST } from '@discord.self/rest';
 
 // Create REST instance
 const rest = new REST({ version: '10' }).setToken(token);
@@ -125,6 +125,6 @@ If you don't understand something in the documentation, you are experiencing pro
 [discord]: https://discord.gg/djs
 [discord-developers]: https://discord.gg/discord-developers
 [source]: https://github.com/discordjs/discord.js/tree/main/packages/core
-[npm]: https://www.npmjs.com/package/@discordjs/core
+[npm]: https://www.npmjs.com/package/@discord.self/core
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/discordjs/discord.js/blob/main/.github/CONTRIBUTING.md

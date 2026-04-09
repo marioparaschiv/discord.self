@@ -1,7 +1,7 @@
 'use strict';
 
-const { DefaultRestOptions, DefaultUserAgentAppendix } = require('@discordjs/rest');
-const { DefaultWebSocketManagerOptions } = require('@discordjs/ws');
+const { DefaultRestOptions, DefaultUserAgentAppendix } = require('@discord.self/rest');
+const { DefaultWebSocketManagerOptions } = require('@discord.self/ws');
 const { version } = require('../../package.json');
 const { toSnakeCase } = require('./Transformers.js');
 
@@ -122,7 +122,7 @@ class Options extends null {
    *  });
    */
   static cacheWithLimits(settings = {}) {
-    const { Collection } = require('@discordjs/collection');
+    const { Collection } = require('@discord.self/collection');
     const { LimitedCollection } = require('./LimitedCollection.js');
 
     return ({ managerType, manager }) => {
@@ -156,7 +156,7 @@ class Options extends null {
    * @returns {CacheFactory}
    */
   static cacheEverything() {
-    const { Collection } = require('@discordjs/collection');
+    const { Collection } = require('@discord.self/collection');
     return () => new Collection();
   }
 

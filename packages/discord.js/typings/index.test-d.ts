@@ -1,28 +1,9 @@
 /* eslint-disable no-lone-blocks, @typescript-eslint/unbound-method, @typescript-eslint/ban-ts-comment, no-param-reassign, id-length */
 import type { ChildProcess } from 'node:child_process';
 import type { Worker } from 'node:worker_threads';
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ChannelSelectMenuBuilder,
-  createComponentBuilder,
-  EmbedBuilder,
-  MentionableSelectMenuBuilder,
-  MessageBuilder,
-  ModalBuilder,
-  PrimaryButtonBuilder,
-  RoleSelectMenuBuilder,
-  StringSelectMenuBuilder,
-  TextInputBuilder,
-  UserSelectMenuBuilder,
-  type ChatInputCommandBuilder,
-  type ContextMenuCommandBuilder,
-} from '@discordjs/builders';
-import type { ReadonlyCollection } from '@discordjs/collection';
+import type { ReadonlyCollection } from '@discord.self/collection';
 import type {
   APIButtonComponent,
-  APIButtonComponentWithCustomId,
-  APIEmbed,
   APIInteractionDataResolvedChannel,
   APIInteractionDataResolvedGuildMember,
   APIInteractionGuildMember,
@@ -31,7 +12,6 @@ import type {
   APIRole,
   APISelectMenuComponent,
   APIStringSelectComponent,
-  APITextInputComponent,
   Locale,
   ThreadChannelType,
   WebhookType,
@@ -56,8 +36,6 @@ import {
 } from 'discord-api-types/v10';
 import { expectAssignable, expectNotAssignable, expectNotType, expectType } from 'tsd';
 import type {
-  ActionRow,
-  ActionRowComponent,
   ActionRowData,
   AnnouncementChannel,
   AnyThreadChannel,
@@ -92,7 +70,6 @@ import type {
   Channel,
   ChannelFlagsBitField,
   ChannelMention,
-  ChannelSelectMenuComponent,
   ChannelSelectMenuInteraction,
   ChatInputApplicationCommandData,
   ChatInputCommandInteraction,
@@ -109,7 +86,6 @@ import type {
   DirectoryChannel,
   DMChannel,
   DMMessageManager,
-  Embed,
   Emoji,
   Entitlement,
   FetchedThreads,
@@ -147,7 +123,6 @@ import type {
   MediaChannel,
   MediaGalleryComponentData,
   MediaGalleryItemData,
-  MentionableSelectMenuComponent,
   MentionableSelectMenuInteraction,
   Message,
   MessageActionRowComponent,
@@ -180,7 +155,6 @@ import type {
   RepliableInteraction,
   Role,
   RoleManager,
-  RoleSelectMenuComponent,
   RoleSelectMenuInteraction,
   SectionComponentData,
   SelectMenuInteraction,
@@ -203,7 +177,6 @@ import type {
   TextBasedChannelTypes,
   ThreadManager,
   TextChannel,
-  TextInputComponent,
   ThreadChannel,
   ThreadMember,
   ThreadMemberFlagsBitField,
@@ -233,7 +206,6 @@ import {
   UnfurledMediaItemData,
   UserContextMenuCommandInteraction,
   UserMention,
-  UserSelectMenuComponent,
   UserSelectMenuInteraction,
   Webhook,
 } from './index.js';
@@ -370,18 +342,15 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.type !== InteractionType.ApplicationCommand) return;
 
-  const actionRow = new ActionRowBuilder({
+  const actionRow: ActionRowData<MessageActionRowComponentData> = {
     type: ComponentType.ActionRow,
-    components: [{ custom_id: '123', label: 'test', style: ButtonStyle.Primary, type: ComponentType.Button }],
-  });
+    components: [{ customId: '123', label: 'test', style: ButtonStyle.Primary, type: ComponentType.Button }],
+  };
 
   await interaction.reply({ content: 'Hi!', components: [actionRow] });
 
   // @ts-expect-error double nested components array
   await interaction.reply({ content: 'Hi!', components: [[button]] });
-
-  void new ActionRowBuilder({});
-
   // @ts-expect-error button as top-level component
   await interaction.reply({ content: 'Hi!', components: [button] });
 
@@ -459,7 +428,7 @@ client.on('messageCreate', async message => {
   assertIsMessage(client.channels.createMessage(channel, {}));
   assertIsMessage(client.channels.createMessage(channel, { embeds: [] }));
 
-  const embed = new EmbedBuilder();
+  const embed = { description: 'test' };
   assertIsMessage(channel.send({ embeds: [embed] }));
   assertIsMessage(client.channels.createMessage(channel, { embeds: [embed] }));
 
@@ -638,9 +607,6 @@ client.on('messageCreate', async message => {
     },
   });
 
-  // Check that both builders and builder data can be sent in messages
-  const row = new ActionRowBuilder();
-
   const rawButtonsRow: ActionRowData<ButtonComponentData> = {
     type: ComponentType.ActionRow,
     components: [
@@ -654,11 +620,6 @@ client.on('messageCreate', async message => {
     ],
   };
 
-  const buttonsRow: ActionRowData<ButtonBuilder> = {
-    type: ComponentType.ActionRow,
-    components: [new PrimaryButtonBuilder()],
-  };
-
   const rawStringSelectMenuRow: ActionRowData<StringSelectMenuComponentData> = {
     type: ComponentType.ActionRow,
     components: [
@@ -670,16 +631,11 @@ client.on('messageCreate', async message => {
     ],
   };
 
-  const stringSelectRow: ActionRowData<StringSelectMenuBuilder> = {
-    type: ComponentType.ActionRow,
-    components: [new StringSelectMenuBuilder()],
-  };
-
-  const embedData = { description: 'test', color: 0xff0000 };
+  const richEmbedData = { description: 'test', color: 0xff0000 };
 
   await client.channels.createMessage(channel, {
-    components: [row, rawButtonsRow, buttonsRow, rawStringSelectMenuRow, stringSelectRow],
-    embeds: [embed, embedData],
+    components: [rawButtonsRow, rawStringSelectMenuRow],
+    embeds: [embed, richEmbedData],
   });
 
   const rawTextDisplay: TextDisplayComponentData = {
@@ -826,9 +782,15 @@ client.on('presenceUpdate', (oldPresence, { client }) => {
   expectType<Client<true>>(client);
 });
 
-declare const slashCommandBuilder: ChatInputCommandBuilder;
-declare const contextMenuCommandBuilder: ContextMenuCommandBuilder;
 declare const guild: Guild;
+const slashCommandData: ChatInputApplicationCommandData = {
+  description: 'test',
+  name: 'test',
+};
+const contextMenuCommandData: ApplicationCommandData = {
+  name: 'test-context',
+  type: ApplicationCommandType.User,
+};
 
 client.on('clientReady', async client => {
   expectType<Client<true>>(client);
@@ -847,15 +809,15 @@ client.on('clientReady', async client => {
   const guildCommandFromGlobal = await client.application?.commands.fetch({ id: guildCommandId, guildId: testGuildId });
   const guildCommandFromGuild = await client.guilds.cache.get(testGuildId)?.commands.fetch({ id: guildCommandId });
 
-  await client.application?.commands.create(slashCommandBuilder);
-  await client.application?.commands.create(contextMenuCommandBuilder);
-  await guild.commands.create(slashCommandBuilder);
-  await guild.commands.create(contextMenuCommandBuilder);
+  await client.application?.commands.create(slashCommandData);
+  await client.application?.commands.create(contextMenuCommandData);
+  await guild.commands.create(slashCommandData);
+  await guild.commands.create(contextMenuCommandData);
 
-  await client.application?.commands.edit(globalCommandId, slashCommandBuilder);
-  await client.application?.commands.edit(globalCommandId, contextMenuCommandBuilder);
-  await guild.commands.edit(guildCommandId, slashCommandBuilder);
-  await guild.commands.edit(guildCommandId, contextMenuCommandBuilder);
+  await client.application?.commands.edit(globalCommandId, slashCommandData);
+  await client.application?.commands.edit(globalCommandId, contextMenuCommandData);
+  await guild.commands.edit(guildCommandId, slashCommandData);
+  await guild.commands.edit(guildCommandId, contextMenuCommandData);
 
   await client.application?.commands.edit(globalCommandId, { defaultMemberPermissions: null });
   await globalCommand?.edit({ defaultMemberPermissions: null });
@@ -1403,26 +1365,22 @@ client.on('guildCreate', async g => {
     const row: ActionRowData<MessageActionRowComponentData> = {
       type: ComponentType.ActionRow,
       components: [
-        new PrimaryButtonBuilder(),
         { type: ComponentType.Button, style: ButtonStyle.Primary, label: 'string', customId: 'foo' },
         { type: ComponentType.Button, style: ButtonStyle.Link, label: 'test', url: 'test' },
         { type: ComponentType.StringSelect, customId: 'foo', options: [{ label: 'label', value: 'value' }] },
-        new StringSelectMenuBuilder(),
         // @ts-expect-error
         { type: ComponentType.TextInput, style: TextInputStyle.Paragraph, customId: 'foo', label: 'test' },
-        // @ts-expect-error
-        new TextInputBuilder(),
       ],
     };
 
-    const row2 = new ActionRowBuilder({
+    const row2: ActionRowData<MessageActionRowComponentData> = {
       type: ComponentType.ActionRow,
       components: [
-        { type: ComponentType.Button, style: ButtonStyle.Primary, label: 'string', custom_id: 'foo' },
+        { type: ComponentType.Button, style: ButtonStyle.Primary, label: 'string', customId: 'foo' },
         { type: ComponentType.Button, style: ButtonStyle.Link, label: 'test', url: 'test' },
-        { type: ComponentType.StringSelect, custom_id: 'foo', options: [{ label: 'label', value: 'value' }] },
+        { type: ComponentType.StringSelect, customId: 'foo', options: [{ label: 'label', value: 'value' }] },
       ],
-    });
+    };
 
     await client.channels.createMessage(channel, { components: [row, row2] });
   }
@@ -2563,7 +2521,7 @@ expectType<
 >(NonThreadGuildBasedChannel);
 expectType<GuildTextBasedChannel>(GuildTextBasedChannel);
 
-new EmbedBuilder().setColor(resolveColor('#ffffff'));
+expectType<number>(resolveColor('#ffffff'));
 
 expectNotAssignable<ActionRowData<MessageActionRowComponentData>>({
   type: ComponentType.ActionRow,
@@ -2579,9 +2537,21 @@ declare const chatInputInteraction: ChatInputCommandInteraction;
 expectType<Attachment>(chatInputInteraction.options.getAttachment('attachment', true));
 expectType<Attachment | null>(chatInputInteraction.options.getAttachment('attachment'));
 
-declare const modal: ModalBuilder;
-
-await chatInputInteraction.showModal(modal);
+await chatInputInteraction.showModal({
+  title: 'modal',
+  customId: 'modal',
+  components: [
+    {
+      type: ComponentType.Label,
+      label: 'field',
+      component: {
+        type: ComponentType.TextInput,
+        style: TextInputStyle.Short,
+        customId: 'field',
+      },
+    },
+  ],
+});
 
 await chatInputInteraction.showModal({
   title: 'abc',
@@ -2640,42 +2610,6 @@ await chatInputInteraction.showModal({
     },
   ],
 });
-
-declare const stringSelectMenuComp: StringSelectMenuComponent;
-new StringSelectMenuBuilder(stringSelectMenuComp.toJSON());
-
-declare const userSelectMenuComp: UserSelectMenuComponent;
-new UserSelectMenuBuilder(userSelectMenuComp.toJSON());
-
-declare const roleSelectMenuComp: RoleSelectMenuComponent;
-new RoleSelectMenuBuilder(roleSelectMenuComp.toJSON());
-
-declare const channelSelectMenuComp: ChannelSelectMenuComponent;
-new ChannelSelectMenuBuilder(channelSelectMenuComp.toJSON());
-
-declare const mentionableSelectMenuComp: MentionableSelectMenuComponent;
-new MentionableSelectMenuBuilder(mentionableSelectMenuComp.toJSON());
-
-declare const buttonData: APIButtonComponentWithCustomId;
-new PrimaryButtonBuilder(buttonData);
-
-declare const buttonComp: ButtonComponent;
-createComponentBuilder(buttonComp.toJSON());
-
-declare const textInputData: APITextInputComponent;
-new TextInputBuilder(textInputData);
-
-declare const textInputComp: TextInputComponent;
-new TextInputBuilder(textInputComp.toJSON());
-
-declare const embedData: APIEmbed;
-new EmbedBuilder(embedData);
-
-declare const embedComp: Embed;
-new EmbedBuilder(embedComp.toJSON());
-
-declare const actionRowComp: ActionRow<ActionRowComponent>;
-new ActionRowBuilder(actionRowComp.toJSON());
 
 type UserMentionChannels = DMChannel | PartialDMChannel;
 declare const channelMentionChannels: Exclude<Channel | DirectoryChannel, UserMentionChannels>;
@@ -3039,12 +2973,6 @@ await guildScheduledEventManager.edit(snowflake, { recurrenceRule: null });
     byMonth: [GuildScheduledEventRecurrenceRuleMonth.May],
   });
 }
-
-await textChannel.send(
-  new MessageBuilder()
-    .setContent(':)')
-    .addAttachments(attachment => attachment.setId(1).setFileData(':)').setFilename('smiley.txt')),
-);
 
 await textChannel.send({
   files: [

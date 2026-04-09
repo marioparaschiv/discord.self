@@ -1,7 +1,7 @@
 'use strict';
 
-const { Collection } = require('@discordjs/collection');
-const { makeURLSearchParams } = require('@discordjs/rest');
+const { Collection } = require('@discord.self/collection');
+const { makeURLSearchParams } = require('@discord.self/rest');
 const { DiscordSnowflake } = require('@sapphire/snowflake');
 const { ChannelType, GuildPremiumTier, Routes, GuildFeature } = require('discord-api-types/v10');
 const { DiscordjsError, DiscordjsTypeError, ErrorCodes } = require('../errors/index.js');
@@ -1505,7 +1505,7 @@ class Guild extends AnonymousGuild {
   }
 
   /**
-   * The voice state adapter for this guild that can be used with `@discordjs/voice` to play audio in voice
+   * The voice state adapter for this guild that can be used with `@discord.self/voice` to play audio in voice
    * and stage channels.
    *
    * @type {Function}

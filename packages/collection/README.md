@@ -6,8 +6,8 @@
 	<br />
 	<p>
 		<a href="https://discord.gg/djs"><img src="https://img.shields.io/badge/join_us-on_discord-5865F2?logo=discord&logoColor=white" alt="Discord server" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/collection"><img src="https://img.shields.io/npm/v/@discordjs/collection.svg?maxAge=3600" alt="npm version" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/collection"><img src="https://img.shields.io/npm/dt/@discordjs/collection.svg?maxAge=3600" alt="npm downloads" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/collection"><img src="https://img.shields.io/npm/v/@discord.self/collection.svg?maxAge=3600" alt="npm version" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/collection"><img src="https://img.shields.io/npm/dt/@discord.self/collection.svg?maxAge=3600" alt="npm downloads" /></a>
 		<a href="https://github.com/discordjs/discord.js/actions"><img src="https://github.com/discordjs/discord.js/actions/workflows/tests.yml/badge.svg" alt="Build status" /></a>
 		<a href="https://github.com/discordjs/discord.js/commits/main/packages/collection"><img alt="Last commit." src="https://img.shields.io/github/last-commit/discordjs/discord.js?logo=github&logoColor=ffffff&path=packages%2Fcollection" /></a>
 		<a href="https://opencollective.com/discordjs"><img src="https://img.shields.io/opencollective/backers/discordjs?maxAge=3600&logo=opencollective" alt="backers" /></a>
@@ -21,16 +21,16 @@
 
 ## About
 
-`@discordjs/collection` is a powerful utility data structure used in discord.js.
+`@discord.self/collection` is a powerful utility data structure used in discord.js.
 
 ## Installation
 
 **Node.js 22.12.0 or newer is required.**
 
 ```sh
-npm install @discordjs/collection
-yarn add @discordjs/collection
-pnpm add @discordjs/collection
+npm install @discord.self/collection
+yarn add @discord.self/collection
+pnpm add @discord.self/collection
 ```
 
 ## Links
@@ -64,6 +64,6 @@ If you don't understand something in the documentation, you are experiencing pro
 [discord]: https://discord.gg/djs
 [discord-developers]: https://discord.gg/discord-developers
 [source]: https://github.com/discordjs/discord.js/tree/main/packages/collection
-[npm]: https://www.npmjs.com/package/@discordjs/collection
+[npm]: https://www.npmjs.com/package/@discord.self/collection
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/discordjs/discord.js/blob/main/.github/CONTRIBUTING.md

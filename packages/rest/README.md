@@ -6,8 +6,8 @@
 	<br />
 	<p>
 		<a href="https://discord.gg/djs"><img src="https://img.shields.io/badge/join_us-on_discord-5865F2?logo=discord&logoColor=white" alt="Discord server" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/rest"><img src="https://img.shields.io/npm/v/@discordjs/rest.svg?maxAge=3600" alt="npm version" /></a>
-		<a href="https://www.npmjs.com/package/@discordjs/rest"><img src="https://img.shields.io/npm/dt/@discordjs/rest.svg?maxAge=3600" alt="npm downloads" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/rest"><img src="https://img.shields.io/npm/v/@discord.self/rest.svg?maxAge=3600" alt="npm version" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/rest"><img src="https://img.shields.io/npm/dt/@discord.self/rest.svg?maxAge=3600" alt="npm downloads" /></a>
 		<a href="https://github.com/discordjs/discord.js/actions"><img src="https://github.com/discordjs/discord.js/actions/workflows/tests.yml/badge.svg" alt="Tests status" /></a>
 		<a href="https://github.com/discordjs/discord.js/commits/main/packages/rest"><img alt="Last commit." src="https://img.shields.io/github/last-commit/discordjs/discord.js?logo=github&logoColor=ffffff&path=packages%2Frest" /></a>
 		<a href="https://opencollective.com/discordjs"><img src="https://img.shields.io/opencollective/backers/discordjs?maxAge=3600&logo=opencollective" alt="backers" /></a>
@@ -21,17 +21,17 @@
 
 ## About
 
-`@discordjs/rest` is a module that allows you to easily make REST requests to the Discord API.
+`@discord.self/rest` is a module that allows you to easily make REST requests to the Discord API.
 
 ## Installation
 
 **Node.js 22.12.0 or newer is required.**
 
 ```sh
-npm install @discordjs/rest
-yarn add @discordjs/rest
-pnpm add @discordjs/rest
-bun add @discordjs/rest
+npm install @discord.self/rest
+yarn add @discord.self/rest
+pnpm add @discord.self/rest
+bun add @discord.self/rest
 ```
 
 ## Examples
@@ -39,16 +39,16 @@ bun add @discordjs/rest
 Install all required dependencies:
 
 ```sh
-npm install @discordjs/rest discord-api-types
-yarn add @discordjs/rest discord-api-types
-pnpm add @discordjs/rest discord-api-types
-bun add @discordjs/rest discord-api-types
+npm install @discord.self/rest discord-api-types
+yarn add @discord.self/rest discord-api-types
+pnpm add @discord.self/rest discord-api-types
+bun add @discord.self/rest discord-api-types
 ```
 
 Send a basic message:
 
 ```js
-import { REST } from '@discordjs/rest';
+import { REST } from '@discord.self/rest';
 import { Routes } from 'discord-api-types/v10';
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
@@ -67,7 +67,7 @@ try {
 Create a thread from an existing message to be archived after 60 minutes of inactivity:
 
 ```js
-import { REST } from '@discordjs/rest';
+import { REST } from '@discord.self/rest';
 import { Routes } from 'discord-api-types/v10';
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
@@ -87,7 +87,7 @@ try {
 Send a basic message in an edge environment:
 
 ```js
-import { REST } from '@discordjs/rest';
+import { REST } from '@discord.self/rest';
 import { Routes } from 'discord-api-types/v10';
 
 const rest = new REST({ version: '10', makeRequest: fetch }).setToken(TOKEN);
@@ -134,6 +134,6 @@ If you don't understand something in the documentation, you are experiencing pro
 [discord]: https://discord.gg/djs
 [discord-developers]: https://discord.gg/discord-developers
 [source]: https://github.com/discordjs/discord.js/tree/main/packages/rest
-[npm]: https://www.npmjs.com/package/@discordjs/rest
+[npm]: https://www.npmjs.com/package/@discord.self/rest
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/discordjs/discord.js/blob/main/.github/CONTRIBUTING.md

@@ -1,6 +1,6 @@
 'use strict';
 
-const { lazy } = require('@discordjs/util');
+const { lazy } = require('@discord.self/util');
 const { findComponentByCustomId } = require('../util/Components.js');
 const { BaseInteraction } = require('./BaseInteraction.js');
 const { InteractionWebhook } = require('./InteractionWebhook.js');

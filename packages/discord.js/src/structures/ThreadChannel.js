@@ -1,6 +1,6 @@
 'use strict';
 
-const { lazy } = require('@discordjs/util');
+const { lazy } = require('@discord.self/util');
 const { ChannelFlags, ChannelType, PermissionFlagsBits, Routes } = require('discord-api-types/v10');
 const { DiscordjsRangeError, ErrorCodes } = require('../errors/index.js');
 const { GuildMessageManager } = require('../managers/GuildMessageManager.js');

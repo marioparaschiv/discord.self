@@ -28,7 +28,7 @@ bun add undici global-agent
 
 ## Setting up the proxy for REST calls
 
-The `@discordjs/rest` package handling HTTP requests in discord.js uses the `undici` package. Accordingly, you can provide a custom `ProxyAgent` configuration to the client constructor:
+The `@discord.self/rest` package handling HTTP requests in discord.js uses the `undici` package. Accordingly, you can provide a custom `ProxyAgent` configuration to the client constructor:
 
 ```js title="index.js" lineNumbers
 const { ProxyAgent } = require('undici'); // [!code word:ProxyAgent]

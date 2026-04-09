@@ -1,8 +1,8 @@
 'use strict';
 
 const { parse } = require('node:path');
-const { Collection } = require('@discordjs/collection');
-const { lazy } = require('@discordjs/util');
+const { Collection } = require('@discord.self/collection');
+const { lazy } = require('@discord.self/util');
 const { ChannelType, RouteBases, Routes } = require('discord-api-types/v10');
 const { fetch } = require('undici');
 const { Colors } = require('./Colors.js');

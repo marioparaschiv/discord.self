@@ -2,26 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
-# [@discordjs/rest@2.5.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.4.3...@discordjs/rest@2.5.0) - (2025-04-25)
+# [@discord.self/rest@2.5.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.4.3...@discord.self/rest@2.5.0) - (2025-04-25)
 
 ## Features
 
 - Components v2 in v14 (#10781) ([edace17](https://github.com/discordjs/discord.js/commit/edace17a131f857547163a3acf4bb6fec0c1e415))
 - Add soundboard in v14 (#10843) ([d3154cf](https://github.com/discordjs/discord.js/commit/d3154cf8f1eb027b5b4921d4048a32f464a3cd85))
 
-# [@discordjs/rest@2.4.2](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.4.1...@discordjs/rest@2.4.2) - (2025-01-01)
+# [@discord.self/rest@2.4.2](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.4.1...@discord.self/rest@2.4.2) - (2025-01-01)
 
 ## Bug Fixes
 
 - Correct guild member banner URL ([8d69b24](https://github.com/discordjs/discord.js/commit/8d69b24b5c83249dffa5899a417a9dcbc6f3f30c))
 
-# [@discordjs/rest@2.4.2](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.4.1...@discordjs/rest@2.4.2) - (2025-01-01)
+# [@discord.self/rest@2.4.2](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.4.1...@discord.self/rest@2.4.2) - (2025-01-01)
 
 ## Bug Fixes
 
 - Correct guild member banner URL ([8d69b24](https://github.com/discordjs/discord.js/commit/8d69b24b5c83249dffa5899a417a9dcbc6f3f30c))
 
-# [@discordjs/rest@2.4.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.3.0...@discordjs/rest@2.4.0) - (2024-09-01)
+# [@discord.self/rest@2.4.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.3.0...@discord.self/rest@2.4.0) - (2024-09-01)
 
 ## Bug Fixes
 
@@ -31,7 +31,7 @@ All notable changes to this project will be documented in this file.
 
 - **User:** Add `avatarDecorationData` (#9888) ([3b5c600](https://github.com/discordjs/discord.js/commit/3b5c600b9e3f8d40ed48f02e3c9acec7433f1cc3))
 
-# [@discordjs/rest@2.3.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.2.0...@discordjs/rest@2.3.0) - (2024-05-04)
+# [@discord.self/rest@2.3.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.2.0...@discord.self/rest@2.3.0) - (2024-05-04)
 
 ## Bug Fixes
 
@@ -60,7 +60,7 @@ All notable changes to this project will be documented in this file.
 
 - Skip flaky rest test (#10234) ([dc8f149](https://github.com/discordjs/discord.js/commit/dc8f14967c2c10b26c1be986d42e5d135675ad43))
 
-# [@discordjs/rest@2.2.0](https://github.com/discordjs/discord.js/tree/@discordjs/rest@2.2.0) - (2023-11-18)
+# [@discord.self/rest@2.2.0](https://github.com/discordjs/discord.js/tree/@discord.self/rest@2.2.0) - (2023-11-18)
 
 ## Bug Fixes
 
@@ -74,7 +74,7 @@ All notable changes to this project will be documented in this file.
 
 - Use wrapper utilities (#9945) ([4bc1dae](https://github.com/discordjs/discord.js/commit/4bc1dae36f01649127774c40b14e778d65cf25c5))
 
-# [@discordjs/rest@2.2.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.1.0...@discordjs/rest@2.2.0) - (2023-11-17)
+# [@discord.self/rest@2.2.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.1.0...@discord.self/rest@2.2.0) - (2023-11-17)
 
 ## Bug Fixes
 
@@ -88,7 +88,7 @@ All notable changes to this project will be documented in this file.
 
 - Use wrapper utilities (#9945) ([4bc1dae](https://github.com/discordjs/discord.js/commit/4bc1dae36f01649127774c40b14e778d65cf25c5))
 
-# [@discordjs/rest@2.1.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.0.1...@discordjs/rest@2.1.0) - (2023-11-12)
+# [@discord.self/rest@2.1.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.0.1...@discord.self/rest@2.1.0) - (2023-11-12)
 
 ## Bug Fixes
 
@@ -104,13 +104,13 @@ All notable changes to this project will be documented in this file.
 - Expose Retry-After and sublimit timeouts in RatelimitData (#9864) ([81e7866](https://github.com/discordjs/discord.js/commit/81e7866903b22a9b547825698397a5fd7ff1a533))
 - **CDN:** Support emoji size (#9787) ([778df45](https://github.com/discordjs/discord.js/commit/778df451663d04cd1fb5818ef4dcdd01a7b90cc1))
 
-# [@discordjs/rest@2.0.1](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.0.0...@discordjs/rest@2.0.1) - (2023-08-17)
+# [@discord.self/rest@2.0.1](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.0.0...@discord.self/rest@2.0.1) - (2023-08-17)
 
 ## Documentation
 
 - Update Node.js requirement to 16.11.0 (#9764) ([188877c](https://github.com/discordjs/discord.js/commit/188877c50af70f0d5cffb246620fa277435c6ce6))
 
-# [@discordjs/rest@2.0.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.7.1...@discordjs/rest@2.0.0) - (2023-07-31)
+# [@discord.self/rest@2.0.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.7.1...@discord.self/rest@2.0.0) - (2023-07-31)
 
 ## Features
 
@@ -120,7 +120,7 @@ from `@vladfrangu/async_event_emitter`, which aids in cross-compatibility
 between Node, Deno, Bun, CF Workers, Vercel Functions, etc.
   - **BREAKING CHANGE:** DefaultUserAgentAppendix has been adapted to support multiple
 different platforms (previously mentioned Deno, Bun, CF Workers, etc)
-  - **BREAKING CHANGE:** the entry point for `@discordjs/rest` will now differ
+  - **BREAKING CHANGE:** the entry point for `@discord.self/rest` will now differ
 in non-node-like environments (CF Workers, etc.)
   - **Co-authored-by:** Suneet Tipirneni <77477100+suneettipirneni@users.noreply.github.com>
   - **Co-authored-by:** Jiralite <33201955+Jiralite@users.noreply.github.com>
@@ -143,7 +143,7 @@ in non-node-like environments (CF Workers, etc.)
   - **BREAKING CHANGE:** Many underlying internals have changed, some of which were exported.
   - **BREAKING CHANGE:** `DefaultRestOptions` used to contain a default `agent`, which is now set to `null` instead.
 
-# [@discordjs/rest@1.7.1](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.7.0...@discordjs/rest@1.7.1) - (2023-05-01)
+# [@discord.self/rest@1.7.1](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.7.0...@discord.self/rest@1.7.1) - (2023-05-01)
 
 ## Bug Fixes
 
@@ -154,7 +154,7 @@ in non-node-like environments (CF Workers, etc.)
 - Reference package names properly (#9426) ([d6bca9b](https://github.com/discordjs/discord.js/commit/d6bca9bb4d976dc069a5039250db7d5b3e9142ef))
 - Generate static imports for types with api-extractor ([98a76db](https://github.com/discordjs/discord.js/commit/98a76db482879f79d6bb2fb2e5fc65ac2c34e2d9))
 
-# [@discordjs/rest@1.7.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.6.0...@discordjs/rest@1.7.0) - (2023-04-01)
+# [@discord.self/rest@1.7.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.6.0...@discord.self/rest@1.7.0) - (2023-04-01)
 
 ## Bug Fixes
 
@@ -166,7 +166,7 @@ in non-node-like environments (CF Workers, etc.)
 
 - **website:** Render syntax and mdx on the server (#9086) ([ee5169e](https://github.com/discordjs/discord.js/commit/ee5169e0aadd7bbfcd752aae614ec0f69602b68b))
 
-# [@discordjs/rest@1.6.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.5.0...@discordjs/rest@1.6.0) - (2023-03-12)
+# [@discord.self/rest@1.6.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.5.0...@discord.self/rest@1.6.0) - (2023-03-12)
 
 ## Bug Fixes
 
@@ -187,13 +187,13 @@ in non-node-like environments (CF Workers, etc.)
 
 - Run prettier (#9041) ([2798ba1](https://github.com/discordjs/discord.js/commit/2798ba1eb3d734f0cf2eeccd2e16cfba6804873b))
 
-# [@discordjs/rest@1.5.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.4.0...@discordjs/rest@1.5.0) - (2022-12-16)
+# [@discord.self/rest@1.5.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.4.0...@discord.self/rest@1.5.0) - (2022-12-16)
 
 ## Features
 
 - **core:** Add support for role connections (#8930) ([3d6fa24](https://github.com/discordjs/discord.js/commit/3d6fa248c07b2278504bbe8bafa17a3294971fd9))
 
-# [@discordjs/rest@1.4.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.3.0...@discordjs/rest@1.4.0) - (2022-11-28)
+# [@discord.self/rest@1.4.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.3.0...@discord.self/rest@1.4.0) - (2022-11-28)
 
 ## Bug Fixes
 
@@ -203,14 +203,14 @@ in non-node-like environments (CF Workers, etc.)
 
 ## Features
 
-- Add `@discordjs/core` (#8736) ([2127b32](https://github.com/discordjs/discord.js/commit/2127b32d26dedeb44ec43d16ec2e2046919f9bb0))
+- Add `@discord.self/core` (#8736) ([2127b32](https://github.com/discordjs/discord.js/commit/2127b32d26dedeb44ec43d16ec2e2046919f9bb0))
 - New select menus (#8793) ([5152abf](https://github.com/discordjs/discord.js/commit/5152abf7285581abf7689e9050fdc56c4abb1e2b))
 
 ## Refactor
 
 - Update `makeURLSearchParams` to accept readonly non-`Record`s (#8868) ([8376e2d](https://github.com/discordjs/discord.js/commit/8376e2dbcd38697ce62615d9a539fd198fbc4713))
 
-# [@discordjs/rest@1.3.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.2.0...@discordjs/rest@1.3.0) - (2022-10-08)
+# [@discord.self/rest@1.3.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.2.0...@discord.self/rest@1.3.0) - (2022-10-08)
 
 ## Bug Fixes
 
@@ -219,10 +219,10 @@ in non-node-like environments (CF Workers, etc.)
 ## Features
 
 - Web-components (#8715) ([0ac3e76](https://github.com/discordjs/discord.js/commit/0ac3e766bd9dbdeb106483fa4bb085d74de346a2))
-- Add `@discordjs/util` (#8591) ([b2ec865](https://github.com/discordjs/discord.js/commit/b2ec865765bf94181473864a627fb63ea8173fd3))
+- Add `@discord.self/util` (#8591) ([b2ec865](https://github.com/discordjs/discord.js/commit/b2ec865765bf94181473864a627fb63ea8173fd3))
 - Add `AbortSignal` support (#8672) ([3c231ae](https://github.com/discordjs/discord.js/commit/3c231ae81a52b66940ba495f35fd59a76c65e306))
 
-# [@discordjs/rest@1.2.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.1.0...@discordjs/rest@1.2.0) - (2022-09-25)
+# [@discord.self/rest@1.2.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.1.0...@discord.self/rest@1.2.0) - (2022-09-25)
 
 ## Bug Fixes
 
@@ -241,7 +241,7 @@ in non-node-like environments (CF Workers, etc.)
 - Website components (#8600) ([c334157](https://github.com/discordjs/discord.js/commit/c3341570d983aea9ecc419979d5a01de658c9d67))
 - Use `eslint-config-neon` for packages. (#8579) ([edadb9f](https://github.com/discordjs/discord.js/commit/edadb9fe5dfd9ff51a3cfc9b25cb242d3f9f5241))
 
-# [@discordjs/rest@1.1.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@1.0.1...@discordjs/rest@1.1.0) - (2022-08-22)
+# [@discord.self/rest@1.1.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@1.0.1...@discord.self/rest@1.1.0) - (2022-08-22)
 
 ## Features
 
@@ -253,7 +253,7 @@ in non-node-like environments (CF Workers, etc.)
 
 - Docs design (#8487) ([4ab1d09](https://github.com/discordjs/discord.js/commit/4ab1d09997a18879a9eb9bda39df6f15aa22557e))
 
-# [@discordjs/rest@0.6.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@0.5.0...@discordjs/rest@0.6.0) - (2022-07-17)
+# [@discord.self/rest@0.6.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@0.5.0...@discord.self/rest@0.6.0) - (2022-07-17)
 
 ## Documentation
 
@@ -276,7 +276,7 @@ in non-node-like environments (CF Workers, etc.)
 - **collection:** Remove default export (#8053) ([16810f3](https://github.com/discordjs/discord.js/commit/16810f3e410bf35ed7e6e7412d517ea74c792c5d))
 - Move all the config files to root (#8033) ([769ea0b](https://github.com/discordjs/discord.js/commit/769ea0bfe78c4f1d413c6b397c604ffe91e39c6a))
 
-# [@discordjs/rest@0.5.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@2.1.0...@discordjs/rest@0.5.0) - (2022-06-04)
+# [@discord.self/rest@0.5.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@2.1.0...@discord.self/rest@0.5.0) - (2022-06-04)
 
 ## Bug Fixes
 
@@ -294,7 +294,7 @@ in non-node-like environments (CF Workers, etc.)
 
 - Cleanup tests and tsup configs ([6b8ef20](https://github.com/discordjs/discord.js/commit/6b8ef20cb3af5b5cfd176dd0aa0a1a1e98551629))
 
-# [@discordjs/rest@0.4.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@0.3.0...@discordjs/rest@0.4.0) - (2022-04-17)
+# [@discord.self/rest@0.4.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@0.3.0...@discord.self/rest@0.4.0) - (2022-04-17)
 
 ## Bug Fixes
 
@@ -322,7 +322,7 @@ in non-node-like environments (CF Workers, etc.)
 - **requestmanager:** Use timestampfrom (#7459) ([3298510](https://github.com/discordjs/discord.js/commit/32985109c3b7614d364007608f8c5af4bed753ae))
 - **files:** Remove redundant file property names (#7340) ([6725038](https://github.com/discordjs/discord.js/commit/67250382f99872a9edff99ebaa482ffa895b0c37))
 
-# [@discordjs/rest@0.3.0](https://github.com/discordjs/discord.js/compare/@discordjs/rest@0.2.0...@discordjs/rest@0.3.0) - (2022-01-24)
+# [@discord.self/rest@0.3.0](https://github.com/discordjs/discord.js/compare/@discord.self/rest@0.2.0...@discord.self/rest@0.3.0) - (2022-01-24)
 
 ## Bug Fixes
 

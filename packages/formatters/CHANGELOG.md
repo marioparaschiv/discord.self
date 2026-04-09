@@ -2,14 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-# [@discordjs/formatters@0.5.0](https://github.com/discordjs/discord.js/compare/@discordjs/formatters@0.4.0...@discordjs/formatters@0.5.0) - (2024-09-01)
+# [@discord.self/formatters@0.5.0](https://github.com/discordjs/discord.js/compare/@discord.self/formatters@0.4.0...@discord.self/formatters@0.5.0) - (2024-09-01)
 
 ## Features
 
 - Add subtext formatter (#10400) ([fcd35ea](https://github.com/discordjs/discord.js/commit/fcd35ea2e72b3268729466e4cd85b2794bb3394b))
 - Premium buttons (#10353) ([4f59b74](https://github.com/discordjs/discord.js/commit/4f59b740d01b9ff2213949708a36e17da32b89c3))
 
-# [@discordjs/formatters@0.4.0](https://github.com/discordjs/discord.js/compare/@discordjs/formatters@0.3.3...@discordjs/formatters@0.4.0) - (2024-05-04)
+# [@discord.self/formatters@0.4.0](https://github.com/discordjs/discord.js/compare/@discord.self/formatters@0.3.3...@discord.self/formatters@0.4.0) - (2024-05-04)
 
 ## Bug Fixes
 
@@ -31,7 +31,7 @@ All notable changes to this project will be documented in this file.
 - Docs (#10126) ([18cce83](https://github.com/discordjs/discord.js/commit/18cce83d80598c430218775c53441b6b2ecdc776))
 - **formatters:** Add support for object and name param in `formatEmoji()` (#10076) ([7b8e0de](https://github.com/discordjs/discord.js/commit/7b8e0debebb944184b5817edd76cb0ac7e870993))
 
-# [@discordjs/formatters@0.3.3](https://github.com/discordjs/discord.js/compare/@discordjs/formatters@0.3.2...@discordjs/formatters@0.3.3) - (2023-11-12)
+# [@discord.self/formatters@0.3.3](https://github.com/discordjs/discord.js/compare/@discord.self/formatters@0.3.2...@discord.self/formatters@0.3.3) - (2023-11-12)
 
 ## Documentation
 
@@ -43,27 +43,27 @@ All notable changes to this project will be documented in this file.
 - **formatters:** Add guild navigation mentions (#9436) ([566d5e2](https://github.com/discordjs/discord.js/commit/566d5e2c8145b2dfe94415f30cab6f6712f2cf95))
 - Add new markdown formatters (#9613) ([0d787e9](https://github.com/discordjs/discord.js/commit/0d787e9f797b53974a49f56727acb6318cd8d650))
 
-# [@discordjs/formatters@0.3.2](https://github.com/discordjs/discord.js/compare/@discordjs/formatters@0.3.1...@discordjs/formatters@0.3.2) - (2023-08-17)
+# [@discord.self/formatters@0.3.2](https://github.com/discordjs/discord.js/compare/@discord.self/formatters@0.3.1...@discord.self/formatters@0.3.2) - (2023-08-17)
 
 ## Documentation
 
 - Update Node.js requirement to 16.11.0 (#9764) ([188877c](https://github.com/discordjs/discord.js/commit/188877c50af70f0d5cffb246620fa277435c6ce6))
 
-# [@discordjs/formatters@0.3.1](https://github.com/discordjs/discord.js/compare/@discordjs/formatters@0.3.0...@discordjs/formatters@0.3.1) - (2023-05-01)
+# [@discord.self/formatters@0.3.1](https://github.com/discordjs/discord.js/compare/@discord.self/formatters@0.3.0...@discord.self/formatters@0.3.1) - (2023-05-01)
 
 ## Documentation
 
 - Generate static imports for types with api-extractor ([98a76db](https://github.com/discordjs/discord.js/commit/98a76db482879f79d6bb2fb2e5fc65ac2c34e2d9))
 - **formatters:** Enhance the documentation (#9364) ([23e0ac5](https://github.com/discordjs/discord.js/commit/23e0ac56f456c39d925e2644ec3ca209d4410a99))
 
-# [@discordjs/formatters@0.3.1](https://github.com/discordjs/discord.js/compare/@discordjs/formatters@0.3.0...@discordjs/formatters@0.3.1) - (2023-05-01)
+# [@discord.self/formatters@0.3.1](https://github.com/discordjs/discord.js/compare/@discord.self/formatters@0.3.0...@discord.self/formatters@0.3.1) - (2023-05-01)
 
 ## Documentation
 
 - Generate static imports for types with api-extractor ([98a76db](https://github.com/discordjs/discord.js/commit/98a76db482879f79d6bb2fb2e5fc65ac2c34e2d9))
 - **formatters:** Enhance the documentation (#9364) ([23e0ac5](https://github.com/discordjs/discord.js/commit/23e0ac56f456c39d925e2644ec3ca209d4410a99))
 
-# [@discordjs/formatters@0.3.0](https://github.com/discordjs/discord.js/compare/@discordjs/formatters@0.2.0...@discordjs/formatters@0.3.0) - (2023-04-01)
+# [@discord.self/formatters@0.3.0](https://github.com/discordjs/discord.js/compare/@discord.self/formatters@0.2.0...@discord.self/formatters@0.3.0) - (2023-04-01)
 
 ## Bug Fixes
 
@@ -73,7 +73,7 @@ All notable changes to this project will be documented in this file.
 
 - **website:** Render syntax and mdx on the server (#9086) ([ee5169e](https://github.com/discordjs/discord.js/commit/ee5169e0aadd7bbfcd752aae614ec0f69602b68b))
 
-# [@discordjs/formatters@0.2.0](https://github.com/discordjs/discord.js/compare/@discordjs/formatters@0.1.0...@discordjs/formatters@0.2.0) - (2023-03-12)
+# [@discord.self/formatters@0.2.0](https://github.com/discordjs/discord.js/compare/@discord.self/formatters@0.1.0...@discord.self/formatters@0.2.0) - (2023-03-12)
 
 ## Features
 
@@ -88,9 +88,9 @@ All notable changes to this project will be documented in this file.
 
 - Run prettier (#9041) ([2798ba1](https://github.com/discordjs/discord.js/commit/2798ba1eb3d734f0cf2eeccd2e16cfba6804873b))
 
-# [@discordjs/formatters@0.1.0](https://github.com/discordjs/discord.js/tree/@discordjs/formatters@0.1.0) - (2022-12-16)
+# [@discord.self/formatters@0.1.0](https://github.com/discordjs/discord.js/tree/@discord.self/formatters@0.1.0) - (2022-12-16)
 
 ## Features
 
-- Add `@discordjs/formatters` (#8889) ([3fca638](https://github.com/discordjs/discord.js/commit/3fca638a8470dcea2f79ddb9f18526dbc0017c88))
+- Add `@discord.self/formatters` (#8889) ([3fca638](https://github.com/discordjs/discord.js/commit/3fca638a8470dcea2f79ddb9f18526dbc0017c88))
 

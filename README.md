@@ -28,13 +28,13 @@ This repository is a patched, user-account-focused fork of `discord.js`. The wor
 
 - `create-discord-bot` ([source][create-discord-bot-source]) - The existing scaffolder package that can be adapted into a selfbot starter later
 - `discord.js` ([source][source]) - The main client package being adapted for user-account sessions
-- `@discordjs/collection` ([source][collection-source]) - A utility data structure used by the runtime
-- `@discordjs/core` ([source][core-source]) - A low-level convenience layer over REST and gateway
-- `@discordjs/formatters` ([source][formatters-source]) - Shared string formatting helpers
-- `@discordjs/rest` ([source][rest-source]) - The REST transport layer
-- `@discordjs/util` ([source][util-source]) - Shared utility helpers
-- `@discordjs/voice` ([source][voice-source]) - Voice support kept in-tree for later compatibility work
-- `@discordjs/ws` ([source][ws-source]) - The gateway transport layer
+- `@discord.self/collection` ([source][collection-source]) - A utility data structure used by the runtime
+- `@discord.self/core` ([source][core-source]) - A low-level convenience layer over REST and gateway
+- `@discord.self/formatters` ([source][formatters-source]) - Shared string formatting helpers
+- `@discord.self/rest` ([source][rest-source]) - The REST transport layer
+- `@discord.self/util` ([source][util-source]) - Shared utility helpers
+- `@discord.self/voice` ([source][voice-source]) - Voice support kept in-tree for later compatibility work
+- `@discord.self/ws` ([source][ws-source]) - The gateway transport layer
 
 ## Links
 

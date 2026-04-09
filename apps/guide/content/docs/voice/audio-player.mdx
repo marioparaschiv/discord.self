@@ -11,7 +11,7 @@ Audio players can be used to play audio across voice connections. A single audio
 Creating an audio player is simple:
 
 ```js
-const { createAudioPlayer } = require('@discordjs/voice');
+const { createAudioPlayer } = require('@discord.self/voice');
 
 const player = createAudioPlayer();
 ```
@@ -19,7 +19,7 @@ const player = createAudioPlayer();
 You can also customize the behaviors of an audio player. For example, the default behavior is to pause when there are no active subscribers for an audio player. This behavior can be configured to either pause, stop, or just continue playing through the stream:
 
 ```js
-const { createAudioPlayer, NoSubscriberBehavior } = require('@discordjs/voice');
+const { createAudioPlayer, NoSubscriberBehavior } = require('@discord.self/voice');
 
 const player = createAudioPlayer({
 	behaviors: {
@@ -80,7 +80,7 @@ Voice connections have their own life cycle, with five distinct states. You can 
 - **Paused** - the state a voice connection enters when it is paused by the user.
 
 ```js
-const { AudioPlayerStatus } = require('@discordjs/voice');
+const { AudioPlayerStatus } = require('@discord.self/voice');
 
 player.on(AudioPlayerStatus.Playing, () => {
 	console.log('The audio player has started playing!');
@@ -102,7 +102,7 @@ Two different examples of how you may handle errors are shown below.
 In this example, the audio player will only move on to playing the next audio resource if an error has occurred. If playback ends gracefully, nothing will happen. This example avoids a transition into the Idle state.
 
 ```js
-const { createAudioResource } = require('@discordjs/voice');
+const { createAudioResource } = require('@discord.self/voice');
 
 const resource = createAudioResource('/home/user/voice/music.mp3', {
 	metadata: {
@@ -123,7 +123,7 @@ player.on('error', (error) => {
 In this example, the error event is used only for logging purposes. The audio player will naturally transition into the `Idle` state, and then another resource is played. This has the advantage of working with streams that come to an end gracefully, and those that are interrupted by errors.
 
 ```js
-const { createAudioResource } = require('@discordjs/voice');
+const { createAudioResource } = require('@discord.self/voice');
 
 const resource = createAudioResource('/home/user/voice/music.mp3', {
 	metadata: {

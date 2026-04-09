@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-# [@discordjs/util@1.1.1](https://github.com/discordjs/discord.js/compare/@discordjs/util@1.1.0...@discordjs/util@1.1.1) - (2024-09-01)
+# [@discord.self/util@1.1.1](https://github.com/discordjs/discord.js/compare/@discord.self/util@1.1.0...@discord.self/util@1.1.1) - (2024-09-01)
 
-# [@discordjs/util@1.1.0](https://github.com/discordjs/discord.js/compare/@discordjs/util@1.0.2...@discordjs/util@1.1.0) - (2024-05-04)
+# [@discord.self/util@1.1.0](https://github.com/discordjs/discord.js/compare/@discord.self/util@1.0.2...@discord.self/util@1.1.0) - (2024-05-04)
 
 ## Bug Fixes
 
@@ -24,19 +24,19 @@ All notable changes to this project will be documented in this file.
 
 - Docs (#10126) ([18cce83](https://github.com/discordjs/discord.js/commit/18cce83d80598c430218775c53441b6b2ecdc776))
 
-# [@discordjs/util@1.0.2](https://github.com/discordjs/discord.js/compare/@discordjs/util@1.0.1...@discordjs/util@1.0.2) - (2023-11-12)
+# [@discord.self/util@1.0.2](https://github.com/discordjs/discord.js/compare/@discord.self/util@1.0.1...@discord.self/util@1.0.2) - (2023-11-12)
 
 ## Documentation
 
 - **create-discord-bot:** Support bun in create-discord-bot (#9798) ([7157748](https://github.com/discordjs/discord.js/commit/7157748fe3a69265896adf0450cd3f37acbcf97b))
 
-# [@discordjs/util@1.0.1](https://github.com/discordjs/discord.js/compare/@discordjs/util@1.0.0...@discordjs/util@1.0.1) - (2023-08-17)
+# [@discord.self/util@1.0.1](https://github.com/discordjs/discord.js/compare/@discord.self/util@1.0.0...@discord.self/util@1.0.1) - (2023-08-17)
 
 ## Documentation
 
 - Update Node.js requirement to 16.11.0 (#9764) ([188877c](https://github.com/discordjs/discord.js/commit/188877c50af70f0d5cffb246620fa277435c6ce6))
 
-# [@discordjs/util@1.0.0](https://github.com/discordjs/discord.js/compare/@discordjs/util@0.3.1...@discordjs/util@1.0.0) - (2023-07-31)
+# [@discord.self/util@1.0.0](https://github.com/discordjs/discord.js/compare/@discord.self/util@0.3.1...@discord.self/util@1.0.0) - (2023-07-31)
 
 ## Features
 
@@ -46,19 +46,19 @@ from `@vladfrangu/async_event_emitter`, which aids in cross-compatibility
 between Node, Deno, Bun, CF Workers, Vercel Functions, etc.
   - **BREAKING CHANGE:** DefaultUserAgentAppendix has been adapted to support multiple
 different platforms (previously mentioned Deno, Bun, CF Workers, etc)
-  - **BREAKING CHANGE:** the entry point for `@discordjs/rest` will now differ
+  - **BREAKING CHANGE:** the entry point for `@discord.self/rest` will now differ
 in non-node-like environments (CF Workers, etc.)
   - **Co-authored-by:** Suneet Tipirneni <77477100+suneettipirneni@users.noreply.github.com>
   - **Co-authored-by:** Jiralite <33201955+Jiralite@users.noreply.github.com>
   - **Co-authored-by:** suneettipirneni <suneettipirneni@icloud.com>
 
-# [@discordjs/util@0.3.1](https://github.com/discordjs/discord.js/compare/@discordjs/util@0.3.0...@discordjs/util@0.3.1) - (2023-05-01)
+# [@discord.self/util@0.3.1](https://github.com/discordjs/discord.js/compare/@discord.self/util@0.3.0...@discord.self/util@0.3.1) - (2023-05-01)
 
 ## Refactor
 
 - **ShardClientUtil:** Logic de-duplication (#9491) ([a9f2bff](https://github.com/discordjs/discord.js/commit/a9f2bff82a18c6a3afdee99e5830e1d7b4da65dc))
 
-# [@discordjs/util@0.3.0](https://github.com/discordjs/discord.js/compare/@discordjs/util@0.2.0...@discordjs/util@0.3.0) - (2023-05-01)
+# [@discord.self/util@0.3.0](https://github.com/discordjs/discord.js/compare/@discord.self/util@0.2.0...@discord.self/util@0.3.0) - (2023-05-01)
 
 ## Bug Fixes
 
@@ -73,7 +73,7 @@ in non-node-like environments (CF Workers, etc.)
 
 - **website:** Render syntax and mdx on the server (#9086) ([ee5169e](https://github.com/discordjs/discord.js/commit/ee5169e0aadd7bbfcd752aae614ec0f69602b68b))
 
-# [@discordjs/util@0.2.0](https://github.com/discordjs/discord.js/compare/@discordjs/util@0.1.0...@discordjs/util@0.2.0) - (2023-03-12)
+# [@discord.self/util@0.2.0](https://github.com/discordjs/discord.js/compare/@discord.self/util@0.1.0...@discord.self/util@0.2.0) - (2023-03-12)
 
 ## Bug Fixes
 
@@ -85,8 +85,8 @@ in non-node-like environments (CF Workers, etc.)
 - **core:** Implement some ws send events (#8941) ([816aed4](https://github.com/discordjs/discord.js/commit/816aed478e3035060697092d52ad2b58106be0ee))
 - Web-components (#8715) ([0ac3e76](https://github.com/discordjs/discord.js/commit/0ac3e766bd9dbdeb106483fa4bb085d74de346a2))
 
-# [@discordjs/util@0.1.0](https://github.com/discordjs/discord.js/tree/@discordjs/util@0.1.0) - (2022-10-03)
+# [@discord.self/util@0.1.0](https://github.com/discordjs/discord.js/tree/@discord.self/util@0.1.0) - (2022-10-03)
 
 ## Features
 
-- Add `@discordjs/util` (#8591) ([b2ec865](https://github.com/discordjs/discord.js/commit/b2ec865765bf94181473864a627fb63ea8173fd3))
+- Add `@discord.self/util` (#8591) ([b2ec865](https://github.com/discordjs/discord.js/commit/b2ec865765bf94181473864a627fb63ea8173fd3))

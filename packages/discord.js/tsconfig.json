@@ -9,11 +9,10 @@
     "skipDefaultLibCheck": true,
 
     "types": [
-      "@discordjs/builders",
-      "@discordjs/util",
-      "@discordjs/collection",
-      "@discordjs/rest",
-      "@discordjs/ws",
+      "@discord.self/util",
+      "@discord.self/collection",
+      "@discord.self/rest",
+      "@discord.self/ws",
       "discord-api-types/v10",
       "node",
       "tsd",

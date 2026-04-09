@@ -7,7 +7,6 @@ packages:
   - packages/api-extractor-utils
   - packages/collection
   - packages/core
-  - packages/create-discord-bot
   - packages/discord.js
   - packages/docgen
   - packages/formatters
@@ -16,7 +15,6 @@ packages:
   - packages/util
   - packages/voice
   - packages/ws
-  - packages/create-discord-bot/template/**/*
 
 allowBuilds:
   '@discordjs/opus': true

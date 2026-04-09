@@ -26,7 +26,6 @@ This repository is a patched, user-account-focused fork of `discord.js`. The wor
 
 ## Packages
 
-- `create-discord-bot` ([source][create-discord-bot-source]) - The existing scaffolder package that can be adapted into a selfbot starter later
 - `discord.js` ([source][source]) - The main client package being adapted for user-account sessions
 - `@discord.self/collection` ([source][collection-source]) - A utility data structure used by the runtime
 - `@discord.self/core` ([source][core-source]) - A low-level convenience layer over REST and gateway
@@ -62,7 +61,6 @@ If you need API reference, inspect the package sources directly while the public
 [contributing]: https://github.com/marioparaschiv/discord.self/blob/main/.github/CONTRIBUTING.md
 [collection-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/collection
 [core-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/core
-[create-discord-bot-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/create-discord-bot
 [formatters-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/formatters
 [rest-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/rest
 [util-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/util

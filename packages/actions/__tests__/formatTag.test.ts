@@ -41,11 +41,6 @@ describe('Format Tag', () => {
 			package: '@discord.self/discord.js',
 			semver: '13.7.0',
 		});
-		expect(formatTag('@discord.self/create-discord-bot@1.0.0')).toEqual({
-			isSubpackage: true,
-			package: 'create-discord-bot',
-			semver: '1.0.0',
-		});
 	});
 
 	test('GIVEN no or invalid tag THEN return null', () => {

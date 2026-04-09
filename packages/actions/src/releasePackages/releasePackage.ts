@@ -84,13 +84,5 @@ export async function releasePackage(release: ReleaseEntry, dry: boolean, devTag
 			.then(() => {});
 	}
 
-	// Evil, but I can't think of a cleaner mechanism
-	if (release.name === '@discord.self/create-discord-bot') {
-		await $`pnpm --filter=@discord.self/create-discord-bot run rename-to-app`;
-		// eslint-disable-next-line require-atomic-updates
-		release.name = 'create-discord-app';
-		await releasePackage(release, dry, devTag, false);
-	}
-
 	return true;
 }

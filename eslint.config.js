@@ -121,7 +121,7 @@ export default defineConfig(
 		rules: { 'jsdoc/no-undefined-types': 0 },
 	},
 	{
-		files: [`packages/{api-extractor,brokers,create-discord-bot,docgen,ws}/**/*${commonFiles}`],
+		files: [`packages/{api-extractor,brokers,docgen,ws}/**/*${commonFiles}`],
 		rules: { 'n/no-sync': 0 },
 	},
 	{

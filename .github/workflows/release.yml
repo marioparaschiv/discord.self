@@ -15,7 +15,6 @@ on:
           - '@discord.self/discord.js'
           - '@discord.self/collection'
           - '@discord.self/core'
-          - '@discord.self/create-discord-bot'
           # - '@discord.self/docgen'
           - '@discord.self/formatters'
           - '@discord.self/rest'

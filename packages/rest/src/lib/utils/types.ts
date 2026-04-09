@@ -39,6 +39,14 @@ export interface RESTOptions {
 	 */
 	authPrefix: '' | 'Bearer' | 'Bot';
 	/**
+	 * Browser-style metadata to generate for requests in self-account mode.
+	 *
+	 * This remains opt-in so existing bot-style behavior is unchanged by default.
+	 *
+	 * @defaultValue `null`
+	 */
+	browser: RESTBrowserMetadata | null;
+	/**
 	 * The cdn path
 	 *
 	 * @defaultValue `'https://cdn.discordapp.com'`
@@ -280,6 +288,28 @@ export interface InvalidRequestWarningData {
 
 export type { RawFile } from '@discord.self/util';
 
+export interface RESTBuildMetadata {
+	clientBuildNumber?: number;
+	hostVersion?: string;
+	nativeBuildNumber?: number;
+}
+
+export interface RESTBrowserMetadata {
+	acceptLanguage?: string;
+	browser?: string;
+	browserVersion?: string;
+	buildMetadata?: RESTBuildMetadata;
+	isMobile?: boolean;
+	locale?: string;
+	os?: string;
+	osVersion?: string;
+	releaseChannel?: string;
+	secChUa?: string;
+	superProperties?: Record<string, unknown> | false;
+	timezone?: string;
+	userAgent?: string;
+}
+
 export interface AuthData {
 	/**
 	 * The authorization prefix to use for this request, useful if you use this with bearer tokens
@@ -355,9 +385,16 @@ export interface RequestData {
  * Possible headers for an API call
  */
 export interface RequestHeaders {
+	'Accept-Language'?: string;
 	Authorization?: string;
-	'User-Agent': string;
+	'Sec-CH-UA'?: string;
+	'Sec-CH-UA-Mobile'?: '?0' | '?1';
+	'Sec-CH-UA-Platform'?: string;
+	'User-Agent'?: string;
 	'X-Audit-Log-Reason'?: string;
+	'X-Discord-Locale'?: string;
+	'X-Discord-Timezone'?: string;
+	'X-Super-Properties'?: string;
 }
 
 /**

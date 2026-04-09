@@ -13,6 +13,17 @@ const newSnowflake: Snowflake = DiscordSnowflake.generate().toString();
 
 const api = new REST().setToken('A-Very-Fake-Token');
 const rawTokenApi = new REST({ authPrefix: '' }).setToken('A-Very-Fake-Token');
+const browserMetadataApi = new REST({
+	browser: {
+		buildMetadata: {
+			clientBuildNumber: 123_456,
+			hostVersion: '1.0.9000',
+			nativeBuildNumber: 444,
+		},
+		locale: 'en-GB',
+		timezone: 'Europe/London',
+	},
+}).setToken('A-Very-Fake-Token');
 
 const makeRequestMock = vitest.fn(fetch);
 
@@ -37,6 +48,7 @@ beforeEach(() => {
 	mockPool = mockAgent.get('https://discord.com');
 	api.setAgent(mockAgent);
 	rawTokenApi.setAgent(mockAgent);
+	browserMetadataApi.setAgent(mockAgent);
 	fetchApi.setAgent(mockAgent);
 });
 
@@ -133,6 +145,62 @@ test('simple POST with fetch', async () => {
 
 	expect(await fetchApi.post('/fetchSimplePost')).toStrictEqual({ test: true });
 	expect(makeRequestMock).toHaveBeenCalledTimes(1);
+});
+
+test('per-request user-agent headers override the default rest user-agent', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/userAgentOverride'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
+
+	expect(
+		await api.get('/userAgentOverride', {
+			headers: {
+				'user-agent': 'Mozilla/5.0 cloaked',
+			},
+		}),
+	).toStrictEqual({ userAgent: 'Mozilla/5.0 cloaked' });
+});
+
+test('rest options user-agent headers override the generated default', async () => {
+	const customUserAgentApi = new REST({
+		headers: {
+			'user-agent': 'Custom Rest Header',
+		},
+	}).setToken('A-Very-Fake-Token');
+
+	customUserAgentApi.setAgent(mockAgent);
+
+	mockPool
+		.intercept({
+			path: genPath('/restHeaderUserAgent'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
+
+	expect(await customUserAgentApi.get('/restHeaderUserAgent')).toStrictEqual({
+		userAgent: 'Custom Rest Header',
+	});
 });
 
 test('simple PUT 2', async () => {
@@ -239,6 +307,103 @@ test('getAuth with raw token auth prefix', async () => {
 			auth: { token: 'A-Very-Different-Fake-Token', prefix: '' },
 		}),
 	).toStrictEqual({ auth: 'A-Very-Different-Fake-Token' });
+});
+
+test('browser metadata adds Discord client headers', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/browserMetadataHeaders'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				acceptLanguage:
+					(from.headers as unknown as Record<string, string | undefined>)['accept-language'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['Accept-Language'] ??
+					null,
+				locale:
+					(from.headers as unknown as Record<string, string | undefined>)['x-discord-locale'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Discord-Locale'] ??
+					null,
+				secChUa:
+					(from.headers as unknown as Record<string, string | undefined>)['sec-ch-ua'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['Sec-CH-UA'] ??
+					null,
+				superProperties:
+					(from.headers as unknown as Record<string, string | undefined>)['x-super-properties'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Super-Properties'] ??
+					null,
+				timezone:
+					(from.headers as unknown as Record<string, string | undefined>)['x-discord-timezone'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Discord-Timezone'] ??
+					null,
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
+
+	const response = (await browserMetadataApi.get('/browserMetadataHeaders')) as {
+		acceptLanguage: string;
+		locale: string;
+		secChUa: string;
+		superProperties: string;
+		timezone: string;
+		userAgent: string;
+	};
+
+	expect(response.acceptLanguage).toBe('en-GB,en-US;q=0.9,en;q=0.8');
+	expect(response.locale).toBe('en-GB');
+	expect(response.secChUa).toContain('"Chromium"');
+	expect(response.timezone).toBe('Europe/London');
+	expect(response.userAgent).toContain('Mozilla/5.0');
+
+	expect(JSON.parse(Buffer.from(response.superProperties, 'base64').toString('utf8'))).toMatchObject({
+		browser: 'Chrome',
+		client_build_number: 123_456,
+		host_version: '1.0.9000',
+		native_build_number: 444,
+		os: 'Windows',
+		release_channel: 'stable',
+		system_locale: 'en-GB',
+	});
+});
+
+test('per-request headers override generated browser metadata headers', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/browserMetadataOverride'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				timezone:
+					(from.headers as unknown as Record<string, string | undefined>)['x-discord-timezone'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Discord-Timezone'] ??
+					null,
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
+
+	expect(
+		await browserMetadataApi.get('/browserMetadataOverride', {
+			headers: {
+				'User-Agent': 'Mozilla/5.0 custom',
+				'X-Discord-Timezone': 'America/New_York',
+			},
+		}),
+	).toStrictEqual({
+		timezone: 'America/New_York',
+		userAgent: 'Mozilla/5.0 custom',
+	});
 });
 
 test('getReason', async () => {

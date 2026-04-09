@@ -8,6 +8,7 @@ import { CDN } from './CDN.js';
 import { BurstHandler } from './handlers/BurstHandler.js';
 import { SequentialHandler } from './handlers/SequentialHandler.js';
 import type { IHandler } from './interfaces/Handler.js';
+import { createBrowserMetadataHeaders } from './utils/browserMetadata.js';
 import {
 	AUTH_UUID_NAMESPACE,
 	BurstHandlerMajorIdKey,
@@ -238,6 +239,11 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		return prefix ? `${prefix} ${token}` : token;
 	}
 
+	private hasHeader(headers: Record<string, string>, name: string) {
+		const lowerCaseName = name.toLowerCase();
+		return Object.keys(headers).some((key) => key.toLowerCase() === lowerCaseName);
+	}
+
 	/**
 	 * Queues a request to be sent
 	 *
@@ -298,6 +304,7 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 	 */
 	private async resolveRequest(request: InternalRequest): Promise<{ fetchOptions: RequestInit; url: string }> {
 		const { options } = this;
+		const requestHeaders = request.headers ?? {};
 
 		let query = '';
 
@@ -312,8 +319,20 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		// Create the required headers
 		const headers: RequestHeaders = {
 			...this.options.headers,
-			'User-Agent': `${DefaultUserAgent} ${options.userAgentAppendix}`.trim(),
 		};
+
+		const generatedHeaders =
+			options.browser === null
+				? ({
+						'User-Agent': `${DefaultUserAgent} ${options.userAgentAppendix}`.trim(),
+					} as const satisfies RequestHeaders)
+				: createBrowserMetadataHeaders(options.browser);
+
+		for (const [name, value] of Object.entries(generatedHeaders)) {
+			if (!this.hasHeader(headers as Record<string, string>, name) && !this.hasHeader(requestHeaders, name)) {
+				headers[name as keyof RequestHeaders] = value as never;
+			}
+		}
 
 		// If this request requires authorization (allowing non-"authorized" requests for webhooks)
 		if (request.auth !== false) {
@@ -410,7 +429,7 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		const fetchOptions: RequestInit = {
 			// Set body to null on get / head requests. This does not follow fetch spec (likely because it causes subtle bugs) but is aligned with what request was doing
 			body: ['GET', 'HEAD'].includes(method) ? null : finalBody!,
-			headers: { ...request.headers, ...additionalHeaders, ...headers } as Record<string, string>,
+			headers: { ...additionalHeaders, ...headers, ...requestHeaders } as Record<string, string>,
 			method,
 			// Prioritize setting an agent per request, use the agent for this instance otherwise.
 			dispatcher: request.dispatcher ?? this.agent ?? undefined!,

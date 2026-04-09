@@ -18,6 +18,7 @@ export const DefaultRestOptions = {
 	agent: null,
 	api: 'https://discord.com/api',
 	authPrefix: 'Bot',
+	browser: null,
 	cdn: 'https://cdn.discordapp.com',
 	headers: {},
 	invalidRequestWarningInterval: 0,

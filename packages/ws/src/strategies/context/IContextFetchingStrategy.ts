@@ -8,7 +8,19 @@ import type {
 
 export interface FetchingStrategyOptions extends Pick<
 	WebSocketManagerOptions,
-	'compression' | 'encoding' | 'handshakeTimeout' | 'helloTimeout' | 'identifyProperties' | 'identity' | 'initialPresence' | 'intents' | 'largeThreshold' | 'readyTimeout' | 'token' | 'useIdentifyCompression' | 'version'
+	| 'compression'
+	| 'encoding'
+	| 'handshakeTimeout'
+	| 'helloTimeout'
+	| 'identifyProperties'
+	| 'identity'
+	| 'initialPresence'
+	| 'intents'
+	| 'largeThreshold'
+	| 'readyTimeout'
+	| 'token'
+	| 'useIdentifyCompression'
+	| 'version'
 > {
 	readonly gatewayInformation: GatewayInformation;
 	readonly shardCount: number;

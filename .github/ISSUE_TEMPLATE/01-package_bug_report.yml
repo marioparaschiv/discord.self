@@ -15,6 +15,7 @@ body:
       options:
         - discord.js
         - collection
+        - core
         - formatters
         - rest
         - util

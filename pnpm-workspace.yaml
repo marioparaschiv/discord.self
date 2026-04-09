@@ -4,6 +4,7 @@ packages:
   - packages/api-extractor-model
   - packages/api-extractor-utils
   - packages/collection
+  - packages/core
   - packages/discord.js
   - packages/docgen
   - packages/formatters

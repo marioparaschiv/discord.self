@@ -28,6 +28,7 @@ This repository is a patched, user-account-focused fork of `discord.js`. The wor
 
 - `discord.js` ([source][source]) - The main client package being adapted for user-account sessions
 - `@discordjs/collection` ([source][collection-source]) - A utility data structure used by the runtime
+- `@discordjs/core` ([source][core-source]) - A low-level convenience layer over REST and gateway
 - `@discordjs/formatters` ([source][formatters-source]) - Shared string formatting helpers
 - `@discordjs/rest` ([source][rest-source]) - The REST transport layer
 - `@discordjs/util` ([source][util-source]) - Shared utility helpers
@@ -54,6 +55,7 @@ If you need API reference, inspect the package sources directly while the public
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [contributing]: https://github.com/marioparaschiv/discord.self/blob/main/.github/CONTRIBUTING.md
 [collection-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/collection
+[core-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/core
 [formatters-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/formatters
 [rest-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/rest
 [util-source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/util

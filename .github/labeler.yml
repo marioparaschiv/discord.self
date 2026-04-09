@@ -13,6 +13,11 @@ packages:collection:
       - any-glob-to-any-file:
           - packages/collection/*
           - packages/collection/**/*
+packages:core:
+  - changed-files:
+      - any-glob-to-any-file:
+          - packages/core/*
+          - packages/core/**/*
 packages:discord.js:
   - changed-files:
       - any-glob-to-any-file:

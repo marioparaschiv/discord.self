@@ -13,6 +13,7 @@ export interface FetchingStrategyOptions extends Pick<
 	| 'handshakeTimeout'
 	| 'helloTimeout'
 	| 'identifyProperties'
+	| 'identity'
 	| 'initialPresence'
 	| 'intents'
 	| 'largeThreshold'
@@ -46,6 +47,7 @@ export async function managerToFetchingStrategyOptions(manager: WebSocketManager
 		encoding: manager.options.encoding,
 		handshakeTimeout: manager.options.handshakeTimeout,
 		helloTimeout: manager.options.helloTimeout,
+		identity: manager.options.identity,
 		identifyProperties: manager.options.identifyProperties,
 		initialPresence: manager.options.initialPresence,
 		intents: manager.options.intents,

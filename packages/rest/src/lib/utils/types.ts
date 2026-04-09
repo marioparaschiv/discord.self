@@ -1,6 +1,7 @@
 import type { Readable } from 'node:stream';
 import type { ReadableStream } from 'node:stream/web';
 import type { Collection } from '@discord.self/collection';
+import type { DiscordIdentity } from '@discord.self/identity';
 import type { Awaitable, RawFile } from '@discord.self/util';
 import type { Agent, Dispatcher, RequestInit, BodyInit, Response } from 'undici';
 import type { IHandler } from '../interfaces/Handler.js';
@@ -32,12 +33,13 @@ export interface RESTOptions {
 	 */
 	api: string;
 	/**
-	 * The authorization prefix to use for requests, useful if you want to use
-	 * bearer tokens
+	 * Browser-style metadata to generate for requests in self-account mode.
 	 *
-	 * @defaultValue `'Bot'`
+	 * Set this to `null` to disable the generated browser metadata headers.
+	 *
+	 * @defaultValue `{}`
 	 */
-	authPrefix: '' | 'Bearer' | 'Bot';
+	browser: RESTBrowserMetadata | null;
 	/**
 	 * The cdn path
 	 *
@@ -74,6 +76,14 @@ export interface RESTOptions {
 	 * @defaultValue `{}`
 	 */
 	headers: Record<string, string>;
+	/**
+	 * Shared Discord identity used to generate cloaked request headers.
+	 *
+	 * When provided, this takes precedence over the `browser` metadata option.
+	 *
+	 * @defaultValue `null`
+	 */
+	identity: DiscordIdentity | null;
 	/**
 	 * The number of invalid REST requests (those that return 401, 403, or 429) in a 10 minute window between emitted warnings (0 for no warnings).
 	 * That is, if set to 500, warnings will be emitted at invalid request number 500, 1000, 1500, and so on.
@@ -280,13 +290,33 @@ export interface InvalidRequestWarningData {
 
 export type { RawFile } from '@discord.self/util';
 
+export interface RESTBuildMetadata {
+	clientBuildNumber?: number;
+	hostVersion?: string;
+	nativeBuildNumber?: number;
+}
+
+export interface RESTBrowserMetadata {
+	acceptLanguage?: string;
+	browser?: string;
+	browserVersion?: string;
+	buildMetadata?: RESTBuildMetadata;
+	isMobile?: boolean;
+	locale?: string;
+	os?: string;
+	osVersion?: string;
+	preset?: string;
+	probeUrl?: string;
+	releaseChannel?: string;
+	secChUa?: string;
+	secChUaMobile?: '?0' | '?1';
+	secChUaPlatform?: string;
+	superProperties?: Record<string, unknown> | false;
+	timezone?: string;
+	userAgent?: string;
+}
+
 export interface AuthData {
-	/**
-	 * The authorization prefix to use for this request, useful if you use this with bearer tokens
-	 *
-	 * @defaultValue `REST.options.authPrefix`
-	 */
-	prefix?: '' | 'Bearer' | 'Bot';
 	/**
 	 * The authorization token to use for this request
 	 */
@@ -355,9 +385,16 @@ export interface RequestData {
  * Possible headers for an API call
  */
 export interface RequestHeaders {
+	'Accept-Language'?: string;
 	Authorization?: string;
-	'User-Agent': string;
+	'Sec-CH-UA'?: string;
+	'Sec-CH-UA-Mobile'?: '?0' | '?1';
+	'Sec-CH-UA-Platform'?: string;
+	'User-Agent'?: string;
 	'X-Audit-Log-Reason'?: string;
+	'X-Discord-Locale'?: string;
+	'X-Discord-Timezone'?: string;
+	'X-Super-Properties'?: string;
 }
 
 /**

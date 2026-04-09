@@ -1,4 +1,5 @@
 import type { Collection } from '@discord.self/collection';
+import type { DiscordIdentity } from '@discord.self/identity';
 import { range, type Awaitable } from '@discord.self/util';
 import { AsyncEventEmitter } from '@vladfrangu/async_event_emitter';
 import type {
@@ -134,6 +135,12 @@ export interface OptionalWebSocketManagerOptions {
 	 * Properties to send to the gateway when identifying
 	 */
 	identifyProperties: GatewayIdentifyProperties;
+	/**
+	 * Shared Discord identity used to derive gateway identify properties.
+	 *
+	 * @defaultValue `null`
+	 */
+	identity: DiscordIdentity | null;
 	/**
 	 * Initial presence data to send to the gateway when identifying
 	 */
@@ -388,6 +395,10 @@ export class WebSocketManager extends AsyncEventEmitter<ManagerShardEventsMap> i
 		}
 
 		this.#token = token;
+	}
+
+	public setIdentity(identity: DiscordIdentity | null): void {
+		this.options.identity = identity;
 	}
 
 	public destroy(options?: Omit<WebSocketShardDestroyOptions, 'recover'>) {

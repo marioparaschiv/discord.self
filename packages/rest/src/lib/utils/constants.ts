@@ -7,7 +7,7 @@ import type { RESTOptions, ResponseLike } from './types.js';
 export type { ImageSize } from 'discord-api-types/v10';
 
 export const DefaultUserAgent =
-	`DiscordBot (https://discord.js.org, [VI]{{inject}}[/VI])` as `DiscordBot (https://discord.js.org, ${string})`;
+	'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36' as const;
 
 /**
  * The default string to append onto the user agent.
@@ -17,9 +17,10 @@ export const DefaultUserAgentAppendix = getUserAgentAppendix();
 export const DefaultRestOptions = {
 	agent: null,
 	api: 'https://discord.com/api',
-	authPrefix: 'Bot',
+	browser: {},
 	cdn: 'https://cdn.discordapp.com',
 	headers: {},
+	identity: null,
 	invalidRequestWarningInterval: 0,
 	globalRequestsPerSecond: 50,
 	offset: 50,

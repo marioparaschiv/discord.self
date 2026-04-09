@@ -8,6 +8,7 @@ import { CDN } from './CDN.js';
 import { BurstHandler } from './handlers/BurstHandler.js';
 import { SequentialHandler } from './handlers/SequentialHandler.js';
 import type { IHandler } from './interfaces/Handler.js';
+import { createBrowserMetadataHeaders } from './utils/browserMetadata.js';
 import {
 	AUTH_UUID_NAMESPACE,
 	BurstHandlerMajorIdKey,
@@ -24,7 +25,6 @@ import type {
 	HashData,
 	InternalRequest,
 	RouteLike,
-	RequestHeaders,
 	RouteData,
 	RequestData,
 	AuthData,
@@ -234,8 +234,14 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		return this;
 	}
 
-	private formatAuthorization(prefix: '' | 'Bearer' | 'Bot', token: string) {
-		return prefix ? `${prefix} ${token}` : token;
+	public setIdentity(identity: RESTOptions['identity']) {
+		this.options.identity = identity;
+		return this;
+	}
+
+	private hasHeader(headers: Record<string, string>, name: string) {
+		const lowerCaseName = name.toLowerCase();
+		return Object.keys(headers).some((key) => key.toLowerCase() === lowerCaseName);
 	}
 
 	/**
@@ -298,6 +304,7 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 	 */
 	private async resolveRequest(request: InternalRequest): Promise<{ fetchOptions: RequestInit; url: string }> {
 		const { options } = this;
+		const requestHeaders = request.headers ?? {};
 
 		let query = '';
 
@@ -310,25 +317,35 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		}
 
 		// Create the required headers
-		const headers: RequestHeaders = {
+		const headers: Record<string, string> = {
 			...this.options.headers,
-			'User-Agent': `${DefaultUserAgent} ${options.userAgentAppendix}`.trim(),
 		};
+
+		const generatedHeaders = options.identity
+			? await options.identity.getHeaders()
+			: options.browser === null
+				? {
+						'User-Agent': DefaultUserAgent,
+					}
+				: await createBrowserMetadataHeaders(options.browser);
+
+		for (const [name, value] of Object.entries(generatedHeaders) as [string, string | undefined][]) {
+			if (value !== undefined && !this.hasHeader(headers, name) && !this.hasHeader(requestHeaders, name)) {
+				headers[name] = value;
+			}
+		}
 
 		// If this request requires authorization (allowing non-"authorized" requests for webhooks)
 		if (request.auth !== false) {
 			if (typeof request.auth === 'object') {
-				headers.Authorization = this.formatAuthorization(
-					request.auth.prefix ?? this.options.authPrefix,
-					request.auth.token,
-				);
+				headers.Authorization = request.auth.token;
 			} else {
 				// If we haven't received a token, throw an error
 				if (!this.#token) {
 					throw new Error('Expected token to be set for this request, but none was present');
 				}
 
-				headers.Authorization = this.formatAuthorization(this.options.authPrefix, this.#token);
+				headers.Authorization = this.#token;
 			}
 		}
 
@@ -410,7 +427,7 @@ export class REST extends AsyncEventEmitter<RestEvents> {
 		const fetchOptions: RequestInit = {
 			// Set body to null on get / head requests. This does not follow fetch spec (likely because it causes subtle bugs) but is aligned with what request was doing
 			body: ['GET', 'HEAD'].includes(method) ? null : finalBody!,
-			headers: { ...request.headers, ...additionalHeaders, ...headers } as Record<string, string>,
+			headers: { ...additionalHeaders, ...headers, ...requestHeaders } as Record<string, string>,
 			method,
 			// Prioritize setting an agent per request, use the agent for this instance otherwise.
 			dispatcher: request.dispatcher ?? this.agent ?? undefined!,

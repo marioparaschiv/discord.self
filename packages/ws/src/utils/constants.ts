@@ -42,6 +42,7 @@ export const DefaultWebSocketManagerOptions = {
 		return new SimpleIdentifyThrottler('session_start_limit' in info ? info.session_start_limit.max_concurrency : 1);
 	},
 	buildStrategy: (manager) => new SimpleShardingStrategy(manager),
+	identity: null,
 	shardCount: null,
 	shardIds: null,
 	largeThreshold: null,

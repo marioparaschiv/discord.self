@@ -16,8 +16,8 @@ body:
         - discord.js
         - collection
         - core
-        - create-discord-bot
         - formatters
+        - identity
         - rest
         - util
         - voice

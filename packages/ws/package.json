@@ -74,6 +74,7 @@
 	"funding": "https://github.com/discordjs/discord.js?sponsor",
 	"dependencies": {
 		"@discord.self/collection": "workspace:^",
+		"@discord.self/identity": "workspace:^",
 		"@discord.self/util": "workspace:^",
 		"@sapphire/async-queue": "^1.5.5",
 		"@types/ws": "^8.18.1",

@@ -10,6 +10,7 @@ packages:
   - packages/discord.js
   - packages/docgen
   - packages/formatters
+  - packages/identity
   - packages/rest
   - packages/scripts
   - packages/util

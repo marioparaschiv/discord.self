@@ -7,12 +7,45 @@ import { MockAgent, setGlobalDispatcher } from 'undici';
 import type { Interceptable, MockInterceptor } from 'undici/types/mock-interceptor.js';
 import { beforeEach, afterEach, test, expect, vitest } from 'vitest';
 import { REST } from '../src/index.js';
+import { getCloakedBrowserHeaders } from '../src/lib/utils/httpcloak.js';
 import { genPath } from './util.js';
+
+vitest.mock('../src/lib/utils/httpcloak.js', () => ({
+	getCloakedBrowserHeaders: vitest.fn(async () => ({
+		acceptLanguage: 'en-US,en;q=0.9',
+		secChUa: '"Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"',
+		secChUaMobile: '?0',
+		secChUaPlatform: '"Windows"',
+		userAgent:
+			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+	})),
+}));
 
 const newSnowflake: Snowflake = DiscordSnowflake.generate().toString();
 
 const api = new REST().setToken('A-Very-Fake-Token');
-const rawTokenApi = new REST({ authPrefix: '' }).setToken('A-Very-Fake-Token');
+const browserMetadataApi = new REST({
+	browser: {
+		buildMetadata: {
+			clientBuildNumber: 123_456,
+			hostVersion: '1.0.9000',
+			nativeBuildNumber: 444,
+		},
+		locale: 'en-GB',
+		timezone: 'Europe/London',
+	},
+}).setToken('A-Very-Fake-Token');
+const identityHeaders = vitest.fn(async () => ({
+	'user-agent': 'Mozilla/5.0 identity',
+	'x-discord-locale': 'en-GB',
+	'x-super-properties': 'identity-super-properties',
+}));
+const identityApi = new REST({
+	identity: {
+		async ensureReady() {},
+		getHeaders: identityHeaders,
+	} as never,
+}).setToken('A-Very-Fake-Token');
 
 const makeRequestMock = vitest.fn(fetch);
 
@@ -36,8 +69,11 @@ beforeEach(() => {
 
 	mockPool = mockAgent.get('https://discord.com');
 	api.setAgent(mockAgent);
-	rawTokenApi.setAgent(mockAgent);
+	browserMetadataApi.setAgent(mockAgent);
+	identityApi.setAgent(mockAgent);
 	fetchApi.setAgent(mockAgent);
+	vitest.mocked(getCloakedBrowserHeaders).mockClear();
+	identityHeaders.mockClear();
 });
 
 afterEach(async () => {
@@ -135,6 +171,62 @@ test('simple POST with fetch', async () => {
 	expect(makeRequestMock).toHaveBeenCalledTimes(1);
 });
 
+test('per-request user-agent headers override the default rest user-agent', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/userAgentOverride'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
+
+	expect(
+		await api.get('/userAgentOverride', {
+			headers: {
+				'user-agent': 'Mozilla/5.0 cloaked',
+			},
+		}),
+	).toStrictEqual({ userAgent: 'Mozilla/5.0 cloaked' });
+});
+
+test('rest options user-agent headers override the generated default', async () => {
+	const customUserAgentApi = new REST({
+		headers: {
+			'user-agent': 'Custom Rest Header',
+		},
+	}).setToken('A-Very-Fake-Token');
+
+	customUserAgentApi.setAgent(mockAgent);
+
+	mockPool
+		.intercept({
+			path: genPath('/restHeaderUserAgent'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
+
+	expect(await customUserAgentApi.get('/restHeaderUserAgent')).toStrictEqual({
+		userAgent: 'Custom Rest Header',
+	});
+});
+
 test('simple PUT 2', async () => {
 	mockPool
 		.intercept({
@@ -188,7 +280,7 @@ test('getAuth', async () => {
 		.times(5);
 
 	// default
-	expect(await api.get('/getAuth')).toStrictEqual({ auth: 'Bot A-Very-Fake-Token' });
+	expect(await api.get('/getAuth')).toStrictEqual({ auth: 'A-Very-Fake-Token' });
 
 	// unauthorized
 	expect(
@@ -202,43 +294,156 @@ test('getAuth', async () => {
 		await api.get('/getAuth', {
 			auth: true,
 		}),
-	).toStrictEqual({ auth: 'Bot A-Very-Fake-Token' });
+	).toStrictEqual({ auth: 'A-Very-Fake-Token' });
 
-	// Custom Bot Auth
+	// Custom Auth
 	expect(
 		await api.get('/getAuth', {
 			auth: { token: 'A-Very-Different-Fake-Token' },
 		}),
-	).toStrictEqual({ auth: 'Bot A-Very-Different-Fake-Token' });
-
-	// Custom Bearer Auth
-	expect(
-		await api.get('/getAuth', {
-			auth: { token: 'A-Bearer-Fake-Token', prefix: 'Bearer' },
-		}),
-	).toStrictEqual({ auth: 'Bearer A-Bearer-Fake-Token' });
+	).toStrictEqual({ auth: 'A-Very-Different-Fake-Token' });
 });
 
-test('getAuth with raw token auth prefix', async () => {
+test('browser metadata adds Discord client headers', async () => {
 	mockPool
 		.intercept({
-			path: genPath('/getAuthRawToken'),
+			path: genPath('/browserMetadataHeaders'),
 			method: 'GET',
 		})
 		.reply(
 			200,
-			(from) => ({ auth: (from.headers as unknown as Record<string, string | undefined>).Authorization ?? null }),
+			(from) => ({
+				acceptLanguage:
+					(from.headers as unknown as Record<string, string | undefined>)['accept-language'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['Accept-Language'] ??
+					null,
+				locale:
+					(from.headers as unknown as Record<string, string | undefined>)['x-discord-locale'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Discord-Locale'] ??
+					null,
+				secChUa:
+					(from.headers as unknown as Record<string, string | undefined>)['sec-ch-ua'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['Sec-CH-UA'] ??
+					null,
+				superProperties:
+					(from.headers as unknown as Record<string, string | undefined>)['x-super-properties'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Super-Properties'] ??
+					null,
+				timezone:
+					(from.headers as unknown as Record<string, string | undefined>)['x-discord-timezone'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Discord-Timezone'] ??
+					null,
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
 			responseOptions,
-		)
-		.times(2);
+		);
 
-	expect(await rawTokenApi.get('/getAuthRawToken')).toStrictEqual({ auth: 'A-Very-Fake-Token' });
+	const response = (await browserMetadataApi.get('/browserMetadataHeaders')) as {
+		acceptLanguage: string;
+		locale: string;
+		secChUa: string;
+		superProperties: string;
+		timezone: string;
+		userAgent: string;
+	};
+
+	expect(response.acceptLanguage).toBe('en-GB,en-US;q=0.9,en;q=0.8');
+	expect(response.locale).toBe('en-GB');
+	expect(response.secChUa).toBe('"Chromium";v="146", "Not-A.Brand";v="24", "Google Chrome";v="146"');
+	expect(response.timezone).toBe('Europe/London');
+	expect(response.userAgent).toContain('Chrome/146.0.0.0');
+	expect(getCloakedBrowserHeaders).toHaveBeenCalledWith(
+		expect.objectContaining({
+			buildMetadata: {
+				clientBuildNumber: 123_456,
+				hostVersion: '1.0.9000',
+				nativeBuildNumber: 444,
+			},
+			locale: 'en-GB',
+			timezone: 'Europe/London',
+		}),
+	);
+
+	expect(JSON.parse(Buffer.from(response.superProperties, 'base64').toString('utf8'))).toMatchObject({
+		browser: 'Chrome',
+		client_build_number: 123_456,
+		host_version: '1.0.9000',
+		native_build_number: 444,
+		os: 'Windows',
+		release_channel: 'stable',
+		system_locale: 'en-GB',
+	});
+});
+
+test('identity headers take precedence over generated browser metadata', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/identityHeaders'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				locale:
+					(from.headers as unknown as Record<string, string | undefined>)['x-discord-locale'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Discord-Locale'] ??
+					null,
+				superProperties:
+					(from.headers as unknown as Record<string, string | undefined>)['x-super-properties'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Super-Properties'] ??
+					null,
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
+
+	expect(await identityApi.get('/identityHeaders')).toStrictEqual({
+		locale: 'en-GB',
+		superProperties: 'identity-super-properties',
+		userAgent: 'Mozilla/5.0 identity',
+	});
+	expect(identityHeaders).toHaveBeenCalledOnce();
+	expect(getCloakedBrowserHeaders).not.toHaveBeenCalled();
+});
+
+test('per-request headers override generated browser metadata headers', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/browserMetadataOverride'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({
+				timezone:
+					(from.headers as unknown as Record<string, string | undefined>)['x-discord-timezone'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['X-Discord-Timezone'] ??
+					null,
+				userAgent:
+					(from.headers as unknown as Record<string, string | undefined>)['user-agent'] ??
+					(from.headers as unknown as Record<string, string | undefined>)['User-Agent'] ??
+					null,
+			}),
+			responseOptions,
+		);
 
 	expect(
-		await api.get('/getAuthRawToken', {
-			auth: { token: 'A-Very-Different-Fake-Token', prefix: '' },
+		await browserMetadataApi.get('/browserMetadataOverride', {
+			headers: {
+				'User-Agent': 'Mozilla/5.0 custom',
+				'X-Discord-Timezone': 'America/New_York',
+			},
 		}),
-	).toStrictEqual({ auth: 'A-Very-Different-Fake-Token' });
+	).toStrictEqual({
+		timezone: 'America/New_York',
+		userAgent: 'Mozilla/5.0 custom',
+	});
 });
 
 test('getReason', async () => {

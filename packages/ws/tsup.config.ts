@@ -6,9 +6,4 @@ export default [
 		external: ['zlib-sync'],
 		esbuildPlugins: [esbuildPluginVersionInjector()],
 	}),
-	createTsupConfig({
-		entry: {
-			defaultWorker: 'src/strategies/sharding/defaultWorker.ts',
-		},
-	}),
 ];

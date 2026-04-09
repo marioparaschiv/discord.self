@@ -10,7 +10,6 @@ const log = (...args) => console.log(process.uptime().toFixed(3), ...args);
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
-  shardCount: 2,
 });
 
 client.on(Events.Debug, log);

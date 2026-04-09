@@ -4,9 +4,8 @@ const process = require('node:process');
 const { setTimeout, clearTimeout } = require('node:timers');
 const { Collection } = require('@discord.self/collection');
 const { makeURLSearchParams } = require('@discord.self/rest');
-const { GatewayOpcodes, Routes, RouteBases } = require('discord-api-types/v10');
+const { GatewayOpcodes, RouteBases, Routes } = require('discord-api-types/v10');
 const { DiscordjsError, ErrorCodes } = require('../errors/index.js');
-const { ShardClientUtil } = require('../sharding/ShardClientUtil.js');
 const { Guild } = require('../structures/Guild.js');
 const { GuildChannel } = require('../structures/GuildChannel.js');
 const { GuildEmoji } = require('../structures/GuildEmoji.js');
@@ -137,7 +136,6 @@ class GuildManager extends CachedManager {
       const innerData = await this.client.rest.get(Routes.guild(id), {
         query: makeURLSearchParams({ with_counts: options.withCounts ?? true }),
       });
-      innerData.shardId = ShardClientUtil.shardIdForGuildId(id, await this.client.ws.fetchShardCount());
       return this._add(innerData, options.cache);
     }
 
@@ -165,18 +163,13 @@ class GuildManager extends CachedManager {
    * console.log(soundboardSounds.get('123456789012345678'));
    */
   async fetchSoundboardSounds({ guildIds, time = 10_000 }) {
-    const shardCount = await this.client.ws.getShardCount();
-    const shardIds = Map.groupBy(guildIds, guildId => ShardClientUtil.shardIdForGuildId(guildId, shardCount));
-
-    for (const [shardId, shardGuildIds] of shardIds) {
-      this.client.ws.send(shardId, {
-        op: GatewayOpcodes.RequestSoundboardSounds,
-        // eslint-disable-next-line id-length
-        d: {
-          guild_ids: shardGuildIds,
-        },
-      });
-    }
+    this.client.ws.send({
+      op: GatewayOpcodes.RequestSoundboardSounds,
+      // eslint-disable-next-line id-length
+      d: {
+        guild_ids: guildIds,
+      },
+    });
 
     return new Promise((resolve, reject) => {
       const remainingGuildIds = new Set(guildIds);

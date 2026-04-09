@@ -1,7 +1,6 @@
-import type { GatewaySendPayload } from 'discord-api-types/v10';
 import { GatewayOpcodes } from 'discord-api-types/v10';
 import { describe, expect, test, vi } from 'vitest';
-import { WebSocketManager, type IShardingStrategy } from '../../src/index.js';
+import { WebSocketManager, WebSocketShardStatus } from '../../src/index.js';
 import { mockGatewayInformation } from '../gateway.mock.js';
 
 vi.useFakeTimers();
@@ -71,7 +70,7 @@ test('fetch selfbot gateway information', async () => {
 });
 
 describe('get shard count', () => {
-	test('always resolves to a single session', async () => {
+	test('starts idle before connecting', async () => {
 		const manager = new WebSocketManager({
 			token: 'A-Very-Fake-Token',
 			intents: 0,
@@ -80,11 +79,10 @@ describe('get shard count', () => {
 			},
 		});
 
-		expect(await manager.getShardCount()).toBe(1);
-		expect(await manager.getShardIds()).toStrictEqual([0]);
+		expect(await manager.fetchStatus()).toBe(WebSocketShardStatus.Idle);
 	});
 
-	test('with selfbot gateway information', async () => {
+	test('uses selfbot gateway information', async () => {
 		const manager = new WebSocketManager({
 			token: 'A-Very-Fake-Token',
 			intents: 0,
@@ -93,12 +91,11 @@ describe('get shard count', () => {
 			},
 		});
 
-		expect(await manager.getShardCount()).toBe(1);
-		expect(await manager.getShardIds()).toStrictEqual([0]);
+		expect(await manager.fetchGatewayInformation()).toEqual({ url: 'wss://gateway.discord.gg' });
 	});
 });
 
-test('update shard count keeps a single session', async () => {
+test('send still rejects before the gateway session is connected', async () => {
 	const manager = new WebSocketManager({
 		token: 'A-Very-Fake-Token',
 		intents: 0,
@@ -107,76 +104,33 @@ test('update shard count keeps a single session', async () => {
 		},
 	});
 
-	await manager.updateShardCount(1);
-	expect(await manager.getShardCount()).toBe(1);
-	expect(await manager.getShardIds()).toStrictEqual([0]);
+	await expect(
+		manager.send({
+			op: GatewayOpcodes.RequestGuildMembers,
+			// eslint-disable-next-line id-length
+			d: { guild_id: '1234', limit: 0, query: '' },
+		}),
+	).rejects.toThrow();
+	expect(await manager.fetchStatus()).toBe(WebSocketShardStatus.Idle);
 });
 
-test('rejects explicit shard count', () => {
-	expect(
-		() =>
-			new WebSocketManager({
-				token: 'A-Very-Fake-Token',
-				intents: 0,
-				shardCount: 2,
-				async fetchGatewayInformation() {
-					return mockGatewayInformation;
-				},
-			}),
-	).toThrow('Sharding is not supported in this fork');
-});
-
-test('rejects explicit shard ids', () => {
-	expect(
-		() =>
-			new WebSocketManager({
-				token: 'A-Very-Fake-Token',
-				intents: 0,
-				shardIds: [1],
-				async fetchGatewayInformation() {
-					return mockGatewayInformation;
-				},
-			}),
-	).toThrow('Sharding is not supported in this fork');
-});
-
-test('strategies', async () => {
-	class MockStrategy implements IShardingStrategy {
-		public spawn = vi.fn();
-
-		public connect = vi.fn();
-
-		public destroy = vi.fn();
-
-		public send = vi.fn();
-
-		public fetchStatus = vi.fn();
-	}
-
-	const strategy = new MockStrategy();
-
+test('destroy clears the gateway session', async () => {
 	const manager = new WebSocketManager({
 		token: 'A-Very-Fake-Token',
 		intents: 0,
 		async fetchGatewayInformation() {
 			return mockGatewayInformation;
 		},
-		buildStrategy: () => strategy,
 	});
 
-	await manager.connect();
-	expect(strategy.spawn).toHaveBeenCalledWith([0]);
-	expect(strategy.connect).toHaveBeenCalled();
+	await expect(
+		manager.send({
+			op: GatewayOpcodes.RequestGuildMembers,
+			// eslint-disable-next-line id-length
+			d: { guild_id: '1234', limit: 0, query: '' },
+		}),
+	).rejects.toThrow();
 
-	const destroyOptions = { reason: ':3' };
-	await manager.destroy(destroyOptions);
-	expect(strategy.destroy).toHaveBeenCalledWith(destroyOptions);
-
-	const send: GatewaySendPayload = {
-		op: GatewayOpcodes.RequestGuildMembers,
-		// eslint-disable-next-line id-length
-		d: { guild_id: '1234', limit: 0, query: '' },
-	};
-	await manager.send(0, send);
-	expect(strategy.send).toHaveBeenCalledWith(0, send);
+	await manager.destroy({ reason: ':3' });
+	expect(await manager.fetchStatus()).toBe(WebSocketShardStatus.Idle);
 });

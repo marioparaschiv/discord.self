@@ -5,9 +5,5 @@ import type { ManagerShardEventsMap, WebSocketShardEventsMap, WebSocketManager }
 declare const manager: WebSocketManager;
 declare const eventMap: ManagerShardEventsMap;
 
-type AugmentedShardEventsMap = {
-	[K in keyof WebSocketShardEventsMap]: [...WebSocketShardEventsMap[K], shardId: number];
-};
-
-expectTypeOf(eventMap).toEqualTypeOf<AugmentedShardEventsMap>();
-expectTypeOf(manager).toMatchTypeOf<AsyncEventEmitter<AugmentedShardEventsMap>>();
+expectTypeOf(eventMap).toEqualTypeOf<WebSocketShardEventsMap>();
+expectTypeOf(manager).toMatchTypeOf<AsyncEventEmitter<WebSocketShardEventsMap>>();

@@ -1,5 +1,5 @@
 import type { REST } from '@discord.self/rest';
-import { calculateShardId, GatewayRateLimitError } from '@discord.self/util';
+import { GatewayRateLimitError } from '@discord.self/util';
 import { WebSocketShardEvents } from '@discord.self/ws';
 import { DiscordSnowflake } from '@sapphire/snowflake';
 import { AsyncEventEmitter } from '@vladfrangu/async_event_emitter';
@@ -92,10 +92,6 @@ export interface IntrinsicProps {
 	 * The REST API
 	 */
 	api: API;
-	/**
-	 * The id of the shard that emitted the event
-	 */
-	shardId: number;
 }
 
 export interface ToEventProps<Data> extends IntrinsicProps {
@@ -218,8 +214,8 @@ export class Client extends AsyncEventEmitter<MappedEvents> {
 		this.gateway = options.gateway;
 		this.api = new API(this.rest);
 
-		this.gateway.on(WebSocketShardEvents.Dispatch, (dispatch, shardId) => {
-			this.emit(dispatch.t, this.toEventProps(dispatch.d, shardId));
+		this.gateway.on(WebSocketShardEvents.Dispatch, (dispatch) => {
+			this.emit(dispatch.t, this.toEventProps(dispatch.d));
 		});
 	}
 
@@ -238,7 +234,6 @@ export class Client extends AsyncEventEmitter<MappedEvents> {
 	 * ```
 	 */
 	public async *requestGuildMembersIterator(options: GatewayRequestGuildMembersData, timeout = 10_000) {
-		const shardId = calculateShardId(options.guild_id, await this.gateway.getShardCount());
 		const nonce = options.nonce ?? DiscordSnowflake.generate().toString();
 
 		const controller = new AbortController();
@@ -261,7 +256,7 @@ export class Client extends AsyncEventEmitter<MappedEvents> {
 		};
 
 		this.on(GatewayDispatchEvents.RateLimited, onRatelimit);
-		await this.gateway.send(shardId, {
+		await this.gateway.send({
 			op: GatewayOpcodes.RequestGuildMembers,
 			// eslint-disable-next-line id-length
 			d: {
@@ -354,23 +349,15 @@ export class Client extends AsyncEventEmitter<MappedEvents> {
 	 * ```
 	 */
 	public async *requestSoundboardSoundsIterator(options: GatewayRequestSoundboardSoundsData, timeout = 10_000) {
-		const shardCount = await this.gateway.getShardCount();
-		const shardIds = Map.groupBy(options.guild_ids, (guildId) => calculateShardId(guildId, shardCount));
-
 		const controller = new AbortController();
 
 		let timer: NodeJS.Timeout | undefined = createTimer(controller, timeout);
 
-		for (const [shardId, guildIds] of shardIds) {
-			await this.gateway.send(shardId, {
-				op: GatewayOpcodes.RequestSoundboardSounds,
-				// eslint-disable-next-line id-length
-				d: {
-					...options,
-					guild_ids: guildIds,
-				},
-			});
-		}
+		await this.gateway.send({
+			op: GatewayOpcodes.RequestSoundboardSounds,
+			// eslint-disable-next-line id-length
+			d: options,
+		});
 
 		try {
 			const iterator = AsyncEventEmitter.on(this, GatewayDispatchEvents.SoundboardSounds, {
@@ -443,9 +430,7 @@ export class Client extends AsyncEventEmitter<MappedEvents> {
 	 * @param options - The options for updating the voice state
 	 */
 	public async updateVoiceState(options: GatewayVoiceStateUpdateData) {
-		const shardId = calculateShardId(options.guild_id, await this.gateway.getShardCount());
-
-		await this.gateway.send(shardId, {
+		await this.gateway.send({
 			op: GatewayOpcodes.VoiceStateUpdate,
 			// eslint-disable-next-line id-length
 			d: options,
@@ -455,21 +440,19 @@ export class Client extends AsyncEventEmitter<MappedEvents> {
 	/**
 	 * Updates the presence of the bot user
 	 *
-	 * @param shardId - The id of the shard to update the presence in
 	 * @param options - The options for updating the presence
 	 */
-	public async updatePresence(shardId: number, options: GatewayPresenceUpdateData) {
-		await this.gateway.send(shardId, {
+	public async updatePresence(options: GatewayPresenceUpdateData) {
+		await this.gateway.send({
 			op: GatewayOpcodes.PresenceUpdate,
 			// eslint-disable-next-line id-length
 			d: options,
 		});
 	}
 
-	private toEventProps<ObjectType>(obj: ObjectType, shardId: number): ToEventProps<ObjectType> {
+	private toEventProps<ObjectType>(obj: ObjectType): ToEventProps<ObjectType> {
 		return {
 			api: this.api,
-			shardId,
 			data: obj,
 		};
 	}

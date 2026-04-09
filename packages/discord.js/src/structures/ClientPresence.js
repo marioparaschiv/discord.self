@@ -24,15 +24,7 @@ class ClientPresence extends Presence {
   async set(presence) {
     const packet = this._parse(presence);
     this._patch(packet);
-    if (presence.shardId === undefined) {
-      await this.client._broadcast({ op: GatewayOpcodes.PresenceUpdate, d: packet });
-    } else if (Array.isArray(presence.shardId)) {
-      await Promise.all(
-        presence.shardId.map(shardId => this.client.ws.send(shardId, { op: GatewayOpcodes.PresenceUpdate, d: packet })),
-      );
-    } else {
-      await this.client.ws.send(presence.shardId, { op: GatewayOpcodes.PresenceUpdate, d: packet });
-    }
+    await this.client._broadcast({ op: GatewayOpcodes.PresenceUpdate, d: packet });
 
     return this;
   }

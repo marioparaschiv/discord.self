@@ -1,17 +1,11 @@
 export * from './strategies/context/IContextFetchingStrategy.js';
 export * from './strategies/context/SimpleContextFetchingStrategy.js';
-export * from './strategies/context/WorkerContextFetchingStrategy.js';
-
-export type * from './strategies/sharding/IShardingStrategy.js';
-export * from './strategies/sharding/SimpleShardingStrategy.js';
-export * from './strategies/sharding/WorkerShardingStrategy.js';
 
 export type * from './throttling/IIdentifyThrottler.js';
 export * from './throttling/SimpleIdentifyThrottler.js';
 
 export * from './utils/constants.js';
 export * from './utils/identity.js';
-export * from './utils/WorkerBootstrapper.js';
 
 export * from './ws/WebSocketManager.js';
 export * from './ws/WebSocketShard.js';

@@ -23,7 +23,6 @@ export interface FetchingStrategyOptions extends Pick<
 	| 'version'
 > {
 	readonly gatewayInformation: GatewayInformation;
-	readonly shardCount: number;
 }
 
 /**
@@ -31,14 +30,14 @@ export interface FetchingStrategyOptions extends Pick<
  */
 export interface IContextFetchingStrategy {
 	readonly options: FetchingStrategyOptions;
-	retrieveSessionInfo(shardId: number): Awaitable<SessionInfo | null>;
-	updateSessionInfo(shardId: number, sessionInfo: SessionInfo | null): Awaitable<void>;
+	retrieveSessionInfo(): Awaitable<SessionInfo | null>;
+	updateSessionInfo(sessionInfo: SessionInfo | null): Awaitable<void>;
 	/**
-	 * Resolves once the given shard should be allowed to identify
+	 * Resolves once the gateway session should be allowed to identify.
 	 * This should correctly handle the signal and reject with an abort error if the operation is aborted.
 	 * Other errors will cause the shard to reconnect.
 	 */
-	waitForIdentify(shardId: number, signal: AbortSignal): Promise<void>;
+	waitForIdentify(signal: AbortSignal): Promise<void>;
 }
 
 export async function managerToFetchingStrategyOptions(manager: WebSocketManager): Promise<FetchingStrategyOptions> {
@@ -58,6 +57,5 @@ export async function managerToFetchingStrategyOptions(manager: WebSocketManager
 		version: manager.options.version,
 
 		gatewayInformation: await manager.fetchGatewayInformation(),
-		shardCount: await manager.getShardCount(),
 	};
 }

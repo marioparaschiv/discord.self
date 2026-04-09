@@ -1,6 +1,4 @@
 /* eslint-disable no-lone-blocks, @typescript-eslint/unbound-method, @typescript-eslint/ban-ts-comment, no-param-reassign, id-length */
-import type { ChildProcess } from 'node:child_process';
-import type { Worker } from 'node:worker_threads';
 import type { ReadonlyCollection } from '@discord.self/collection';
 import type {
   APIButtonComponent,
@@ -162,9 +160,6 @@ import type {
   SendMethod,
   SeparatorComponentData,
   Serialized,
-  Shard,
-  ShardClientUtil,
-  ShardingManager,
   SKU,
   Snowflake,
   StageChannel,
@@ -200,7 +195,6 @@ import {
   PermissionsBitField,
   Status,
   resolveColor,
-  ShardEvents,
   TextDisplayComponentData,
   ThumbnailComponentData,
   UnfurledMediaItemData,
@@ -1467,15 +1461,6 @@ expectType<never>(serialize(Symbol('a')));
 expectType<never>(serialize(() => {}));
 expectType<never>(serialize(BigInt(42)));
 
-// Test type return of broadcastEval:
-declare const shardClientUtil: ShardClientUtil;
-declare const shardingManager: ShardingManager;
-
-expectType<Promise<number[]>>(shardingManager.broadcastEval(() => 1));
-expectType<Promise<number[]>>(shardClientUtil.broadcastEval(() => 1));
-expectType<Promise<number[]>>(shardingManager.broadcastEval(async () => 1));
-expectType<Promise<number[]>>(shardClientUtil.broadcastEval(async () => 1));
-
 declare const dmChannel: DMChannel;
 declare const threadChannel: ThreadChannel;
 declare const threadChannelFromForum: ThreadChannel<true>;
@@ -1547,7 +1532,6 @@ reactionCollector.on('end', (...args) => expectType<[ReadonlyCollection<string, 
 // Make sure the properties are typed correctly, and that no backwards properties
 // (K -> V and V -> K) exist:
 expectAssignable<'messageCreate'>(Events.MessageCreate);
-expectAssignable<'death'>(ShardEvents.Death);
 expectAssignable<1>(Status.Connecting);
 
 declare const applicationCommandData: ApplicationCommandData;
@@ -2400,12 +2384,6 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
-declare const shard: Shard;
-
-shard.on('death', process => {
-  expectType<ChildProcess | Worker>(process);
-});
-
 declare const collector: Collector<string, Interaction, string[]>;
 
 collector.on('collect', (collected, ...other) => {
@@ -2428,8 +2406,6 @@ collector.on('end', (collection, reason) => {
     expectType<[Interaction, ...string[]]>(value);
   }
 })();
-
-expectType<Promise<number | null>>(shard.eval(client => client.readyTimestamp));
 
 // Test audit logs
 expectType<Promise<GuildAuditLogs<AuditLogEvent.MemberKick>>>(guild.fetchAuditLogs({ type: AuditLogEvent.MemberKick }));

@@ -129,8 +129,6 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 
 	private readonly strategy: IContextFetchingStrategy;
 
-	public readonly id: number;
-
 	#status: WebSocketShardStatus = WebSocketShardStatus.Idle;
 
 	private identifyCompressionEnabled = false;
@@ -149,10 +147,9 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 		return this.#status;
 	}
 
-	public constructor(strategy: IContextFetchingStrategy, id: number) {
+	public constructor(strategy: IContextFetchingStrategy) {
 		super();
 		this.strategy = strategy;
-		this.id = id;
 	}
 
 	public async connect() {
@@ -277,7 +274,7 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 			}
 		}
 
-		const session = await this.strategy.retrieveSessionInfo(this.id);
+		const session = await this.strategy.retrieveSessionInfo();
 
 		const url = `${session?.resumeURL ?? this.strategy.options.gatewayInformation.url}?${params.toString()}`;
 
@@ -314,7 +311,7 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 			return;
 		}
 
-		if (session?.shardCount === this.strategy.options.shardCount) {
+		if (session) {
 			await this.resume(session);
 		} else {
 			await this.identify();
@@ -362,7 +359,7 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 
 		// Clear session state if applicable
 		if (options.recover !== WebSocketShardDestroyRecovery.Resume) {
-			await this.strategy.updateSessionInfo(this.id, null);
+			await this.strategy.updateSessionInfo(null);
 		}
 
 		if (this.connection) {
@@ -524,7 +521,7 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 		this.on(WebSocketShardEvents.Closed, closeHandler);
 
 		try {
-			await this.strategy.waitForIdentify(this.id, controller.signal);
+			await this.strategy.waitForIdentify(controller.signal);
 		} catch {
 			if (controller.signal.aborted) {
 				this.debug(['Was waiting for an identify, but the shard closed in the meantime']);
@@ -547,8 +544,6 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 
 		this.debug([
 			'Identifying',
-			`shard id: ${this.id.toString()}`,
-			`shard count: ${this.strategy.options.shardCount}`,
 			`intents: ${this.strategy.options.intents}`,
 			`compression: ${this.transportCompressionEnabled ? CompressionParameterMap[this.strategy.options.compression!] : this.identifyCompressionEnabled ? 'identify' : 'none'}`,
 		]);
@@ -561,7 +556,6 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 			),
 			intents: this.strategy.options.intents,
 			compress: this.identifyCompressionEnabled,
-			shard: [this.id, this.strategy.options.shardCount],
 		};
 
 		if (this.strategy.options.largeThreshold) {
@@ -582,12 +576,7 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 	}
 
 	private async resume(session: SessionInfo) {
-		this.debug([
-			'Resuming session',
-			`resume url: ${session.resumeURL}`,
-			`sequence: ${session.sequence}`,
-			`shard id: ${this.id.toString()}`,
-		]);
+		this.debug(['Resuming session', `resume url: ${session.resumeURL}`, `sequence: ${session.sequence}`]);
 
 		this.#status = WebSocketShardStatus.Resuming;
 		this.replayedEvents = 0;
@@ -607,7 +596,7 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 			return this.destroy({ reason: 'Zombie connection', recover: WebSocketShardDestroyRecovery.Resume });
 		}
 
-		const session = await this.strategy.retrieveSessionInfo(this.id);
+		const session = await this.strategy.retrieveSessionInfo();
 
 		await this.send({
 			op: GatewayOpcodes.Heartbeat,
@@ -754,12 +743,10 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 						const session = {
 							sequence: payload.s,
 							sessionId: payload.d.session_id,
-							shardId: this.id,
-							shardCount: this.strategy.options.shardCount,
 							resumeURL: payload.d.resume_gateway_url,
 						};
 
-						await this.strategy.updateSessionInfo(this.id, session);
+						await this.strategy.updateSessionInfo(session);
 
 						this.emit(WebSocketShardEvents.Ready, payload.d);
 						break;
@@ -777,10 +764,10 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 					}
 				}
 
-				const session = await this.strategy.retrieveSessionInfo(this.id);
+				const session = await this.strategy.retrieveSessionInfo();
 				if (session) {
 					if (payload.s > session.sequence) {
-						await this.strategy.updateSessionInfo(this.id, { ...session, sequence: payload.s });
+						await this.strategy.updateSessionInfo({ ...session, sequence: payload.s });
 					}
 				} else {
 					this.debug([
@@ -808,7 +795,7 @@ export class WebSocketShard extends AsyncEventEmitter<WebSocketShardEventsMap> {
 
 			case GatewayOpcodes.InvalidSession: {
 				this.debug([`Invalid session; will attempt to resume: ${payload.d.toString()}`]);
-				const session = await this.strategy.retrieveSessionInfo(this.id);
+				const session = await this.strategy.retrieveSessionInfo();
 				if (payload.d && session) {
 					await this.resume(session);
 				} else {

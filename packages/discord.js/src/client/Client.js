@@ -11,7 +11,6 @@ const { DiscordjsError, DiscordjsTypeError, ErrorCodes } = require('../errors/in
 const { ChannelManager } = require('../managers/ChannelManager.js');
 const { GuildManager } = require('../managers/GuildManager.js');
 const { UserManager } = require('../managers/UserManager.js');
-const { ShardClientUtil } = require('../sharding/ShardClientUtil.js');
 const { ClientPresence } = require('../structures/ClientPresence.js');
 const { GuildPreview } = require('../structures/GuildPreview.js');
 const { GuildTemplate } = require('../structures/GuildTemplate.js');
@@ -99,17 +98,6 @@ class Client extends AsyncEventEmitter {
     this.rest = new REST(this.options.rest);
 
     this.rest.on(RESTEvents.Debug, message => this.emit(Events.Debug, message));
-
-    const data = require('node:worker_threads').workerData ?? process.env;
-
-    if (this.options.ws.shardIds === defaultOptions.ws.shardIds && 'SHARDS' in data) {
-      const shards = JSON.parse(data.SHARDS);
-      this.options.ws.shardIds = Array.isArray(shards) ? shards : [shards];
-    }
-
-    if (this.options.ws.shardCount === defaultOptions.ws.shardCount && 'SHARD_COUNT' in data) {
-      this.options.ws.shardCount = Number(data.SHARD_COUNT);
-    }
 
     /**
      * The presence of the Client
@@ -206,7 +194,7 @@ class Client extends AsyncEventEmitter {
     const wsOptions = {
       ...this.options.ws,
       intents: this.options.intents.bitfield,
-      fetchGatewayInformation: () => this.rest.get(Routes.gatewayBot()),
+      fetchGatewayInformation: () => this.rest.get(Routes.gateway()),
       // Explicitly nulled to always be set using `setToken` in `login`
       token: null,
     };
@@ -217,15 +205,6 @@ class Client extends AsyncEventEmitter {
      * @type {WebSocketManager}
      */
     this.ws = new WebSocketManager(wsOptions);
-
-    /**
-     * Shard helpers for the client (only if the process was spawned from a {@link ShardingManager})
-     *
-     * @type {?ShardClientUtil}
-     */
-    this.shard = process.env.SHARDING_MANAGER
-      ? ShardClientUtil.singleton(this, process.env.SHARDING_MANAGER_MODE)
-      : null;
 
     /**
      * The voice manager of the client
@@ -312,7 +291,7 @@ class Client extends AsyncEventEmitter {
    */
   async login(token = this.token) {
     if (!token || typeof token !== 'string') throw new DiscordjsError(ErrorCodes.TokenInvalid);
-    this.token = token.replace(/^bot\s*/i, '');
+    this.token = token;
 
     this.rest.setToken(this.token);
 
@@ -343,10 +322,7 @@ class Client extends AsyncEventEmitter {
     }
 
     // Step 1. If we don't have any other guilds pending, we are ready
-    if (
-      !this.expectedGuilds.size &&
-      (await this.ws.fetchStatus()).every(status => status === WebSocketShardStatus.Ready)
-    ) {
+    if (!this.expectedGuilds.size && (await this.ws.fetchStatus()) === WebSocketShardStatus.Ready) {
       this.emit(Events.Debug, 'Client received all its guilds. Marking as fully ready.');
 
       this._triggerClientReady();
@@ -384,15 +360,13 @@ class Client extends AsyncEventEmitter {
    * @private
    */
   _attachEvents() {
-    this.ws.on(WebSocketShardEvents.Debug, (message, shardId) =>
-      this.emit(Events.Debug, `[WS => ${typeof shardId === 'number' ? `Shard ${shardId}` : 'Manager'}] ${message}`),
-    );
+    this.ws.on(WebSocketShardEvents.Debug, message => this.emit(Events.Debug, `[WS] ${message}`));
     this.ws.on(WebSocketShardEvents.Dispatch, this._handlePacket.bind(this));
 
-    this.ws.on(WebSocketShardEvents.HeartbeatComplete, ({ heartbeatAt, latency }, shardId) => {
-      this.emit(Events.Debug, `[WS => Shard ${shardId}] Heartbeat acknowledged, latency of ${latency}ms.`);
-      this.lastPingTimestamps.set(shardId, heartbeatAt);
-      this.pings.set(shardId, latency);
+    this.ws.on(WebSocketShardEvents.HeartbeatComplete, ({ heartbeatAt, latency }) => {
+      this.emit(Events.Debug, `[WS] Heartbeat acknowledged, latency of ${latency}ms.`);
+      this.lastPingTimestamps.set(0, heartbeatAt);
+      this.pings.set(0, latency);
     });
   }
 
@@ -400,22 +374,21 @@ class Client extends AsyncEventEmitter {
    * Processes a packet and queues it if this WebSocketManager is not ready.
    *
    * @param {GatewayDispatchPayload} packet The packet to be handled
-   * @param {number} shardId The shardId that received this packet
    * @private
    */
-  async _handlePacket(packet, shardId) {
+  async _handlePacket(packet) {
     if (this.status !== Status.Ready && !BeforeReadyWhitelist.includes(packet.t)) {
-      this.incomingPacketQueue.push({ packet, shardId });
+      this.incomingPacketQueue.push({ packet });
     } else {
       if (this.incomingPacketQueue.length) {
         const item = this.incomingPacketQueue.shift();
         setImmediate(async () => {
-          await this._handlePacket(item.packet, item.shardId);
+          await this._handlePacket(item.packet);
         }).unref();
       }
 
       if (PacketHandlers[packet.t]) {
-        PacketHandlers[packet.t](this, packet, shardId);
+        PacketHandlers[packet.t](this, packet);
       }
 
       if (packet.t === GatewayDispatchEvents.Ready) {
@@ -434,8 +407,7 @@ class Client extends AsyncEventEmitter {
    * @private
    */
   async _broadcast(packet) {
-    const shardIds = await this.ws.getShardIds();
-    return Promise.all(shardIds.map(shardId => this.ws.send(shardId, packet)));
+    return this.ws.send(packet);
   }
 
   /**

@@ -12,6 +12,7 @@ import { genPath } from './util.js';
 const newSnowflake: Snowflake = DiscordSnowflake.generate().toString();
 
 const api = new REST().setToken('A-Very-Fake-Token');
+const rawTokenApi = new REST({ authPrefix: '' }).setToken('A-Very-Fake-Token');
 
 const makeRequestMock = vitest.fn(fetch);
 
@@ -35,6 +36,7 @@ beforeEach(() => {
 
 	mockPool = mockAgent.get('https://discord.com');
 	api.setAgent(mockAgent);
+	rawTokenApi.setAgent(mockAgent);
 	fetchApi.setAgent(mockAgent);
 });
 
@@ -215,6 +217,28 @@ test('getAuth', async () => {
 			auth: { token: 'A-Bearer-Fake-Token', prefix: 'Bearer' },
 		}),
 	).toStrictEqual({ auth: 'Bearer A-Bearer-Fake-Token' });
+});
+
+test('getAuth with raw token auth prefix', async () => {
+	mockPool
+		.intercept({
+			path: genPath('/getAuthRawToken'),
+			method: 'GET',
+		})
+		.reply(
+			200,
+			(from) => ({ auth: (from.headers as unknown as Record<string, string | undefined>).Authorization ?? null }),
+			responseOptions,
+		)
+		.times(2);
+
+	expect(await rawTokenApi.get('/getAuthRawToken')).toStrictEqual({ auth: 'A-Very-Fake-Token' });
+
+	expect(
+		await api.get('/getAuthRawToken', {
+			auth: { token: 'A-Very-Different-Fake-Token', prefix: '' },
+		}),
+	).toStrictEqual({ auth: 'A-Very-Different-Fake-Token' });
 });
 
 test('getReason', async () => {

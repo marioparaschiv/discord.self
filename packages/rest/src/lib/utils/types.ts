@@ -37,7 +37,7 @@ export interface RESTOptions {
 	 *
 	 * @defaultValue `'Bot'`
 	 */
-	authPrefix: 'Bearer' | 'Bot';
+	authPrefix: '' | 'Bearer' | 'Bot';
 	/**
 	 * The cdn path
 	 *
@@ -286,7 +286,7 @@ export interface AuthData {
 	 *
 	 * @defaultValue `REST.options.authPrefix`
 	 */
-	prefix?: 'Bearer' | 'Bot';
+	prefix?: '' | 'Bearer' | 'Bot';
 	/**
 	 * The authorization token to use for this request
 	 */

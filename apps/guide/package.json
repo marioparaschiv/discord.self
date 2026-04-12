@@ -2,8 +2,36 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@discord.self/guide",
 	"version": "0.1.0",
-	"description": "Imagine a bot... the most popular way to build discord bots",
 	"private": true,
+	"description": "Imagine a bot... the most popular way to build discord bots",
+	"keywords": [
+		"api",
+		"bot",
+		"client",
+		"discord",
+		"discordapp",
+		"discordjs",
+		"node"
+	],
+	"homepage": "https://dself.marioparaschiv.com",
+	"bugs": {
+		"url": "https://github.com/marioparaschiv/discord.self/issues"
+	},
+	"license": "Apache-2.0",
+	"contributors": [
+		"Mario P. <me@marioparaschiv.com>",
+		"Crawl <icrawltogo@gmail.com>"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/marioparaschiv/discord.self.git",
+		"directory": "apps/website"
+	},
+	"funding": "https://github.com/marioparaschiv/discord.self?sponsor",
+	"directories": {
+		"lib": "src"
+	},
+	"type": "module",
 	"scripts": {
 		"build:check": "tsc --noEmit",
 		"build:local": "cross-env NEXT_PUBLIC_LOCAL_DEV=true pnpm run build:prod",
@@ -17,33 +45,6 @@
 		"fmt": "pnpm run format",
 		"postinstall": "next typegen && fumadocs-mdx"
 	},
-	"type": "module",
-	"directories": {
-		"lib": "src"
-	},
-	"contributors": [
-		"Crawl <icrawltogo@gmail.com>"
-	],
-	"license": "Apache-2.0",
-	"keywords": [
-		"discord",
-		"api",
-		"bot",
-		"client",
-		"node",
-		"discordapp",
-		"discordjs"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/marioparaschiv/discord.self.git",
-		"directory": "apps/website"
-	},
-	"bugs": {
-		"url": "https://github.com/marioparaschiv/discord.self/issues"
-	},
-	"homepage": "https://discord.js.org",
-	"funding": "https://github.com/marioparaschiv/discord.self?sponsor",
 	"dependencies": {
 		"fumadocs-core": "^16.7.7",
 		"fumadocs-mdx": "^14.2.11",
@@ -74,15 +75,15 @@
 		"cpy-cli": "^7.0.0",
 		"cross-env": "^10.1.0",
 		"git-describe": "^4.1.1",
+		"oxfmt": "^0.44.0",
+		"oxlint": "^1.59.0",
 		"postcss": "^8.5.8",
 		"remark-gfm": "^4.0.1",
 		"remark-rehype": "^11.1.2",
 		"shiki": "^4.0.2",
 		"tailwindcss": "^4.2.2",
 		"turbo": "^2.8.21",
-		"typescript": "~5.9.3",
-		"oxlint": "^1.59.0",
-		"oxfmt": "^0.44.0"
+		"typescript": "~5.9.3"
 	},
 	"engines": {
 		"node": ">=22.12.0"

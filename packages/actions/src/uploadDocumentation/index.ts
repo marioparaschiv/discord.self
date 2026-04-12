@@ -128,7 +128,9 @@ for await (const file of globber.globGenerator()) {
 			limit(async () => {
 				console.log(`Uploading ${file} with ${version}...`);
 				const json = JSON.parse(data);
-				const packageName = String(json.name ?? json.n ?? '').replace('@discordjs/', '');
+				const packageName = String(json.name ?? json.n ?? '')
+					.replace('@discord.self/', '')
+					.replace('@discordjs/', '');
 				const key = `${packageName}/${version}.json`;
 
 				await S3.send(

@@ -15,8 +15,8 @@ ENV NEXT_PUBLIC_SEARCH_API_KEY=${NEXT_PUBLIC_SEARCH_API_KEY}
 
 COPY . .
 
-RUN pnpm install --frozen-lockfile --filter @discordjs/website...
-RUN pnpm --filter @discordjs/website build:next
+RUN pnpm install --frozen-lockfile --filter @discord.self/website...
+RUN pnpm --filter @discord.self/website build:next
 
 FROM node:24-bookworm-slim AS runner
 

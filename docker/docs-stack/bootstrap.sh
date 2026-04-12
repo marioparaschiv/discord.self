@@ -98,30 +98,30 @@ NODE
 cd /workspace
 
 echo "[bootstrap] building docs toolchain..."
-pnpm --filter @discordjs/api-extractor-model build
-pnpm --filter @discordjs/api-extractor-utils build
-pnpm --filter @discordjs/api-extractor build
-pnpm --filter @discordjs/docgen build
-pnpm --filter @discordjs/scripts build
+pnpm --filter @discord.self/api-extractor-model build
+pnpm --filter @discord.self/api-extractor-utils build
+pnpm --filter @discord.self/api-extractor build
+pnpm --filter @discord.self/docgen build
+pnpm --filter @discord.self/scripts build
 
 echo "[bootstrap] building actions..."
-pnpm --filter @discordjs/actions build
+pnpm --filter @discord.self/actions build
 
 echo "[bootstrap] generating package documentation..."
-pnpm --filter @discordjs/brokers docs
-pnpm --filter @discordjs/builders docs
-pnpm --filter @discordjs/collection docs
-pnpm --filter @discordjs/core docs
-pnpm --filter discord.js docs
-pnpm --filter @discordjs/formatters docs
-pnpm --filter @discordjs/identity docs
-pnpm --filter @discordjs/next docs
-pnpm --filter @discordjs/proxy docs
-pnpm --filter @discordjs/rest docs
-pnpm --filter @discordjs/structures docs
-pnpm --filter @discordjs/util docs
-pnpm --filter @discordjs/voice docs
-pnpm --filter @discordjs/ws docs
+pnpm --filter @discord.self/brokers docs
+pnpm --filter @discord.self/builders docs
+pnpm --filter @discord.self/collection docs
+pnpm --filter @discord.self/core docs
+pnpm --filter @discord.self/discord.js docs
+pnpm --filter @discord.self/formatters docs
+pnpm --filter @discord.self/identity docs
+pnpm --filter @discord.self/next docs
+pnpm --filter @discord.self/proxy docs
+pnpm --filter @discord.self/rest docs
+pnpm --filter @discord.self/structures docs
+pnpm --filter @discord.self/util docs
+pnpm --filter @discord.self/voice docs
+pnpm --filter @discord.self/ws docs
 
 echo "[bootstrap] uploading docs manifests + package docs..."
 node packages/actions/dist/uploadDocumentation/index.js

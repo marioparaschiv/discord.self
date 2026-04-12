@@ -40,8 +40,8 @@
 		"build": "next build",
 		"preview": "next start",
 		"dev": "next dev -p 3001 --turbopack",
-		"lint": "oxfmt --check . && oxlint --import-plugin --react-plugin --jsx-a11y-plugin --nextjs-plugin --jsdoc-plugin --vitest-plugin --promise-plugin --node-plugin --format=stylish src",
-		"format": "oxfmt . && oxlint --import-plugin --react-plugin --jsx-a11y-plugin --nextjs-plugin --jsdoc-plugin --vitest-plugin --promise-plugin --node-plugin --fix --format=stylish src",
+		"lint": "oxlint --import-plugin --react-plugin --jsx-a11y-plugin --nextjs-plugin --jsdoc-plugin --vitest-plugin --promise-plugin --node-plugin --format=stylish src",
+		"format": "oxfmt .",
 		"fmt": "pnpm run format",
 		"postinstall": "next typegen && fumadocs-mdx"
 	},

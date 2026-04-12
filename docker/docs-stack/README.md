@@ -61,9 +61,7 @@ docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run -
 
 ## Upload parallelism tuning
 
-Local MinIO now defaults to high parallelism automatically.
-
-You can override upload behavior with env vars when running `bootstrap`:
+You can tune upload parallelism and rate limiting with env vars when running `bootstrap`:
 
 - `DOCS_UPLOAD_CONCURRENCY` (default local: `64`)
 - `DOCS_UPLOAD_INTERVAL_MS` (default local: disabled)

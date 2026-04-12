@@ -3,7 +3,7 @@ import { defineConfig, presetTypography, presetUno } from 'unocss';
 
 export default defineConfig({
 	content: {
-		filesystem: ['src/**/*.tsx', '../../packages/ui/src/lib/components/**/*.tsx'],
+		filesystem: ['src/**/*.tsx'],
 	},
 	theme: {
 		colors: {

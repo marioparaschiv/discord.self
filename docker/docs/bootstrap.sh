@@ -181,12 +181,6 @@ if [ "$MODE" = "full" ]; then
 		pnpm --filter @discord.self/identity docs
 		pnpm --filter @discord.self/voice docs
 
-		# Optional packages in forks may not always match @discord.self/* naming.
-		pnpm --filter @discord.self/brokers docs
-		pnpm --filter @discord.self/builders docs
-		pnpm --filter @discord.self/next docs
-		pnpm --filter @discord.self/proxy docs
-		pnpm --filter @discord.self/structures docs
 	fi
 else
 	echo "[bootstrap] mode=upload (skipping docs generation)"

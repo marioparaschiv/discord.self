@@ -11,12 +11,6 @@
 			"outputs": ["dist/**"],
 			"outputLogs": "errors-only"
 		},
-		"@discord.self/ui#build-storybook": {
-			"dependsOn": ["build"],
-			"inputs": [".storybook/**/*", "src/**", "package.json", "tsconfig.json", "vite.config.ts"],
-			"outputs": ["dist/**", "storybook-static/**"],
-			"outputLogs": "errors-only"
-		},
 		"@discord.self/guide#build:local": {
 			"dependsOn": ["^build"],
 			"inputs": ["public/**", "src/**", "next.config.ts", "package.json", "tsconfig.json"],

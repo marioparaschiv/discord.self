@@ -10,30 +10,32 @@ Runs a fully self-hosted local stack for documentation:
   - uploads search indices
 - `website` app served on `http://localhost:3000`
 
-`website` starts right away. `bootstrap` runs in the background and fills storage/search.
+`website` starts right away. `bootstrap` is an on-demand job that fills storage/search when you run it.
 
-Data is persisted on your host under:
+Data is persisted in Docker named volumes:
 
-- `docker/docs-stack/data/minio`
-- `docker/docs-stack/data/meili`
+- `docs-stack_minio_data`
+- `docs-stack_meili_data`
 
 ## Start
 
+First build:
+
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml up --build
+docker compose -f docker/docs-stack/docker-compose.yml up -d --build
 ```
 
-Detached mode:
+Normal restart (no rebuild):
 
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml up --build -d
+docker compose -f docker/docs-stack/docker-compose.yml up -d
+```
+
+Run bootstrap (docs upload + indexing) only when needed:
+
+```bash
+docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap up bootstrap
 docker compose -f docker/docs-stack/docker-compose.yml logs -f bootstrap
-```
-
-Re-run docs/bootstrap only:
-
-```bash
-docker compose -f docker/docs-stack/docker-compose.yml up bootstrap
 ```
 
 ## Useful endpoints
@@ -47,5 +49,4 @@ docker compose -f docker/docs-stack/docker-compose.yml up bootstrap
 
 ```bash
 docker compose -f docker/docs-stack/docker-compose.yml down -v
-rm -rf docker/docs-stack/data
 ```

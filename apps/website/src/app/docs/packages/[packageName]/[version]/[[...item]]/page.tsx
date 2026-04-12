@@ -8,6 +8,19 @@ import { SyntaxHighlighter } from '@/components/SyntaxHighlighter';
 import { fetchNode } from '@/util/fetchNode';
 import { parseDocsPathParams } from '@/util/parseDocsPathParams';
 
+function isObjectStorageXmlError(content: string) {
+	const trimmed = content.trimStart();
+	return trimmed.startsWith('<?xml') && trimmed.includes('<Error>');
+}
+
+function tryParseMdx(content: string): ReturnType<typeof mdxParse> | null {
+	try {
+		return mdxParse(content);
+	} catch {
+		return null;
+	}
+}
+
 export async function generateMetadata({
 	params,
 }: {
@@ -55,17 +68,30 @@ export default async function Page({
 		// 	return <>Placeholder</>;
 		// }
 
-		let fileContent: string;
+		let fileContent = '';
 
 		try {
-			fileContent = await fetch(`${process.env.CF_R2_README_BUCKET_URL}/${packageName}/home-README.md`).then(
-				async (res) => res.text(),
-			);
-		} catch {
-			notFound();
+			const response = await fetch(`${process.env.CF_R2_README_BUCKET_URL}/${packageName}/home-README.md`);
+			if (response.ok) {
+				fileContent = await response.text();
+				if (isObjectStorageXmlError(fileContent)) {
+					fileContent = '';
+				}
+			}
+		} catch {}
+
+		if (!fileContent.trim().length) {
+			fileContent = `# ${packageName}\n\nDocumentation is still syncing for this package.\n\nTry again after the bootstrap job completes.`;
 		}
 
-		const mdast = mdxParse(fileContent);
+		const mdast = tryParseMdx(fileContent);
+		if (!mdast) {
+			return (
+				<main className="mx-auto w-full max-w-screen-xl px-6 py-6">
+					<pre className="whitespace-pre-wrap break-words text-sm">{fileContent}</pre>
+				</main>
+			);
+		}
 
 		return (
 			<div className="prose prose-neutral dark:prose-invert prose-a:[&>img]:inline-block prose-a:[&>img]:m-0 prose-a:[&>img[height='44']]:h-11 prose-p:my-2 prose-pre:py-3 prose-pre:rounded-sm prose-pre:px-0 prose-pre:border prose-pre:border-[#d4d4d4] dark:prose-pre:border-[#404040] prose-code:font-normal prose-a:text-[#5865F2] prose-a:no-underline prose-a:hover:text-[#3d48c3] dark:prose-a:hover:text-[#7782fa] mx-auto max-w-screen-xl px-6 py-6 break-words [&_code_span:last-of-type:empty]:hidden [&_div[align='center']_p_a+a]:ml-2">

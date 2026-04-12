@@ -24,6 +24,7 @@
 **/.idea
 **/.DS_Store
 **/.turbo
+**/.next
 **/tsconfig.tsbuildinfo
 **/coverage
 **/__tests__

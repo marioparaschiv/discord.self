@@ -43,7 +43,7 @@ done
 
 corepack enable
 
-if [ "${BOOTSTRAP_FORCE_INSTALL:-false}" = "true" ] || [ ! -d /workspace/node_modules ]; then
+if [ "${BOOTSTRAP_FORCE_INSTALL:-true}" = "true" ] || [ ! -d /workspace/node_modules ]; then
 	echo "[bootstrap] installing dependencies..."
 	pnpm install --frozen-lockfile
 else
@@ -138,6 +138,13 @@ if [ "$MODE" = "full" ]; then
 		echo "[bootstrap] package filter: $SELECTED_PACKAGES"
 	fi
 
+	# Ensure core workspace packages are always built before docs generation.
+	pnpm --filter @discord.self/util build
+	pnpm --filter @discord.self/collection build
+	pnpm --filter @discord.self/identity build
+	pnpm --filter @discord.self/rest build
+	pnpm --filter @discord.self/ws build
+
 	echo "[bootstrap] building docs toolchain..."
 	pnpm --filter @discord.self/api-extractor-model build
 	pnpm --filter @discord.self/api-extractor-utils build
@@ -151,7 +158,7 @@ if [ "$MODE" = "full" ]; then
 	echo "[bootstrap] generating package documentation..."
 	if [ -n "$SELECTED_PACKAGES" ]; then
 		if has_selected_package core || has_selected_package rest || has_selected_package ws; then
-			# Ensure generated typings consumed by core/rest/ws docs are fresh and use local package names.
+			# Keep package-specific type graphs fresh for docs that consume core package output.
 			pnpm --filter @discord.self/rest build
 			pnpm --filter @discord.self/ws build
 		fi

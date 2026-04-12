@@ -48,6 +48,8 @@ services:
       - ../..:/workspace
     environment:
       CI: 'true'
+      BOOTSTRAP_FORCE_INSTALL: ${BOOTSTRAP_FORCE_INSTALL:-true}
+      BOOTSTRAP_FORCE_ACTIONS_BUILD: ${BOOTSTRAP_FORCE_ACTIONS_BUILD:-true}
       DOCS_STORAGE_ENDPOINT: ${DOCS_STORAGE_ENDPOINT:-http://minio:9000}
       DOCS_STORAGE_ACCESS_KEY_ID: ${DOCS_STORAGE_ACCESS_KEY_ID:-minioadmin}
       DOCS_STORAGE_SECRET_ACCESS_KEY: ${DOCS_STORAGE_SECRET_ACCESS_KEY:-minioadmin}
@@ -60,7 +62,7 @@ services:
       SEARCH_API_URL: ${SEARCH_API_URL:-http://meilisearch:7700}
       SEARCH_API_KEY: ${SEARCH_API_KEY:-localdevkey}
       S3_FORCE_PATH_STYLE: '${S3_FORCE_PATH_STYLE:-true}'
-    command: ['/bin/sh', '/workspace/docker/docs-stack/bootstrap.sh']
+    command: ['sh', '/workspace/docker/docs-stack/bootstrap.sh']
 
   website:
     restart: ${DOCS_RESTART_POLICY:-unless-stopped}

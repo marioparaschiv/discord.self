@@ -24,6 +24,19 @@ const docsBucketUrl = process.env.CF_R2_DOCS_BUCKET_URL.endsWith('/')
 	? process.env.CF_R2_DOCS_BUCKET_URL.slice(0, -1)
 	: process.env.CF_R2_DOCS_BUCKET_URL;
 
+function parsePositiveInteger(value: string | undefined) {
+	if (!value) {
+		return null;
+	}
+
+	const parsed = Number.parseInt(value, 10);
+	if (!Number.isFinite(parsed) || parsed <= 0) {
+		return null;
+	}
+
+	return parsed;
+}
+
 function normalizePackageName(packageName: string) {
 	return packageName.replace(/^@discord(?:\.self|js)\//, '').trim();
 }
@@ -69,7 +82,11 @@ const client = new MeiliSearch({
 	apiKey: process.env.SEARCH_API_KEY,
 });
 
-const limit = pLimit(5);
+const isLikelyLocalUpload = /(?:^https?:\/\/)?(?:localhost|127\.0\.0\.1|minio)(?::\d+)?(?:\/|$)/i.test(docsBucketUrl);
+const uploadConcurrency = parsePositiveInteger(process.env.SEARCH_UPLOAD_CONCURRENCY) ?? (isLikelyLocalUpload ? 20 : 5);
+const limit = pLimit(uploadConcurrency);
+
+console.log(`Search upload concurrency=${uploadConcurrency}, local=${isLikelyLocalUpload}`);
 
 try {
 	const packages = parsePackageFilter();

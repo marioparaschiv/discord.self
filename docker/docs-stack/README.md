@@ -59,6 +59,28 @@ If you changed any upload tooling code under `packages/actions` or `packages/scr
 docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_FORCE_ACTIONS_BUILD=true bootstrap
 ```
 
+## Upload parallelism tuning
+
+Local MinIO now defaults to high parallelism automatically.
+
+You can override upload behavior with env vars when running `bootstrap`:
+
+- `DOCS_UPLOAD_CONCURRENCY` (default local: `64`)
+- `DOCS_UPLOAD_INTERVAL_MS` (default local: disabled)
+- `DOCS_UPLOAD_INTERVAL_CAP` (default local: disabled)
+- `DOCS_MANIFEST_UPLOAD_CONCURRENCY` (default local: `32`)
+- `SEARCH_UPLOAD_CONCURRENCY` (default local: `20`)
+
+Example:
+
+```bash
+docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm \
+  -e BOOTSTRAP_MODE=upload \
+  -e DOCS_UPLOAD_CONCURRENCY=96 \
+  -e SEARCH_UPLOAD_CONCURRENCY=32 \
+  bootstrap
+```
+
 ## Recommended local loop (fast)
 
 1. Keep stack running:

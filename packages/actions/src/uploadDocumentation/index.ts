@@ -36,6 +36,24 @@ function parsePackageFilter() {
 const packageFilter = parsePackageFilter();
 const version = getInput('version') || 'main';
 const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
+const docsEndpoint = process.env.CF_R2_DOCS_URL ?? '';
+
+function parsePositiveInteger(value: string | undefined) {
+	if (!value) {
+		return null;
+	}
+
+	const parsed = Number.parseInt(value, 10);
+	if (!Number.isFinite(parsed) || parsed <= 0) {
+		return null;
+	}
+
+	return parsed;
+}
+
+const isLikelyLocalUpload = /(?:^https?:\/\/)?(?:localhost|127\.0\.0\.1|minio)(?::\d+)?(?:\/|$)/i.test(docsEndpoint);
+const uploadConcurrency =
+	parsePositiveInteger(process.env.DOCS_MANIFEST_UPLOAD_CONCURRENCY) ?? (isLikelyLocalUpload ? 32 : 10);
 
 const S3 = new S3Client({
 	region: 'auto',
@@ -61,10 +79,10 @@ interface DocsPackageIndexManifest {
 }
 
 function parseVersion(version: string) {
-	const [base] = version.split(/[-+]/);
+	const [base] = version.split(/[+-]/);
 	const parts = base?.split('.');
 
-	if (!parts || parts.length !== 3) {
+	if (parts?.length !== 3) {
 		return null;
 	}
 
@@ -169,9 +187,11 @@ async function loadPackageIndexManifest(): Promise<DocsPackageIndexManifest> {
 	}
 }
 
-const limit = pLimit(10);
+const limit = pLimit(uploadConcurrency);
 const promises = [];
 const uploadedPackages = new Set<string>();
+
+console.log(`Docs manifest upload concurrency=${uploadConcurrency}, local=${isLikelyLocalUpload}`);
 
 const patterns =
 	packageFilter.length > 0
@@ -228,35 +248,29 @@ for (const pattern of patterns) {
 try {
 	await Promise.all(promises);
 
-	const indexManifest =
-		packageFilter.length === 0
-			? {
-					packages: [...uploadedPackages].sort((left, right) =>
-						left.localeCompare(right, undefined, { numeric: true, sensitivity: 'base' }),
-					),
-					updatedAt: new Date().toISOString(),
-				}
-			: (() => {
-					const existingPackages = new Set<string>();
-					return loadPackageIndexManifest().then((currentManifest) => {
-						for (const packageName of currentManifest.packages) {
-							existingPackages.add(packageName);
-						}
+	let resolvedIndexManifest: DocsPackageIndexManifest;
+	if (packageFilter.length === 0) {
+		resolvedIndexManifest = {
+			packages: [...uploadedPackages].sort((left, right) =>
+				left.localeCompare(right, undefined, { numeric: true, sensitivity: 'base' }),
+			),
+			updatedAt: new Date().toISOString(),
+		};
+	} else {
+		const currentManifest = await loadPackageIndexManifest();
+		const existingPackages = new Set<string>(currentManifest.packages);
 
-						for (const packageName of uploadedPackages) {
-							existingPackages.add(packageName);
-						}
+		for (const packageName of uploadedPackages) {
+			existingPackages.add(packageName);
+		}
 
-						return {
-							packages: [...existingPackages].sort((left, right) =>
-								left.localeCompare(right, undefined, { numeric: true, sensitivity: 'base' }),
-							),
-							updatedAt: new Date().toISOString(),
-						};
-					});
-				})();
-
-	const resolvedIndexManifest = await Promise.resolve(indexManifest);
+		resolvedIndexManifest = {
+			packages: [...existingPackages].sort((left, right) =>
+				left.localeCompare(right, undefined, { numeric: true, sensitivity: 'base' }),
+			),
+			updatedAt: new Date().toISOString(),
+		};
+	}
 
 	await S3.send(
 		new PutObjectCommand({

@@ -38,10 +38,45 @@ function parsePackageFilter() {
 const packageFilter = parsePackageFilter();
 const version = getInput('version') || 'main';
 const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
+const docsEndpoint = process.env.CF_R2_DOCS_URL ?? '';
 
-const queue = new PQueue({ concurrency: 10, interval: 60_000, intervalCap: 1_000 });
+function parsePositiveInteger(value: string | undefined) {
+	if (!value) {
+		return null;
+	}
+
+	const parsed = Number.parseInt(value, 10);
+	if (!Number.isFinite(parsed) || parsed <= 0) {
+		return null;
+	}
+
+	return parsed;
+}
+
+const isLikelyLocalUpload = /(?:^https?:\/\/)?(?:localhost|127\.0\.0\.1|minio)(?::\d+)?(?:\/|$)/i.test(docsEndpoint);
+const queueConcurrency = parsePositiveInteger(process.env.DOCS_UPLOAD_CONCURRENCY) ?? (isLikelyLocalUpload ? 64 : 10);
+const queueInterval = parsePositiveInteger(process.env.DOCS_UPLOAD_INTERVAL_MS) ?? (isLikelyLocalUpload ? 0 : 60_000);
+const queueIntervalCap =
+	parsePositiveInteger(process.env.DOCS_UPLOAD_INTERVAL_CAP) ?? (isLikelyLocalUpload ? 0 : 1_000);
+
+const queueOptions: ConstructorParameters<typeof PQueue>[0] =
+	queueInterval > 0 && queueIntervalCap > 0
+		? {
+				concurrency: queueConcurrency,
+				interval: queueInterval,
+				intervalCap: queueIntervalCap,
+			}
+		: {
+				concurrency: queueConcurrency,
+			};
+
+const queue = new PQueue(queueOptions);
 const promises = [];
 const failedUploads: string[] = [];
+
+console.log(
+	`Upload queue config: concurrency=${queueConcurrency}, interval=${queueInterval || 0}, intervalCap=${queueIntervalCap || 0}, local=${isLikelyLocalUpload}`,
+);
 
 const S3 = new S3Client({
 	region: 'auto',
@@ -87,12 +122,7 @@ for (const pattern of patterns) {
 								return;
 							}
 
-							if (
-								typeof error === 'object' &&
-								error &&
-								'retryAfter' in error &&
-								typeof error.retryAfter === 'number'
-							) {
+							if (typeof error === 'object' && error && 'retryAfter' in error && typeof error.retryAfter === 'number') {
 								await sleep(error.retryAfter * 1_000);
 								return upload(retries + 1);
 							} else {

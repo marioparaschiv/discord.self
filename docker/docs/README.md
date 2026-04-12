@@ -6,6 +6,7 @@ Self-hosted docs stack:
 - `meilisearch` for search indices
 - `bootstrap` one-shot job for docs generation/upload/indexing
 - `website` app on `http://localhost:3000`
+- `guide` app on `http://localhost:3001` (also linked from website `/guide/*`)
 
 ## Configure
 
@@ -26,6 +27,7 @@ cp docker/docs/.env.example .env
 - `NEXT_PUBLIC_SEARCH_API_KEY`
 
 `NEXT_PUBLIC_*` values are baked into the website client bundle, so changing them requires `--build`.
+`GUIDE_REDIRECT_URL` is also baked into the website bundle.
 
 ## Start
 
@@ -64,6 +66,7 @@ docker compose -f docker/docs/docker-compose.yml --profile bootstrap run --rm -e
 ## Endpoints
 
 - Website: `http://localhost:3000`
+- Guide: `http://localhost:3001`
 - MinIO API: `http://localhost:9000`
 - MinIO Console: `http://localhost:9001`
 - Meilisearch: `http://localhost:7700`

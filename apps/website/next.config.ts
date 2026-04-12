@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+const GUIDE_REDIRECT_URL = process.env.GUIDE_REDIRECT_URL ?? 'https://discordjs.guide';
+
 export default {
 	output: 'standalone',
 	images: {
@@ -32,7 +34,7 @@ export default {
 			},
 			{
 				source: '/guide/:path*',
-				destination: 'https://discordjs.guide/:path*',
+				destination: `${GUIDE_REDIRECT_URL.replace(/\/$/, '')}/:path*`,
 				permanent: false,
 			},
 		];

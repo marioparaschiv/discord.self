@@ -2,7 +2,7 @@ import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { afterEach, expect, test, vi } from 'vitest';
-import { SQLiteAdapter } from '../src/storage.js';
+import { SQLiteAdapter } from '../src/SQLiteAdapter.js';
 
 const createdDirectories: string[] = [];
 

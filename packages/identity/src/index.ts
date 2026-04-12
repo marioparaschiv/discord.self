@@ -1,12 +1,12 @@
 export * from './buildMetadata.js';
-export * from './storage.js';
+export * from './SQLiteAdapter.js';
 export * from './types.js';
 export {
 	DiscordIdentity,
 	createDiscordIdentity,
 	restoreDiscordIdentity,
 	makeDiscordCloakedRequest,
-} from './identity.js';
+} from './DiscordIdentity.js';
 
 /**
  * The {@link https://github.com/discordjs/discord.js/blob/main/packages/identity#readme | @discord.self/identity} version

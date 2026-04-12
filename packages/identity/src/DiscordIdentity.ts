@@ -11,7 +11,7 @@ import {
 	IdentitySuperPropertiesBuilder,
 	type DiscoveredHeadersResponse,
 	type ResolvedDiscordIdentityOptions,
-} from './internal/IdentityInternals.js';
+} from './internal/index.js';
 import type {
 	DiscordCloakedRequestHandler,
 	DiscordIdentityHeaderOptions,

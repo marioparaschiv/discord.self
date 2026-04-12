@@ -1,6 +1,42 @@
 # discord.self
 
-`discord.self` is a user-account-focused fork of `discord.js`, split into scoped packages under `@discord.self/*`.
+A user-account `discord.js`-based fork aiming to support all undocumented user APIs while staying under the radar.
+
+> [!CAUTION]
+> **Using this on a user account is prohibited by the [Discord TOS](https://discord.com/terms) and can lead to account suspensions.**
+
+Thanks to the original [`discord.js`](https://github.com/discordjs/discord.js) project and its contributors for the foundational work this package builds on.
+
+## Features
+
+- [x] Client signal cloaking (TLS fingerprinting, browser fingerprints, and related client/session signals)
+- [x] Automatic up-to-date version and Super Properties fetching
+- [ ] Captcha handling
+- [ ] TOTP handling
+- [ ] Documentation
+- [ ] Voice & Video
+- [ ] User & password login flow
+- [ ] Sessions
+- [ ] Read states
+- [ ] Connections
+- [ ] Relationships
+- [ ] Experiments
+- [ ] Protobuf user settings
+- [ ] Application/team management
+- [ ] Store/SKUs/entitlements
+- [ ] Billing (e.g. subscriptions, payments, boosts, promotions, etc.)
+- [ ] Interactions (slash commands, buttons, etc.)
+
+## Quick Start
+
+```sh
+pnpm add @discord.self/client
+```
+
+## Docs
+
+- [Documentation](https://dself.marioparaschiv.com/docs)
+- [Token Guide](https://gist.github.com/marioparaschiv/a565ef085466864aefed1597fd531445)
 
 ## Packages
 
@@ -13,30 +49,6 @@
 - `@discord.self/voice`: voice runtime
 - `@discord.self/docgen`, `@discord.self/scripts`, `@discord.self/actions`: internal tooling
 - `@discord.self/api-extractor*`: API model/extractor tooling
-
-## Quick Start
-
-```sh
-pnpm add @discord.self/client
-```
-
-```ts
-import { Client, Events } from '@discord.self/client';
-
-const client = new Client({ intents: 0 });
-
-client.once(Events.ClientReady, (ready) => {
-	console.log(`ready: ${ready.user.tag}`);
-});
-
-await client.login(process.env.DISCORD_TOKEN);
-```
-
-## Docs
-
-- Package docs artifacts live in `packages/*/docs`.
-- Build all docs: `pnpm docs`
-- Run local docs stack: `pnpm docs:stack:up`
 
 ## Contributing
 

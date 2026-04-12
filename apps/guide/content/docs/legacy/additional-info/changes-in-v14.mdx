@@ -225,7 +225,7 @@ The `restWsBridgeTimeout` client option has been removed.
 
 ### CommandInteractionOptionResolver
 
-`CommandInteractionOptionResolver#getMember()` no longer has a parameter for `required`. See [this pull request](https://github.com/discordjs/discord.js/pull/7188) for more information.
+`CommandInteractionOptionResolver#getMember()` no longer has a parameter for `required`. See [this pull request](https://github.com/marioparaschiv/discord.self/pull/7188) for more information.
 
 ### Constants
 
@@ -259,7 +259,7 @@ OAuth2Scopes; // [!code ++]
 
 The `message` and `interaction` events are now removed. Use `messageCreate` and `interactionCreate` instead.
 
-`applicationCommandCreate`, `applicationCommandDelete` and `applicationCommandUpdate` have all been removed. See [this pull request](https://github.com/discordjs/discord.js/pull/6492) for more information.
+`applicationCommandCreate`, `applicationCommandDelete` and `applicationCommandUpdate` have all been removed. See [this pull request](https://github.com/marioparaschiv/discord.self/pull/6492) for more information.
 
 The `threadMembersUpdate` event now emits the users who were added, the users who were removed, and the thread respectively.
 
@@ -283,7 +283,7 @@ Developers should utilise `deleteMessageSeconds` instead of `days` and `deleteMe
 
 `Guild#maximumPresences` no longer has a default value of 25,000.
 
-`Guild#me` has been moved to `GuildMemberManager#me`. See [this pull request](https://github.com/discordjs/discord.js/pull/7669) for more information.
+`Guild#me` has been moved to `GuildMemberManager#me`. See [this pull request](https://github.com/marioparaschiv/discord.self/pull/7669) for more information.
 
 ### GuildAuditLogs & GuildAuditLogsEntry
 
@@ -297,7 +297,7 @@ The following properties & methods have been moved to the `GuildAuditLogsEntry` 
 
 ### GuildMember
 
-`GuildMember#pending` is now nullable to account for partial guild members. See [this issue](https://github.com/discordjs/discord.js/issues/6546) for more information.
+`GuildMember#pending` is now nullable to account for partial guild members. See [this issue](https://github.com/marioparaschiv/discord.self/issues/6546) for more information.
 
 ### IntegrationApplication
 
@@ -460,7 +460,7 @@ client.rest.on('rateLimited', ...); // [!code ++]
 
 ### Sticker
 
-`Sticker#tags` is now a nullable string (`string | null`). Previously, it was a nullable array of strings (`string[] | null`). See [this pull request](https://github.com/discordjs/discord.js/pull/8010) for more information.
+`Sticker#tags` is now a nullable string (`string | null`). Previously, it was a nullable array of strings (`string[] | null`). See [this pull request](https://github.com/marioparaschiv/discord.self/pull/8010) for more information.
 
 ### ThreadChannel
 
@@ -501,7 +501,7 @@ escapeMarkdown(message); // [!code ++]
 
 ### `.deleted` Field(s) have been removed
 
-You can no longer use the `deleted` property to check if a structure was deleted. See [this issue](https://github.com/discordjs/discord.js/issues/7091) for more information.
+You can no longer use the `deleted` property to check if a structure was deleted. See [this issue](https://github.com/marioparaschiv/discord.self/issues/7091) for more information.
 
 ### VoiceChannel
 

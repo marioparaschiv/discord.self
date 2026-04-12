@@ -40,7 +40,7 @@ export {
 export { type JoinConfig, getVoiceConnection, getVoiceConnections, getGroups } from './DataStore';
 
 /**
- * The {@link https://github.com/discordjs/discord.js/blob/main/packages/voice#readme | @discord.self/voice} version
+ * The {@link https://github.com/marioparaschiv/discord.self/blob/main/packages/voice#readme | @discord.self/voice} version
  * that you are currently using.
  */
 // This needs to explicitly be `string` so it is not typed as a "const string" that gets injected by esbuild

@@ -71,7 +71,7 @@ export default async function Page({
 		let fileContent = '';
 
 		try {
-			const response = await fetch(`${process.env.CF_R2_README_BUCKET_URL}/${packageName}/home-README.md`);
+			const response = await fetch(`${process.env.READMES_STORAGE_BUCKET_URL}/${packageName}/home-README.md`);
 			if (response.ok) {
 				fileContent = await response.text();
 				if (isObjectStorageXmlError(fileContent)) {
@@ -88,7 +88,7 @@ export default async function Page({
 		if (!mdast) {
 			return (
 				<main className="mx-auto w-full max-w-screen-xl px-6 py-6">
-					<pre className="whitespace-pre-wrap break-words text-sm">{fileContent}</pre>
+					<pre className="text-sm break-words whitespace-pre-wrap">{fileContent}</pre>
 				</main>
 			);
 		}

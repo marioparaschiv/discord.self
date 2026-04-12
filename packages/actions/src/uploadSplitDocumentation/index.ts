@@ -8,10 +8,10 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import PQueue from 'p-queue';
 
 if (
-	!process.env.CF_R2_DOCS_URL ||
-	!process.env.CF_R2_DOCS_ACCESS_KEY_ID ||
-	!process.env.CF_R2_DOCS_SECRET_ACCESS_KEY ||
-	!process.env.CF_R2_DOCS_BUCKET
+	!process.env.DOCS_STORAGE_ENDPOINT ||
+	!process.env.DOCS_STORAGE_ACCESS_KEY_ID ||
+	!process.env.DOCS_STORAGE_SECRET_ACCESS_KEY ||
+	!process.env.DOCS_STORAGE_BUCKET
 ) {
 	setFailed('Missing environment variables');
 }
@@ -38,7 +38,7 @@ function parsePackageFilter() {
 const packageFilter = parsePackageFilter();
 const version = getInput('version') || 'main';
 const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
-const docsEndpoint = process.env.CF_R2_DOCS_URL ?? '';
+const docsEndpoint = process.env.DOCS_STORAGE_ENDPOINT ?? '';
 
 function parsePositiveInteger(value: string | undefined) {
 	if (!value) {
@@ -80,11 +80,11 @@ console.log(
 
 const S3 = new S3Client({
 	region: 'auto',
-	endpoint: process.env.CF_R2_DOCS_URL!,
+	endpoint: process.env.DOCS_STORAGE_ENDPOINT!,
 	forcePathStyle,
 	credentials: {
-		accessKeyId: process.env.CF_R2_DOCS_ACCESS_KEY_ID!,
-		secretAccessKey: process.env.CF_R2_DOCS_SECRET_ACCESS_KEY!,
+		accessKeyId: process.env.DOCS_STORAGE_ACCESS_KEY_ID!,
+		secretAccessKey: process.env.DOCS_STORAGE_SECRET_ACCESS_KEY!,
 	},
 	requestChecksumCalculation: 'WHEN_REQUIRED',
 	responseChecksumValidation: 'WHEN_REQUIRED',
@@ -110,7 +110,7 @@ for (const pattern of patterns) {
 						try {
 							await S3.send(
 								new PutObjectCommand({
-									Bucket: process.env.CF_R2_DOCS_BUCKET,
+									Bucket: process.env.DOCS_STORAGE_BUCKET,
 									Key: `${pkgName}/${version}.${name}`,
 									Body: data,
 								}),

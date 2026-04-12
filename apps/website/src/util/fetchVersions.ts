@@ -5,10 +5,10 @@ interface DocsManifest {
 }
 
 function parseVersion(version: string) {
-	const [base] = version.split(/[-+]/);
+	const [base] = version.split(/[+-]/);
 	const parts = base?.split('.');
 
-	if (!parts || parts.length !== 3) {
+	if (parts?.length !== 3) {
 		return null;
 	}
 
@@ -59,14 +59,14 @@ export async function fetchVersions(packageName: string) {
 		return [{ version: 'main' }];
 	}
 
-	if (!process.env.CF_R2_DOCS_BUCKET_URL) {
+	if (!process.env.DOCS_STORAGE_BUCKET_URL) {
 		return [];
 	}
 
 	try {
-		const bucketUrl = process.env.CF_R2_DOCS_BUCKET_URL.endsWith('/')
-			? process.env.CF_R2_DOCS_BUCKET_URL.slice(0, -1)
-			: process.env.CF_R2_DOCS_BUCKET_URL;
+		const bucketUrl = process.env.DOCS_STORAGE_BUCKET_URL.endsWith('/')
+			? process.env.DOCS_STORAGE_BUCKET_URL.slice(0, -1)
+			: process.env.DOCS_STORAGE_BUCKET_URL;
 
 		const response = await fetch(`${bucketUrl}/manifests/${packageName}.json`, {
 			cache: 'no-store',

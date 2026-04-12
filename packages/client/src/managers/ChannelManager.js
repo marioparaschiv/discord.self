@@ -157,7 +157,7 @@ class ChannelManager extends CachedManager {
    * @example
    * // Send a remote file
    * client.channels.createMessage(channel, {
-   *   files: ['https://github.com/discordjs.png']
+   *   files: ['https://github.com/marioparaschiv.png']
    * })
    *   .then(console.log)
    *   .catch(console.error);

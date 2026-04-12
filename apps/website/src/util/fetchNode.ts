@@ -35,7 +35,7 @@ export async function fetchNode({
 	}
 
 	const fileContent = await fetch(
-		`${process.env.CF_R2_DOCS_BUCKET_URL}/${packageName}/${version}.${normalizedEntryPoint}${normalizeItem}.api.json`,
+		`${process.env.DOCS_STORAGE_BUCKET_URL}/${packageName}/${version}.${normalizedEntryPoint}${normalizeItem}.api.json`,
 		{ cache: 'no-store' },
 	);
 

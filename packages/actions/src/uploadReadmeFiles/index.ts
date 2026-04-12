@@ -5,23 +5,24 @@ import { create } from '@actions/glob';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
 if (
-	!process.env.CF_R2_READMES_ACCESS_KEY_ID ||
-	!process.env.CF_R2_READMES_SECRET_ACCESS_KEY ||
-	!process.env.CF_R2_READMES_BUCKET ||
-	!process.env.CF_R2_READMES_URL
+	!process.env.READMES_STORAGE_ACCESS_KEY_ID ||
+	!process.env.READMES_STORAGE_SECRET_ACCESS_KEY ||
+	!process.env.READMES_STORAGE_BUCKET ||
+	!process.env.READMES_STORAGE_ENDPOINT
 ) {
 	setFailed('Missing environment variables.');
 	process.exit(1);
 }
+
 const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
 
 const S3READMEFiles = new S3Client({
 	region: 'auto',
-	endpoint: process.env.CF_R2_READMES_URL,
+	endpoint: process.env.READMES_STORAGE_ENDPOINT,
 	forcePathStyle,
 	credentials: {
-		accessKeyId: process.env.CF_R2_READMES_ACCESS_KEY_ID,
-		secretAccessKey: process.env.CF_R2_READMES_SECRET_ACCESS_KEY,
+		accessKeyId: process.env.READMES_STORAGE_ACCESS_KEY_ID,
+		secretAccessKey: process.env.READMES_STORAGE_SECRET_ACCESS_KEY,
 	},
 	requestChecksumCalculation: 'WHEN_REQUIRED',
 	responseChecksumValidation: 'WHEN_REQUIRED',
@@ -60,7 +61,7 @@ for await (const apiExtractorFile of globber.globGenerator()) {
 		readFile(readmePath, 'utf8').then(async (readmeData) =>
 			S3READMEFiles.send(
 				new PutObjectCommand({
-					Bucket: process.env.CF_R2_READMES_BUCKET,
+					Bucket: process.env.READMES_STORAGE_BUCKET,
 					Key: readmeKey,
 					Body: readmeData,
 				}),

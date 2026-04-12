@@ -15,14 +15,14 @@ if (!process.env.SEARCH_API_KEY) {
 	process.exit(1);
 }
 
-if (!process.env.CF_R2_DOCS_BUCKET_URL) {
-	setFailed('CF_R2_DOCS_BUCKET_URL is not set');
+if (!process.env.DOCS_STORAGE_BUCKET_URL) {
+	setFailed('DOCS_STORAGE_BUCKET_URL is not set');
 	process.exit(1);
 }
 
-const docsBucketUrl = process.env.CF_R2_DOCS_BUCKET_URL.endsWith('/')
-	? process.env.CF_R2_DOCS_BUCKET_URL.slice(0, -1)
-	: process.env.CF_R2_DOCS_BUCKET_URL;
+const docsBucketUrl = process.env.DOCS_STORAGE_BUCKET_URL.endsWith('/')
+	? process.env.DOCS_STORAGE_BUCKET_URL.slice(0, -1)
+	: process.env.DOCS_STORAGE_BUCKET_URL;
 
 function parsePositiveInteger(value: string | undefined) {
 	if (!value) {

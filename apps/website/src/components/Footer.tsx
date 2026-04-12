@@ -49,7 +49,7 @@ export function Footer() {
 							</a>
 							<a
 								className="rounded"
-								href="https://github.com/discordjs/discord.js/discussions"
+								href="https://github.com/marioparaschiv/discord.self/discussions"
 								rel="external noopener noreferrer"
 								target="_blank"
 							>
@@ -62,7 +62,7 @@ export function Footer() {
 						<div className="flex flex-col gap-1">
 							<a
 								className="rounded"
-								href="https://github.com/discordjs/discord.js"
+								href="https://github.com/marioparaschiv/discord.self"
 								rel="external noopener noreferrer"
 								target="_blank"
 							>

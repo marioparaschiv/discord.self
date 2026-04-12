@@ -15,7 +15,7 @@ To get ready to work on the codebase, please do the following:
 3. Run `pnpm run build` to build local packages
 4. Code your heart out!
 5. Run `pnpm run test` to run ESLint and ensure any JSDoc changes are valid
-6. [Submit a pull request](https://github.com/discordjs/discord.js/compare) (Make sure you follow the [conventional commit format](https://github.com/discordjs/discord.js/blob/main/.github/COMMIT_CONVENTION.md))
+6. [Submit a pull request](https://github.com/marioparaschiv/discord.self/compare) (Make sure you follow the [conventional commit format](https://github.com/marioparaschiv/discord.self/blob/main/.github/COMMIT_CONVENTION.md))
 
 ## Testing changes locally
 

@@ -1,119 +1,74 @@
-# Local Docs Stack
+# Docs Stack (Local + Production)
 
-Runs a fully self-hosted local stack for documentation:
+Self-hosted docs stack:
 
 - `minio` for docs/readme object storage
 - `meilisearch` for search indices
-- `bootstrap` one-shot job that:
-  - generates docs
-  - uploads docs + split docs + readmes
-  - uploads search indices
-- `website` app served on `http://localhost:3000`
+- `bootstrap` one-shot job for docs generation/upload/indexing
+- `website` app on `http://localhost:3000`
 
-`website` starts right away. `bootstrap` is an on-demand job that fills storage/search when you run it.
+## Configure
 
-Data is persisted in Docker named volumes:
+1. Copy env template:
 
-- `docs-stack_minio_data`
-- `docs-stack_meili_data`
+```bash
+cp docker/docs-stack/.env.example .env
+```
+
+2. For production, set strong secrets at minimum:
+
+- `MINIO_ROOT_USER`
+- `MINIO_ROOT_PASSWORD`
+- `MEILI_MASTER_KEY`
+- `DOCS_STORAGE_SECRET_ACCESS_KEY`
+- `READMES_STORAGE_SECRET_ACCESS_KEY`
+- `SEARCH_API_KEY`
+- `NEXT_PUBLIC_SEARCH_API_KEY`
+
+`NEXT_PUBLIC_*` values are baked into the website client bundle, so changing them requires `--build`.
 
 ## Start
-
-First build:
 
 ```bash
 docker compose -f docker/docs-stack/docker-compose.yml up -d --build
 ```
 
-Normal restart (no rebuild):
+Normal restart:
 
 ```bash
 docker compose -f docker/docs-stack/docker-compose.yml up -d
 ```
 
-Run full bootstrap (build docs + upload + indexing) when needed:
+## Bootstrap Docs
+
+Full bootstrap:
 
 ```bash
 docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm bootstrap
 ```
 
-Fast refresh after building docs locally (upload + indexing only, no docs rebuild):
+Upload/index only:
 
 ```bash
 docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload bootstrap
 ```
 
-`upload` mode does not require restarting `website`.
-
-Fast refresh for specific packages only:
+Package-scoped upload/index:
 
 ```bash
 docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_PACKAGES=identity,rest bootstrap
 ```
 
-`BOOTSTRAP_PACKAGES` accepts comma-separated package names (with or without `@discord.self/` prefix).
+`BOOTSTRAP_PACKAGES` accepts comma-separated package names, with or without `@discord.self/` prefix.
 
-If you changed any upload tooling code under `packages/actions` or `packages/scripts`, force a rebuild once:
-
-```bash
-docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_FORCE_ACTIONS_BUILD=true bootstrap
-```
-
-## Upload parallelism tuning
-
-You can tune upload parallelism and rate limiting with env vars when running `bootstrap`:
-
-- `DOCS_UPLOAD_CONCURRENCY` (default local: `64`)
-- `DOCS_UPLOAD_INTERVAL_MS` (default local: disabled)
-- `DOCS_UPLOAD_INTERVAL_CAP` (default local: disabled)
-- `DOCS_MANIFEST_UPLOAD_CONCURRENCY` (default local: `32`)
-- `SEARCH_UPLOAD_CONCURRENCY` (default local: `20`)
-
-Example:
-
-```bash
-docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm \
-  -e BOOTSTRAP_MODE=upload \
-  -e DOCS_UPLOAD_CONCURRENCY=96 \
-  -e SEARCH_UPLOAD_CONCURRENCY=32 \
-  bootstrap
-```
-
-## Recommended local loop (fast)
-
-1. Keep stack running:
-
-```bash
-docker compose -f docker/docs-stack/docker-compose.yml up -d
-```
-
-2. Build only what changed on host (example):
-
-```bash
-pnpm --filter @discord.self/identity docs
-```
-
-3. Push docs/search to local MinIO+Meili:
-
-```bash
-docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload bootstrap
-```
-
-Only one package changed:
-
-```bash
-pnpm --filter @discord.self/identity docs
-docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_PACKAGES=identity bootstrap
-```
-
-## Useful endpoints
+## Endpoints
 
 - Website: `http://localhost:3000`
 - MinIO API: `http://localhost:9000`
-- MinIO Console: `http://localhost:9001` (`minioadmin` / `minioadmin`)
+- MinIO Console: `http://localhost:9001`
 - Meilisearch: `http://localhost:7700`
 
-## Reset all stack data
+## Reset Data
 
 ```bash
 docker compose -f docker/docs-stack/docker-compose.yml down -v

@@ -32,7 +32,7 @@ export default async function Page() {
 					</a>
 					<a
 						className={buttonStyles({ variant: 'discreet' })}
-						href="https://github.com/discordjs/discord.js"
+						href="https://github.com/marioparaschiv/discord.self"
 						rel="external noopener noreferrer"
 						target="_blank"
 					>

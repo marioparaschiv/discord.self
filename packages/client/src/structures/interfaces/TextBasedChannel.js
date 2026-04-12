@@ -166,7 +166,7 @@ class TextBasedChannel {
    * @example
    * // Send a remote file
    * channel.send({
-   *   files: ['https://github.com/discordjs.png']
+   *   files: ['https://github.com/marioparaschiv.png']
    * })
    *   .then(console.log)
    *   .catch(console.error);

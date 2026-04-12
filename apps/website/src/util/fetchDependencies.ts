@@ -28,7 +28,7 @@ export async function fetchDependencies({
 
 	try {
 		const fileContent = await fetch(
-			`${process.env.CF_R2_DOCS_BUCKET_URL}/${packageName}/${version}.dependencies.api.json`,
+			`${process.env.DOCS_STORAGE_BUCKET_URL}/${packageName}/${version}.dependencies.api.json`,
 			{ cache: 'no-store' },
 		);
 		const parsedDependencies = await fileContent.json();

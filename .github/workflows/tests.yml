@@ -59,9 +59,3 @@ jobs:
       - name: Docs (Push)
         if: ${{ github.event_name == 'push' }}
         run: pnpm exec turbo run docs --filter="...[HEAD^1]" --concurrency=4
-
-      - name: Upload Coverage
-        if: github.repository_owner == 'marioparaschiv'
-        uses: ./packages/actions/src/uploadCoverage
-        with:
-          codecov_token: ${{ secrets.CODECOV_TOKEN }}

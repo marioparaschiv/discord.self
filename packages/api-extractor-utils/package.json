@@ -37,14 +37,14 @@
 	"license": "Apache-2.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/discordjs/discord.js.git",
+		"url": "https://github.com/marioparaschiv/discord.self.git",
 		"directory": "packages/api-extractor-utils"
 	},
 	"bugs": {
-		"url": "https://github.com/discordjs/discord.js/issues"
+		"url": "https://github.com/marioparaschiv/discord.self/issues"
 	},
 	"homepage": "https://discord.js.org",
-	"funding": "https://github.com/discordjs/discord.js?sponsor",
+	"funding": "https://github.com/marioparaschiv/discord.self?sponsor",
 	"dependencies": {
 		"@discord.self/api-extractor-model": "workspace:^",
 		"@microsoft/tsdoc": "~0.15.1"

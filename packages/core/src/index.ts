@@ -8,7 +8,7 @@ export * from 'discord-api-types/v10';
 export { GatewayRateLimitError } from '@discord.self/util';
 
 /**
- * The {@link https://github.com/discordjs/discord.js/blob/main/packages/core#readme | @discord.self/core} version
+ * The {@link https://github.com/marioparaschiv/discord.self/blob/main/packages/core#readme | @discord.self/core} version
  * that you are currently using.
  */
 // This needs to explicitly be `string` so it is not typed as a "const string" that gets injected by esbuild

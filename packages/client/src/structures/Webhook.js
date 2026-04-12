@@ -192,7 +192,7 @@ class Webhook {
    * @example
    * // Send a remote file
    * webhook.send({
-   *   files: ['https://github.com/discordjs.png']
+   *   files: ['https://github.com/marioparaschiv.png']
    * })
    *   .then(console.log)
    *   .catch(console.error);

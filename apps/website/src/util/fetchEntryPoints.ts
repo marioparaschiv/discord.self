@@ -27,7 +27,7 @@ export async function fetchEntryPoints(packageName: string, version: string): Pr
 	}
 
 	const fileContent = await fetch(
-		`${process.env.CF_R2_DOCS_BUCKET_URL}/${packageName}/${version}.entrypoints.api.json`,
+		`${process.env.DOCS_STORAGE_BUCKET_URL}/${packageName}/${version}.entrypoints.api.json`,
 		{ cache: 'no-store' },
 	);
 

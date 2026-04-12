@@ -60,12 +60,12 @@ const {
   S3Client,
 } = require('@aws-sdk/client-s3');
 
-const endpoint = process.env.CF_R2_DOCS_URL;
-const accessKeyId = process.env.CF_R2_DOCS_ACCESS_KEY_ID;
-const secretAccessKey = process.env.CF_R2_DOCS_SECRET_ACCESS_KEY;
+const endpoint = process.env.DOCS_STORAGE_ENDPOINT;
+const accessKeyId = process.env.DOCS_STORAGE_ACCESS_KEY_ID;
+const secretAccessKey = process.env.DOCS_STORAGE_SECRET_ACCESS_KEY;
 const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
 const buckets = Array.from(
-  new Set([process.env.CF_R2_DOCS_BUCKET, process.env.CF_R2_READMES_BUCKET].filter(Boolean)),
+  new Set([process.env.DOCS_STORAGE_BUCKET, process.env.READMES_STORAGE_BUCKET].filter(Boolean)),
 );
 
 if (!endpoint || !accessKeyId || !secretAccessKey || buckets.length === 0) {

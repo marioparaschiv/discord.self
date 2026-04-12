@@ -105,10 +105,10 @@ jobs:
       - name: Upload documentation to object storage
         if: ${{ env.REF_TYPE == 'tag' && (!inputs.ref || inputs.ref == 'main') }}
         env:
-          CF_R2_DOCS_URL: ${{ secrets.CF_R2_DOCS_URL }}
-          CF_R2_DOCS_ACCESS_KEY_ID: ${{ secrets.CF_R2_DOCS_ACCESS_KEY_ID }}
-          CF_R2_DOCS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_DOCS_SECRET_ACCESS_KEY }}
-          CF_R2_DOCS_BUCKET: ${{ secrets.CF_R2_DOCS_BUCKET }}
+          DOCS_STORAGE_ENDPOINT: ${{ secrets.DOCS_STORAGE_ENDPOINT }}
+          DOCS_STORAGE_ACCESS_KEY_ID: ${{ secrets.DOCS_STORAGE_ACCESS_KEY_ID }}
+          DOCS_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.DOCS_STORAGE_SECRET_ACCESS_KEY }}
+          DOCS_STORAGE_BUCKET: ${{ secrets.DOCS_STORAGE_BUCKET }}
         uses: ./packages/actions/src/uploadDocumentation
         with:
           package: ${{ steps.extract-tag.outputs.package }}
@@ -117,10 +117,10 @@ jobs:
       - name: Upload documentation to object storage
         if: ${{ env.REF_TYPE == 'tag' && inputs.ref && inputs.ref != 'main' }}
         env:
-          CF_R2_DOCS_URL: ${{ secrets.CF_R2_DOCS_URL }}
-          CF_R2_DOCS_ACCESS_KEY_ID: ${{ secrets.CF_R2_DOCS_ACCESS_KEY_ID }}
-          CF_R2_DOCS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_DOCS_SECRET_ACCESS_KEY }}
-          CF_R2_DOCS_BUCKET: ${{ secrets.CF_R2_DOCS_BUCKET }}
+          DOCS_STORAGE_ENDPOINT: ${{ secrets.DOCS_STORAGE_ENDPOINT }}
+          DOCS_STORAGE_ACCESS_KEY_ID: ${{ secrets.DOCS_STORAGE_ACCESS_KEY_ID }}
+          DOCS_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.DOCS_STORAGE_SECRET_ACCESS_KEY }}
+          DOCS_STORAGE_BUCKET: ${{ secrets.DOCS_STORAGE_BUCKET }}
         uses: ./main/packages/actions/src/uploadDocumentation
         with:
           package: ${{ steps.extract-tag.outputs.package }}
@@ -129,10 +129,10 @@ jobs:
       - name: Upload split documentation to blob storage
         if: ${{ env.REF_TYPE == 'tag' && (!inputs.ref || inputs.ref == 'main') }}
         env:
-          CF_R2_DOCS_URL: ${{ secrets.CF_R2_DOCS_URL }}
-          CF_R2_DOCS_ACCESS_KEY_ID: ${{ secrets.CF_R2_DOCS_ACCESS_KEY_ID }}
-          CF_R2_DOCS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_DOCS_SECRET_ACCESS_KEY }}
-          CF_R2_DOCS_BUCKET: ${{ secrets.CF_R2_DOCS_BUCKET }}
+          DOCS_STORAGE_ENDPOINT: ${{ secrets.DOCS_STORAGE_ENDPOINT }}
+          DOCS_STORAGE_ACCESS_KEY_ID: ${{ secrets.DOCS_STORAGE_ACCESS_KEY_ID }}
+          DOCS_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.DOCS_STORAGE_SECRET_ACCESS_KEY }}
+          DOCS_STORAGE_BUCKET: ${{ secrets.DOCS_STORAGE_BUCKET }}
         uses: ./packages/actions/src/uploadSplitDocumentation
         with:
           package: ${{ steps.extract-tag.outputs.package }}
@@ -141,10 +141,10 @@ jobs:
       - name: Upload split documentation to blob storage
         if: ${{ env.REF_TYPE == 'tag' && inputs.ref && inputs.ref != 'main' }}
         env:
-          CF_R2_DOCS_URL: ${{ secrets.CF_R2_DOCS_URL }}
-          CF_R2_DOCS_ACCESS_KEY_ID: ${{ secrets.CF_R2_DOCS_ACCESS_KEY_ID }}
-          CF_R2_DOCS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_DOCS_SECRET_ACCESS_KEY }}
-          CF_R2_DOCS_BUCKET: ${{ secrets.CF_R2_DOCS_BUCKET }}
+          DOCS_STORAGE_ENDPOINT: ${{ secrets.DOCS_STORAGE_ENDPOINT }}
+          DOCS_STORAGE_ACCESS_KEY_ID: ${{ secrets.DOCS_STORAGE_ACCESS_KEY_ID }}
+          DOCS_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.DOCS_STORAGE_SECRET_ACCESS_KEY }}
+          DOCS_STORAGE_BUCKET: ${{ secrets.DOCS_STORAGE_BUCKET }}
         uses: ./main/packages/actions/src/uploadSplitDocumentation
         with:
           package: ${{ steps.extract-tag.outputs.package }}
@@ -153,37 +153,37 @@ jobs:
       - name: Upload documentation to object storage
         if: ${{ env.REF_TYPE == 'branch' && (!inputs.ref || inputs.ref == 'main') }}
         env:
-          CF_R2_DOCS_URL: ${{ secrets.CF_R2_DOCS_URL }}
-          CF_R2_DOCS_ACCESS_KEY_ID: ${{ secrets.CF_R2_DOCS_ACCESS_KEY_ID }}
-          CF_R2_DOCS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_DOCS_SECRET_ACCESS_KEY }}
-          CF_R2_DOCS_BUCKET: ${{ secrets.CF_R2_DOCS_BUCKET }}
+          DOCS_STORAGE_ENDPOINT: ${{ secrets.DOCS_STORAGE_ENDPOINT }}
+          DOCS_STORAGE_ACCESS_KEY_ID: ${{ secrets.DOCS_STORAGE_ACCESS_KEY_ID }}
+          DOCS_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.DOCS_STORAGE_SECRET_ACCESS_KEY }}
+          DOCS_STORAGE_BUCKET: ${{ secrets.DOCS_STORAGE_BUCKET }}
         uses: ./packages/actions/src/uploadDocumentation
 
       - name: Upload documentation to object storage
         if: ${{ env.REF_TYPE == 'branch' && inputs.ref && inputs.ref != 'main' }}
         env:
-          CF_R2_DOCS_URL: ${{ secrets.CF_R2_DOCS_URL }}
-          CF_R2_DOCS_ACCESS_KEY_ID: ${{ secrets.CF_R2_DOCS_ACCESS_KEY_ID }}
-          CF_R2_DOCS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_DOCS_SECRET_ACCESS_KEY }}
-          CF_R2_DOCS_BUCKET: ${{ secrets.CF_R2_DOCS_BUCKET }}
+          DOCS_STORAGE_ENDPOINT: ${{ secrets.DOCS_STORAGE_ENDPOINT }}
+          DOCS_STORAGE_ACCESS_KEY_ID: ${{ secrets.DOCS_STORAGE_ACCESS_KEY_ID }}
+          DOCS_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.DOCS_STORAGE_SECRET_ACCESS_KEY }}
+          DOCS_STORAGE_BUCKET: ${{ secrets.DOCS_STORAGE_BUCKET }}
         uses: ./main/packages/actions/src/uploadDocumentation
 
       - name: Upload split documentation to blob storage
         if: ${{ env.REF_TYPE == 'branch' && (!inputs.ref || inputs.ref == 'main') }}
         env:
-          CF_R2_DOCS_URL: ${{ secrets.CF_R2_DOCS_URL }}
-          CF_R2_DOCS_ACCESS_KEY_ID: ${{ secrets.CF_R2_DOCS_ACCESS_KEY_ID }}
-          CF_R2_DOCS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_DOCS_SECRET_ACCESS_KEY }}
-          CF_R2_DOCS_BUCKET: ${{ secrets.CF_R2_DOCS_BUCKET }}
+          DOCS_STORAGE_ENDPOINT: ${{ secrets.DOCS_STORAGE_ENDPOINT }}
+          DOCS_STORAGE_ACCESS_KEY_ID: ${{ secrets.DOCS_STORAGE_ACCESS_KEY_ID }}
+          DOCS_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.DOCS_STORAGE_SECRET_ACCESS_KEY }}
+          DOCS_STORAGE_BUCKET: ${{ secrets.DOCS_STORAGE_BUCKET }}
         uses: ./packages/actions/src/uploadSplitDocumentation
 
       - name: Upload split documentation to blob storage
         if: ${{ env.REF_TYPE == 'branch' && inputs.ref && inputs.ref != 'main' }}
         env:
-          CF_R2_DOCS_URL: ${{ secrets.CF_R2_DOCS_URL }}
-          CF_R2_DOCS_ACCESS_KEY_ID: ${{ secrets.CF_R2_DOCS_ACCESS_KEY_ID }}
-          CF_R2_DOCS_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_DOCS_SECRET_ACCESS_KEY }}
-          CF_R2_DOCS_BUCKET: ${{ secrets.CF_R2_DOCS_BUCKET }}
+          DOCS_STORAGE_ENDPOINT: ${{ secrets.DOCS_STORAGE_ENDPOINT }}
+          DOCS_STORAGE_ACCESS_KEY_ID: ${{ secrets.DOCS_STORAGE_ACCESS_KEY_ID }}
+          DOCS_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.DOCS_STORAGE_SECRET_ACCESS_KEY }}
+          DOCS_STORAGE_BUCKET: ${{ secrets.DOCS_STORAGE_BUCKET }}
         uses: ./main/packages/actions/src/uploadSplitDocumentation
 
   build-indices:
@@ -212,7 +212,7 @@ jobs:
 
       - name: Upload search indices to meilisearch
         env:
-          CF_R2_DOCS_BUCKET_URL: ${{ secrets.CF_R2_DOCS_BUCKET_URL }}
+          DOCS_STORAGE_BUCKET_URL: ${{ secrets.DOCS_STORAGE_BUCKET_URL }}
           SEARCH_API_URL: ${{ secrets.SEARCH_API_URL }}
           SEARCH_API_KEY: ${{ secrets.SEARCH_API_KEY }}
         uses: ./packages/actions/src/uploadSearchIndices

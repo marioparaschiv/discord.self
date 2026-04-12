@@ -61,7 +61,7 @@ export type ImageExtension = (typeof ALLOWED_EXTENSIONS)[number];
 export type StickerExtension = (typeof ALLOWED_STICKER_EXTENSIONS)[number];
 
 export const OverwrittenMimeTypes = {
-	// https://github.com/discordjs/discord.js/issues/8557
+	// https://github.com/marioparaschiv/discord.self/issues/8557
 	'image/apng': 'image/png',
 } as const satisfies Readonly<Record<string, string>>;
 

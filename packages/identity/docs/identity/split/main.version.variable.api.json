@@ -1,1 +1,37 @@
-{"kind":"Variable","displayName":"version","sourceURL":"https://github.com/marioparaschiv/discord.self/tree/main/packages/identity/src/index.ts","sourceLine":17,"sourceExcerpt":"version: string","summary":{"kind":"Comment","deprecatedBlock":[],"summarySection":[{"kind":"PlainText","text":"The "},{"kind":"LinkTag","text":"@discord.self/identity","uri":"https://github.com/discordjs/discord.js/blob/main/packages/identity#readme"},{"kind":"PlainText","text":" version that you are currently using."}],"remarksBlock":[],"defaultValueBlock":[],"returnsBlock":[],"unstableBlock":[],"exampleBlocks":[],"seeBlocks":[],"mixesBlocks":[]},"isStatic":false,"isProtected":false,"isReadonly":true,"isAbstract":false,"isDeprecated":false,"isOptional":false,"isExternal":false,"unionMembers":[[{"text":"string","href":"https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"}]]}
+{
+	"kind": "Variable",
+	"displayName": "version",
+	"sourceURL": "https://github.com/marioparaschiv/discord.self/tree/main/packages/identity/src/index.ts",
+	"sourceLine": 17,
+	"sourceExcerpt": "version: string",
+	"summary": {
+		"kind": "Comment",
+		"deprecatedBlock": [],
+		"summarySection": [
+			{ "kind": "PlainText", "text": "The " },
+			{
+				"kind": "LinkTag",
+				"text": "@discord.self/identity",
+				"uri": "https://github.com/marioparaschiv/discord.self/blob/main/packages/identity#readme"
+			},
+			{ "kind": "PlainText", "text": " version that you are currently using." }
+		],
+		"remarksBlock": [],
+		"defaultValueBlock": [],
+		"returnsBlock": [],
+		"unstableBlock": [],
+		"exampleBlocks": [],
+		"seeBlocks": [],
+		"mixesBlocks": []
+	},
+	"isStatic": false,
+	"isProtected": false,
+	"isReadonly": true,
+	"isAbstract": false,
+	"isDeprecated": false,
+	"isOptional": false,
+	"isExternal": false,
+	"unionMembers": [
+		[{ "text": "string", "href": "https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String" }]
+	]
+}

@@ -54,7 +54,7 @@ export function SidebarHeader() {
 						<Link
 							aria-label="GitHub"
 							className={buttonStyles({ variant: 'filled', size: 'icon-sm' })}
-							href="https://github.com/discordjs/discord.js"
+							href="https://github.com/marioparaschiv/discord.self"
 							rel="external noopener noreferrer"
 							target="_blank"
 						>

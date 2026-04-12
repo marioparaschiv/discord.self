@@ -35,8 +35,8 @@ jobs:
 
       - name: Upload README.md files
         env:
-          CF_R2_READMES_ACCESS_KEY_ID: ${{ secrets.CF_R2_READMES_ACCESS_KEY_ID }}
-          CF_R2_READMES_SECRET_ACCESS_KEY: ${{ secrets.CF_R2_READMES_SECRET_ACCESS_KEY }}
-          CF_R2_READMES_BUCKET: ${{ secrets.CF_R2_READMES_BUCKET }}
-          CF_R2_READMES_URL: ${{ secrets.CF_R2_READMES_URL }}
+          READMES_STORAGE_ACCESS_KEY_ID: ${{ secrets.READMES_STORAGE_ACCESS_KEY_ID }}
+          READMES_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.READMES_STORAGE_SECRET_ACCESS_KEY }}
+          READMES_STORAGE_BUCKET: ${{ secrets.READMES_STORAGE_BUCKET }}
+          READMES_STORAGE_ENDPOINT: ${{ secrets.READMES_STORAGE_ENDPOINT }}
         uses: ./packages/actions/src/uploadReadmeFiles

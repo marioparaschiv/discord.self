@@ -6,10 +6,10 @@ import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3
 import pLimit from 'p-limit';
 
 if (
-	!process.env.CF_R2_DOCS_URL ||
-	!process.env.CF_R2_DOCS_ACCESS_KEY_ID ||
-	!process.env.CF_R2_DOCS_SECRET_ACCESS_KEY ||
-	!process.env.CF_R2_DOCS_BUCKET
+	!process.env.DOCS_STORAGE_ENDPOINT ||
+	!process.env.DOCS_STORAGE_ACCESS_KEY_ID ||
+	!process.env.DOCS_STORAGE_SECRET_ACCESS_KEY ||
+	!process.env.DOCS_STORAGE_BUCKET
 ) {
 	setFailed('Missing environment variables');
 }
@@ -36,7 +36,7 @@ function parsePackageFilter() {
 const packageFilter = parsePackageFilter();
 const version = getInput('version') || 'main';
 const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
-const docsEndpoint = process.env.CF_R2_DOCS_URL ?? '';
+const docsEndpoint = process.env.DOCS_STORAGE_ENDPOINT ?? '';
 
 function parsePositiveInteger(value: string | undefined) {
 	if (!value) {
@@ -57,11 +57,11 @@ const uploadConcurrency =
 
 const S3 = new S3Client({
 	region: 'auto',
-	endpoint: process.env.CF_R2_DOCS_URL!,
+	endpoint: process.env.DOCS_STORAGE_ENDPOINT!,
 	forcePathStyle,
 	credentials: {
-		accessKeyId: process.env.CF_R2_DOCS_ACCESS_KEY_ID!,
-		secretAccessKey: process.env.CF_R2_DOCS_SECRET_ACCESS_KEY!,
+		accessKeyId: process.env.DOCS_STORAGE_ACCESS_KEY_ID!,
+		secretAccessKey: process.env.DOCS_STORAGE_SECRET_ACCESS_KEY!,
 	},
 	requestChecksumCalculation: 'WHEN_REQUIRED',
 	responseChecksumValidation: 'WHEN_REQUIRED',
@@ -134,7 +134,7 @@ async function loadManifest(packageName: string): Promise<DocsManifest> {
 	try {
 		const response = await S3.send(
 			new GetObjectCommand({
-				Bucket: process.env.CF_R2_DOCS_BUCKET,
+				Bucket: process.env.DOCS_STORAGE_BUCKET,
 				Key: key,
 			}),
 		);
@@ -164,7 +164,7 @@ async function loadPackageIndexManifest(): Promise<DocsPackageIndexManifest> {
 	try {
 		const response = await S3.send(
 			new GetObjectCommand({
-				Bucket: process.env.CF_R2_DOCS_BUCKET,
+				Bucket: process.env.DOCS_STORAGE_BUCKET,
 				Key: key,
 			}),
 		);
@@ -216,7 +216,7 @@ for (const pattern of patterns) {
 
 					await S3.send(
 						new PutObjectCommand({
-							Bucket: process.env.CF_R2_DOCS_BUCKET,
+							Bucket: process.env.DOCS_STORAGE_BUCKET,
 							Key: key,
 							Body: data,
 						}),
@@ -231,7 +231,7 @@ for (const pattern of patterns) {
 
 					await S3.send(
 						new PutObjectCommand({
-							Bucket: process.env.CF_R2_DOCS_BUCKET,
+							Bucket: process.env.DOCS_STORAGE_BUCKET,
 							Key: `manifests/${packageName}.json`,
 							Body: JSON.stringify(manifest),
 							ContentType: 'application/json',
@@ -274,7 +274,7 @@ try {
 
 	await S3.send(
 		new PutObjectCommand({
-			Bucket: process.env.CF_R2_DOCS_BUCKET,
+			Bucket: process.env.DOCS_STORAGE_BUCKET,
 			Key: 'manifests/index.json',
 			Body: JSON.stringify(resolvedIndexManifest),
 			ContentType: 'application/json',

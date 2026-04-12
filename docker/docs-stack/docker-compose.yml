@@ -1,41 +1,43 @@
 services:
   minio:
-    image: minio/minio:latest
+    image: ${MINIO_IMAGE:-minio/minio:latest}
+    restart: ${DOCS_RESTART_POLICY:-unless-stopped}
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - '${MINIO_BIND_HOST:-127.0.0.1}:${MINIO_PORT:-9000}:9000'
+      - '${MINIO_CONSOLE_BIND_HOST:-127.0.0.1}:${MINIO_CONSOLE_PORT:-9001}:9001'
     volumes:
       - minio_data:/data
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost:9000/minio/health/live"]
+      test: ['CMD', 'curl', '-fsS', 'http://localhost:9000/minio/health/live']
       interval: 5s
       timeout: 3s
       retries: 20
 
   meilisearch:
-    image: getmeili/meilisearch:v1.15
+    image: ${MEILI_IMAGE:-getmeili/meilisearch:v1.15}
+    restart: ${DOCS_RESTART_POLICY:-unless-stopped}
     environment:
-      MEILI_MASTER_KEY: localdevkey
-      MEILI_NO_ANALYTICS: "true"
-      MEILI_HTTP_ADDR: 0.0.0.0:7700
-      MEILI_HTTP_CORS_ORIGIN: http://localhost:3000
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-localdevkey}
+      MEILI_NO_ANALYTICS: '${MEILI_NO_ANALYTICS:-true}'
+      MEILI_HTTP_ADDR: ${MEILI_HTTP_ADDR:-0.0.0.0:7700}
+      MEILI_HTTP_CORS_ORIGIN: ${MEILI_HTTP_CORS_ORIGIN:-http://localhost:3000}
     ports:
-      - "7700:7700"
+      - '${MEILI_BIND_HOST:-127.0.0.1}:${MEILI_PORT:-7700}:7700'
     volumes:
       - meili_data:/meili_data
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost:7700/health"]
+      test: ['CMD', 'curl', '-fsS', 'http://localhost:7700/health']
       interval: 5s
       timeout: 3s
       retries: 20
 
   bootstrap:
-    image: node:24-bookworm
-    profiles: ["bootstrap"]
+    image: ${BOOTSTRAP_IMAGE:-node:24-bookworm}
+    profiles: ['bootstrap']
     depends_on:
       minio:
         condition: service_healthy
@@ -45,41 +47,43 @@ services:
     volumes:
       - ../..:/workspace
     environment:
-      CI: "true"
-      CF_R2_DOCS_URL: http://minio:9000
-      CF_R2_DOCS_ACCESS_KEY_ID: minioadmin
-      CF_R2_DOCS_SECRET_ACCESS_KEY: minioadmin
-      CF_R2_DOCS_BUCKET: docs
-      CF_R2_DOCS_BUCKET_URL: http://minio:9000/docs
-      CF_R2_READMES_URL: http://minio:9000
-      CF_R2_READMES_ACCESS_KEY_ID: minioadmin
-      CF_R2_READMES_SECRET_ACCESS_KEY: minioadmin
-      CF_R2_READMES_BUCKET: docs
-      SEARCH_API_URL: http://meilisearch:7700
-      SEARCH_API_KEY: localdevkey
-      S3_FORCE_PATH_STYLE: "true"
-    command: ["/bin/sh", "/workspace/docker/docs-stack/bootstrap.sh"]
+      CI: 'true'
+      DOCS_STORAGE_ENDPOINT: ${DOCS_STORAGE_ENDPOINT:-http://minio:9000}
+      DOCS_STORAGE_ACCESS_KEY_ID: ${DOCS_STORAGE_ACCESS_KEY_ID:-minioadmin}
+      DOCS_STORAGE_SECRET_ACCESS_KEY: ${DOCS_STORAGE_SECRET_ACCESS_KEY:-minioadmin}
+      DOCS_STORAGE_BUCKET: ${DOCS_STORAGE_BUCKET:-docs}
+      DOCS_STORAGE_BUCKET_URL: ${DOCS_STORAGE_BUCKET_URL:-http://minio:9000/docs}
+      READMES_STORAGE_ENDPOINT: ${READMES_STORAGE_ENDPOINT:-http://minio:9000}
+      READMES_STORAGE_ACCESS_KEY_ID: ${READMES_STORAGE_ACCESS_KEY_ID:-minioadmin}
+      READMES_STORAGE_SECRET_ACCESS_KEY: ${READMES_STORAGE_SECRET_ACCESS_KEY:-minioadmin}
+      READMES_STORAGE_BUCKET: ${READMES_STORAGE_BUCKET:-docs}
+      SEARCH_API_URL: ${SEARCH_API_URL:-http://meilisearch:7700}
+      SEARCH_API_KEY: ${SEARCH_API_KEY:-localdevkey}
+      S3_FORCE_PATH_STYLE: '${S3_FORCE_PATH_STYLE:-true}'
+    command: ['/bin/sh', '/workspace/docker/docs-stack/bootstrap.sh']
 
   website:
+    restart: ${DOCS_RESTART_POLICY:-unless-stopped}
     build:
       context: ../..
       dockerfile: docker/docs-stack/website.Dockerfile
       args:
-        NEXT_PUBLIC_SEARCH_API_URL: http://localhost:7700
-        NEXT_PUBLIC_SEARCH_API_KEY: localdevkey
+        NEXT_PUBLIC_SEARCH_API_URL: ${NEXT_PUBLIC_SEARCH_API_URL:-http://localhost:7700}
+        NEXT_PUBLIC_SEARCH_API_KEY: ${NEXT_PUBLIC_SEARCH_API_KEY:-localdevkey}
     depends_on:
       minio:
         condition: service_started
       meilisearch:
         condition: service_started
     environment:
-      VERCEL_ENV: production
-      CF_R2_DOCS_BUCKET_URL: http://minio:9000/docs
-      CF_R2_README_BUCKET_URL: http://minio:9000/docs
-      NEXT_PUBLIC_SEARCH_API_URL: http://localhost:7700
-      NEXT_PUBLIC_SEARCH_API_KEY: localdevkey
+      NODE_ENV: production
+      VERCEL_ENV: ${VERCEL_ENV:-production}
+      DOCS_STORAGE_BUCKET_URL: ${DOCS_STORAGE_BUCKET_URL:-http://minio:9000/docs}
+      READMES_STORAGE_BUCKET_URL: ${READMES_STORAGE_BUCKET_URL:-http://minio:9000/docs}
+      NEXT_PUBLIC_SEARCH_API_URL: ${NEXT_PUBLIC_SEARCH_API_URL:-http://localhost:7700}
+      NEXT_PUBLIC_SEARCH_API_KEY: ${NEXT_PUBLIC_SEARCH_API_KEY:-localdevkey}
     ports:
-      - "3000:3000"
+      - '${WEBSITE_BIND_HOST:-0.0.0.0}:${WEBSITE_PORT:-3000}:3000'
 
 volumes:
   minio_data:

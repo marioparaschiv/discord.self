@@ -52,14 +52,14 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/discordjs/discord.js.git",
+		"url": "https://github.com/marioparaschiv/discord.self.git",
 		"directory": "packages/collection"
 	},
 	"bugs": {
-		"url": "https://github.com/discordjs/discord.js/issues"
+		"url": "https://github.com/marioparaschiv/discord.self/issues"
 	},
 	"homepage": "https://discord.js.org",
-	"funding": "https://github.com/discordjs/discord.js?sponsor",
+	"funding": "https://github.com/marioparaschiv/discord.self?sponsor",
 	"devDependencies": {
 		"@discord.self/api-extractor": "workspace:^",
 		"@discord.self/scripts": "workspace:^",

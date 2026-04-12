@@ -16,7 +16,7 @@ function normalizeBucketUrl(url: string) {
 }
 
 async function getPackagesFromIndexManifest() {
-	const bucketUrl = process.env.CF_R2_DOCS_BUCKET_URL;
+	const bucketUrl = process.env.DOCS_STORAGE_BUCKET_URL;
 	if (!bucketUrl) {
 		return null;
 	}
@@ -43,7 +43,7 @@ async function getPackagesFromIndexManifest() {
 }
 
 async function hasManifest(packageName: string) {
-	const bucketUrl = process.env.CF_R2_DOCS_BUCKET_URL;
+	const bucketUrl = process.env.DOCS_STORAGE_BUCKET_URL;
 	if (bucketUrl) {
 		try {
 			const response = await fetch(`${normalizeBucketUrl(bucketUrl)}/manifests/${packageName}.json`, {

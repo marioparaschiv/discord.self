@@ -42,14 +42,14 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/discordjs/discord.js.git",
+		"url": "https://github.com/marioparaschiv/discord.self.git",
 		"directory": "apps/website"
 	},
 	"bugs": {
-		"url": "https://github.com/discordjs/discord.js/issues"
+		"url": "https://github.com/marioparaschiv/discord.self/issues"
 	},
 	"homepage": "https://discord.js.org",
-	"funding": "https://github.com/discordjs/discord.js?sponsor",
+	"funding": "https://github.com/marioparaschiv/discord.self?sponsor",
 	"dependencies": {
 		"@opennextjs/cloudflare": "^1.18.0",
 		"@radix-ui/react-collapsible": "^1.1.12",

@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/react';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
@@ -56,7 +55,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 		<html className={`${GeistSans.variable} ${GeistMono.variable} antialiased`} lang="en" suppressHydrationWarning>
 			<body className="text-base-md text-base-neutral-900 dark:text-base-neutral-40 overscroll-y-none bg-[#fbfbfb] dark:bg-[#1a1a1e]">
 				<Providers>{children}</Providers>
-				<Analytics />
 			</body>
 		</html>
 	);

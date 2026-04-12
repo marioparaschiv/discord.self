@@ -43,7 +43,6 @@
 # Cache
 **/.prettiercache
 **/.eslintcache
-**/.vercel
 **/.pnpm-store
 docker/docs-stack/data
 

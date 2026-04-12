@@ -41,3 +41,13 @@ await client.login(process.env.DISCORD_TOKEN);
 ## Contributing
 
 Read [.github/CONTRIBUTING.md](./.github/CONTRIBUTING.md).
+
+## Star History
+
+<a href="https://www.star-history.com/">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=marioparaschiv/discord.self&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=marioparaschiv/discord.self&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=marioparaschiv/discord.self&type=date&legend=top-left" />
+ </picture>
+</a>

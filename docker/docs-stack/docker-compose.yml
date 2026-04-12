@@ -79,7 +79,6 @@ services:
         condition: service_started
     environment:
       NODE_ENV: production
-      VERCEL_ENV: ${VERCEL_ENV:-production}
       DOCS_STORAGE_BUCKET_URL: ${DOCS_STORAGE_BUCKET_URL:-http://minio:9000/docs}
       READMES_STORAGE_BUCKET_URL: ${READMES_STORAGE_BUCKET_URL:-http://minio:9000/docs}
       NEXT_PUBLIC_SEARCH_API_URL: ${NEXT_PUBLIC_SEARCH_API_URL:-http://localhost:7700}

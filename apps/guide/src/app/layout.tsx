@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/react';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import { GeistMono } from 'geist/font/mono';
@@ -90,7 +89,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 						{children}
 					</DocsLayout>
 				</RootProvider>
-				<Analytics />
 			</Body>
 		</html>
 	);

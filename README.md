@@ -3,7 +3,7 @@
 A user-account `discord.js`-based fork aiming to support all undocumented user APIs while staying under the radar.
 
 > [!CAUTION]
-> **Using this on a user account is prohibited by the [Discord TOS](https://discord.com/terms) and can lead to account suspensions.**
+> **Using this on a user account is prohibited by [Discord's ToS](https://discord.com/terms) and can lead to account suspensions.**
 
 Thanks to the original [`discord.js`](https://github.com/discordjs/discord.js) project and its contributors for the foundational work this package builds on.
 

@@ -72,7 +72,8 @@ services:
       args:
         NEXT_PUBLIC_SEARCH_API_URL: ${NEXT_PUBLIC_SEARCH_API_URL:-http://localhost:7700}
         NEXT_PUBLIC_SEARCH_API_KEY: ${NEXT_PUBLIC_SEARCH_API_KEY:-localdevkey}
-        GUIDE_REDIRECT_URL: ${GUIDE_REDIRECT_URL:-http://localhost:3001}
+        GUIDE_REDIRECT_URL: ${GUIDE_REDIRECT_URL:-http://localhost:3001/guide}
+        GUIDE_BASE_PATH: ${GUIDE_BASE_PATH:-/guide}
     depends_on:
       minio:
         condition: service_started
@@ -84,7 +85,8 @@ services:
       READMES_STORAGE_BUCKET_URL: ${READMES_STORAGE_BUCKET_URL:-http://minio:9000/docs}
       NEXT_PUBLIC_SEARCH_API_URL: ${NEXT_PUBLIC_SEARCH_API_URL:-http://localhost:7700}
       NEXT_PUBLIC_SEARCH_API_KEY: ${NEXT_PUBLIC_SEARCH_API_KEY:-localdevkey}
-      GUIDE_REDIRECT_URL: ${GUIDE_REDIRECT_URL:-http://localhost:3001}
+      GUIDE_REDIRECT_URL: ${GUIDE_REDIRECT_URL:-http://localhost:3001/guide}
+      GUIDE_BASE_PATH: ${GUIDE_BASE_PATH:-/guide}
       WEBSITE_INTERNAL_PORT: 3000
       GUIDE_INTERNAL_PORT: 3001
     ports:

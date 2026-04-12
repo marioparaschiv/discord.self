@@ -8,14 +8,10 @@ export function middleware(request: NextRequest) {
 		return NextResponse.redirect(newUrl);
 	}
 
-	// Redirect old urls to /legacy
-	if (
-		!request.nextUrl.pathname.startsWith('/legacy') &&
-		!request.nextUrl.pathname.startsWith('/voice') &&
-		!request.nextUrl.pathname.startsWith('/v15')
-	) {
+	// Redirect old urls to /client
+	if (!request.nextUrl.pathname.startsWith('/client') && !request.nextUrl.pathname.startsWith('/voice')) {
 		const newUrl = request.nextUrl.clone();
-		newUrl.pathname = `/legacy${newUrl.pathname}`;
+		newUrl.pathname = `/client${newUrl.pathname}`;
 		return NextResponse.redirect(newUrl);
 	}
 

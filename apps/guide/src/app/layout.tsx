@@ -22,8 +22,8 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
 	metadataBase: new URL(ENV.IS_LOCAL_DEV ? `http://localhost:${ENV.PORT}` : 'https://discordjs.guide'),
 	title: {
-		template: '%s | discord.js',
-		default: 'discord.js',
+		template: '%s | discord.self',
+		default: 'discord.self',
 	},
 	icons: {
 		other: [
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
 	manifest: '/site.webmanifest',
 
 	openGraph: {
-		siteName: 'discord.js',
+		siteName: 'discord.self',
 		type: 'website',
-		title: 'discord.js',
+		title: 'discord.self',
 	},
 
 	twitter: {

@@ -6,7 +6,7 @@ Clone the code base into a local folder, `cd` into it, and install the dependenc
 
 ```bash
 git clone https://github.com/marioparaschiv/discord.self.git
-cd discord.js/apps/guide
+cd discord.self/apps/guide
 pnpm --filter guide install
 ```
 

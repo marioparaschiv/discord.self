@@ -44,7 +44,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 	return generateOGImage({
 		title: page.data.title,
 		description: page.data.description,
-		site: 'discord.js Guide',
+		site: 'discord.self Guide',
 		fonts: [
 			{
 				name: 'Geist',

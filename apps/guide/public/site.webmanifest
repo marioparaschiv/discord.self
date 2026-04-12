@@ -1,6 +1,6 @@
 {
-	"name": "discord.js",
-	"short_name": "discord.js",
+	"name": "discord.self",
+	"short_name": "discord.self",
 	"icons": [
 		{
 			"src": "/web-app-manifest-192x192.png",

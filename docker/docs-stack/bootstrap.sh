@@ -55,7 +55,6 @@ cd /workspace/packages/actions
 node - <<'NODE'
 const {
   CreateBucketCommand,
-  HeadBucketCommand,
   PutBucketPolicyCommand,
   S3Client,
 } = require('@aws-sdk/client-s3');
@@ -83,19 +82,22 @@ const client = new S3Client({
 
 const ensureBucket = async (bucket) => {
   try {
-    await client.send(new HeadBucketCommand({ Bucket: bucket }));
-    console.log(`[bootstrap] bucket exists: ${bucket}`);
+    await client.send(new CreateBucketCommand({ Bucket: bucket }));
+    console.log(`[bootstrap] bucket created: ${bucket}`);
     return;
   } catch (error) {
     const status = error?.$metadata?.httpStatusCode;
     const code = error?.name ?? '';
-    if (status !== 404 && code !== 'NotFound' && code !== 'NoSuchBucket') {
+    if (
+      status !== 409 &&
+      code !== 'BucketAlreadyOwnedByYou' &&
+      code !== 'BucketAlreadyExists'
+    ) {
       throw error;
     }
   }
 
-  await client.send(new CreateBucketCommand({ Bucket: bucket }));
-  console.log(`[bootstrap] bucket created: ${bucket}`);
+  console.log(`[bootstrap] bucket exists: ${bucket}`);
 };
 
 const ensurePublicRead = async (bucket) => {

@@ -53,8 +53,17 @@ export enum VoiceConnectionStatus {
  * VOICE_STATE_UPDATE packet from Discord, provided by the adapter.
  */
 export interface VoiceConnectionSignallingState {
+	/**
+	 * Adapter used to send and receive main gateway voice packets.
+	 */
 	adapter: DiscordGatewayAdapterImplementerMethods;
+	/**
+	 * Current voice connection state discriminator.
+	 */
 	status: VoiceConnectionStatus.Signalling;
+	/**
+	 * Active player subscription, if one exists.
+	 */
 	subscription?: PlayerSubscription | undefined;
 }
 
@@ -88,8 +97,17 @@ export enum VoiceConnectionDisconnectReason {
  * it attempting to connect. You can manually attempt to reconnect using VoiceConnection#reconnect.
  */
 export interface VoiceConnectionDisconnectedBaseState {
+	/**
+	 * Adapter used to send and receive main gateway voice packets.
+	 */
 	adapter: DiscordGatewayAdapterImplementerMethods;
+	/**
+	 * Current voice connection state discriminator.
+	 */
 	status: VoiceConnectionStatus.Disconnected;
+	/**
+	 * Active player subscription, if one exists.
+	 */
 	subscription?: PlayerSubscription | undefined;
 }
 
@@ -98,6 +116,9 @@ export interface VoiceConnectionDisconnectedBaseState {
  * it attempting to connect. You can manually attempt to reconnect using VoiceConnection#reconnect.
  */
 export interface VoiceConnectionDisconnectedOtherState extends VoiceConnectionDisconnectedBaseState {
+	/**
+	 * Reason the connection entered a non-websocket disconnected state.
+	 */
 	reason: Exclude<VoiceConnectionDisconnectReason, VoiceConnectionDisconnectReason.WebSocketClose>;
 }
 
@@ -111,6 +132,9 @@ export interface VoiceConnectionDisconnectedWebSocketState extends VoiceConnecti
 	 */
 	closeCode: number;
 
+	/**
+	 * Disconnection reason for websocket-initiated disconnects.
+	 */
 	reason: VoiceConnectionDisconnectReason.WebSocketClose;
 }
 
@@ -127,9 +151,21 @@ export type VoiceConnectionDisconnectedState =
  * voice server.
  */
 export interface VoiceConnectionConnectingState {
+	/**
+	 * Adapter used to send and receive main gateway voice packets.
+	 */
 	adapter: DiscordGatewayAdapterImplementerMethods;
+	/**
+	 * Active networking instance driving the voice session handshake.
+	 */
 	networking: Networking;
+	/**
+	 * Current voice connection state discriminator.
+	 */
 	status: VoiceConnectionStatus.Connecting;
+	/**
+	 * Active player subscription, if one exists.
+	 */
 	subscription?: PlayerSubscription | undefined;
 }
 
@@ -138,9 +174,21 @@ export interface VoiceConnectionConnectingState {
  * voice server.
  */
 export interface VoiceConnectionReadyState {
+	/**
+	 * Adapter used to send and receive main gateway voice packets.
+	 */
 	adapter: DiscordGatewayAdapterImplementerMethods;
+	/**
+	 * Active networking instance for an established voice session.
+	 */
 	networking: Networking;
+	/**
+	 * Current voice connection state discriminator.
+	 */
 	status: VoiceConnectionStatus.Ready;
+	/**
+	 * Active player subscription, if one exists.
+	 */
 	subscription?: PlayerSubscription | undefined;
 }
 
@@ -150,6 +198,9 @@ export interface VoiceConnectionReadyState {
  * needs to be established.
  */
 export interface VoiceConnectionDestroyedState {
+	/**
+	 * Current voice connection state discriminator.
+	 */
 	status: VoiceConnectionStatus.Destroyed;
 }
 

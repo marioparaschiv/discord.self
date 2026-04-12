@@ -2,11 +2,29 @@ import { GatewayOpcodes } from 'discord-api-types/v10';
 import type { VoiceConnection } from './VoiceConnection';
 import type { AudioPlayer } from './audio/index';
 
+/**
+ * Join configuration used to establish and resume a voice connection.
+ */
 export interface JoinConfig {
+	/**
+	 * Voice channel ID to join, or `null` to disconnect.
+	 */
 	channelId: string | null;
+	/**
+	 * Voice connection group identifier.
+	 */
 	group: string;
+	/**
+	 * Guild ID that owns the target voice channel.
+	 */
 	guildId: string;
+	/**
+	 * Whether to join or rejoin self-deafened.
+	 */
 	selfDeaf: boolean;
+	/**
+	 * Whether to join or rejoin self-muted.
+	 */
 	selfMute: boolean;
 }
 

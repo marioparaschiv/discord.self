@@ -1,11 +1,26 @@
 import type { InternalRequest, RawFile } from '../utils/types.js';
 
+/**
+ * Leaf-level Discord validation error entry.
+ */
 export interface DiscordErrorFieldInformation {
+	/**
+	 * Discord error code for this field entry.
+	 */
 	code: string;
+	/**
+	 * Human-readable validation message.
+	 */
 	message: string;
 }
 
+/**
+ * Wrapper used by Discord for grouped nested errors.
+ */
 export interface DiscordErrorGroupWrapper {
+	/**
+	 * Nested validation errors in this group.
+	 */
 	_errors: DiscordError[];
 }
 
@@ -15,19 +30,49 @@ export type DiscordError =
 	| string
 	| { [k: string]: DiscordError };
 
+/**
+ * Discord REST error response payload.
+ */
 export interface DiscordErrorData {
+	/**
+	 * Discord numeric error code.
+	 */
 	code: number;
+	/**
+	 * Nested field-level error payload.
+	 */
 	errors?: DiscordError;
+	/**
+	 * Top-level Discord error message.
+	 */
 	message: string;
 }
 
+/**
+ * OAuth error response payload.
+ */
 export interface OAuthErrorData {
+	/**
+	 * OAuth error identifier.
+	 */
 	error: string;
+	/**
+	 * Human-readable OAuth error description.
+	 */
 	error_description?: string;
 }
 
+/**
+ * Serialized request body information attached to REST errors.
+ */
 export interface RequestBody {
+	/**
+	 * Files included in the failed request.
+	 */
 	files: RawFile[] | undefined;
+	/**
+	 * JSON payload included in the failed request.
+	 */
 	json: unknown | undefined;
 }
 

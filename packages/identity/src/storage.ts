@@ -13,10 +13,19 @@ function getDefaultSQLitePath() {
 	return join(process.cwd(), DEFAULT_SQLITE_FILENAME);
 }
 
+/**
+ * Options for {@link SQLiteAdapter}.
+ */
 export interface SQLiteAdapterOptions {
+	/**
+	 * Custom sqlite table name used for identity snapshots.
+	 */
 	tableName?: string;
 }
 
+/**
+ * SQLite-backed storage adapter for persisted identity sessions.
+ */
 export class SQLiteAdapter implements DiscordIdentityStorage {
 	#database: InstanceType<typeof DatabaseSync>;
 	#deleteStatement;
@@ -48,14 +57,23 @@ export class SQLiteAdapter implements DiscordIdentityStorage {
 		this.#deleteStatement = this.#database.prepare(`DELETE FROM ${this.#tableName} WHERE token = ?`);
 	}
 
+	/**
+	 * Closes the underlying sqlite connection.
+	 */
 	public close() {
 		this.#database.close();
 	}
 
+	/**
+	 * Deletes a persisted identity by token key.
+	 */
 	public delete(token: string) {
 		this.#deleteStatement.run(token);
 	}
 
+	/**
+	 * Returns a persisted identity by token key.
+	 */
 	public get(token: string): SerializedDiscordIdentity | null {
 		const row = this.#getStatement.get(token) as { identity_json?: string } | undefined;
 		if (!row?.identity_json) {
@@ -65,6 +83,9 @@ export class SQLiteAdapter implements DiscordIdentityStorage {
 		return JSON.parse(row.identity_json) as SerializedDiscordIdentity;
 	}
 
+	/**
+	 * Upserts a persisted identity by token key.
+	 */
 	public set(token: string, identity: SerializedDiscordIdentity) {
 		this.#setStatement.run(token, JSON.stringify(identity), Date.now());
 	}

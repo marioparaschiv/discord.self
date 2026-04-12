@@ -44,7 +44,13 @@ export interface SessionInfo {
 	 */
 }
 
+/**
+ * Minimal gateway URL payload returned by the `/gateway` endpoint.
+ */
 export interface GatewayInfo {
+	/**
+	 * Gateway websocket URL returned by Discord.
+	 */
 	url: string;
 }
 
@@ -169,8 +175,14 @@ export interface OptionalWebSocketManagerOptions {
 	version: string;
 }
 
+/**
+ * Fully resolved option set used by a {@link WebSocketManager} instance.
+ */
 export interface WebSocketManagerOptions extends OptionalWebSocketManagerOptions, RequiredWebSocketManagerOptions {}
 
+/**
+ * Constructor options accepted by {@link WebSocketManager}.
+ */
 export interface CreateWebSocketManagerOptions
 	extends Partial<OptionalWebSocketManagerOptions>, RequiredWebSocketManagerOptions {}
 

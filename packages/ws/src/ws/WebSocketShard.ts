@@ -57,21 +57,63 @@ export enum WebSocketShardDestroyRecovery {
 	Resume,
 }
 
+/**
+ * Event payload tuples emitted by {@link WebSocketShard}.
+ */
 export interface WebSocketShardEventsMap {
+	/**
+	 * Emitted when the shard websocket closes.
+	 */
 	[WebSocketShardEvents.Closed]: [code: number];
+	/**
+	 * Emitted for shard debug log messages.
+	 */
 	[WebSocketShardEvents.Debug]: [message: string];
+	/**
+	 * Emitted for raw gateway dispatch payloads.
+	 */
 	[WebSocketShardEvents.Dispatch]: [payload: GatewayDispatchPayload];
+	/**
+	 * Emitted when shard processing hits an error.
+	 */
 	[WebSocketShardEvents.Error]: [error: Error];
+	/**
+	 * Emitted after receiving the gateway HELLO payload.
+	 */
 	[WebSocketShardEvents.Hello]: [];
+	/**
+	 * Emitted after receiving and processing READY.
+	 */
 	[WebSocketShardEvents.Ready]: [payload: GatewayReadyDispatchData];
+	/**
+	 * Emitted after the shard successfully resumes.
+	 */
 	[WebSocketShardEvents.Resumed]: [];
+	/**
+	 * Emitted when a heartbeat ACK is processed.
+	 */
 	[WebSocketShardEvents.HeartbeatComplete]: [stats: { ackAt: number; heartbeatAt: number; latency: number }];
+	/**
+	 * Emitted when the websocket emits an error.
+	 */
 	[WebSocketShardEvents.SocketError]: [error: Error];
 }
 
+/**
+ * Options for closing a shard connection.
+ */
 export interface WebSocketShardDestroyOptions {
+	/**
+	 * Websocket close code to send when closing.
+	 */
 	code?: number;
+	/**
+	 * Optional close reason sent to the websocket.
+	 */
 	reason?: string;
+	/**
+	 * Recovery mode to use after destruction.
+	 */
 	recover?: WebSocketShardDestroyRecovery;
 }
 
@@ -80,8 +122,17 @@ export enum CloseCodes {
 	Resuming = 4_200,
 }
 
+/**
+ * Outbound gateway send rate-limit tracking state.
+ */
 export interface SendRateLimitState {
+	/**
+	 * Timestamp when the send bucket resets.
+	 */
 	resetAt: number;
+	/**
+	 * Number of payloads sent in the current bucket window.
+	 */
 	sent: number;
 }
 

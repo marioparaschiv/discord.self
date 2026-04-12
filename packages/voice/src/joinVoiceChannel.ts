@@ -6,6 +6,9 @@ import type { DiscordGatewayAdapterCreator } from './util/adapter';
  * The options that can be given when creating a voice connection.
  */
 export interface CreateVoiceConnectionOptions {
+	/**
+	 * Gateway adapter factory used to send/receive voice state packets.
+	 */
 	adapterCreator: DiscordGatewayAdapterCreator;
 
 	/**

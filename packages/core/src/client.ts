@@ -87,6 +87,9 @@ import {
 import type { Gateway } from './Gateway.js';
 import { API } from './api/index.js';
 
+/**
+ * Shared values included in emitted core client event payloads.
+ */
 export interface IntrinsicProps {
 	/**
 	 * The REST API
@@ -94,106 +97,367 @@ export interface IntrinsicProps {
 	api: API;
 }
 
+/**
+ * Wraps a gateway dispatch payload with intrinsic event helpers.
+ */
 export interface ToEventProps<Data> extends IntrinsicProps {
+	/**
+	 * Dispatch payload data from the gateway event.
+	 */
 	data: Data;
 }
 
+/**
+ * Mapping of gateway dispatch names to emitted listener tuple payloads.
+ */
 export interface MappedEvents {
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ApplicationCommandPermissionsUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.ApplicationCommandPermissionsUpdate]: [
 		ToEventProps<GatewayApplicationCommandPermissionsUpdateDispatchData>,
 	];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.AutoModerationActionExecution` dispatches.
+	 */
 	[GatewayDispatchEvents.AutoModerationActionExecution]: [
 		ToEventProps<GatewayAutoModerationActionExecutionDispatchData>,
 	];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.AutoModerationRuleCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.AutoModerationRuleCreate]: [ToEventProps<GatewayAutoModerationRuleCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.AutoModerationRuleDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.AutoModerationRuleDelete]: [ToEventProps<GatewayAutoModerationRuleDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.AutoModerationRuleUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.AutoModerationRuleUpdate]: [ToEventProps<GatewayAutoModerationRuleUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ChannelCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.ChannelCreate]: [ToEventProps<GatewayChannelCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ChannelDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.ChannelDelete]: [ToEventProps<GatewayChannelDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ChannelPinsUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.ChannelPinsUpdate]: [ToEventProps<GatewayChannelPinsUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ChannelUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.ChannelUpdate]: [ToEventProps<GatewayChannelUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.EntitlementCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.EntitlementCreate]: [ToEventProps<GatewayEntitlementCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.EntitlementDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.EntitlementDelete]: [ToEventProps<GatewayEntitlementDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.EntitlementUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.EntitlementUpdate]: [ToEventProps<GatewayEntitlementUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildAuditLogEntryCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildAuditLogEntryCreate]: [ToEventProps<GatewayGuildAuditLogEntryCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildBanAdd` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildBanAdd]: [ToEventProps<GatewayGuildBanAddDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildBanRemove` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildBanRemove]: [ToEventProps<GatewayGuildBanRemoveDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildCreate]: [ToEventProps<GatewayGuildCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildDelete]: [ToEventProps<GatewayGuildDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildEmojisUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildEmojisUpdate]: [ToEventProps<GatewayGuildEmojisUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildIntegrationsUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildIntegrationsUpdate]: [ToEventProps<GatewayGuildIntegrationsUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildMemberAdd` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildMemberAdd]: [ToEventProps<GatewayGuildMemberAddDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildMemberRemove` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildMemberRemove]: [ToEventProps<GatewayGuildMemberRemoveDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildMemberUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildMemberUpdate]: [ToEventProps<GatewayGuildMemberUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildMembersChunk` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildMembersChunk]: [ToEventProps<GatewayGuildMembersChunkDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildRoleCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildRoleCreate]: [ToEventProps<GatewayGuildRoleCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildRoleDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildRoleDelete]: [ToEventProps<GatewayGuildRoleDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildRoleUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildRoleUpdate]: [ToEventProps<GatewayGuildRoleUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildScheduledEventCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildScheduledEventCreate]: [ToEventProps<GatewayGuildScheduledEventCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildScheduledEventDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildScheduledEventDelete]: [ToEventProps<GatewayGuildScheduledEventDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildScheduledEventUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildScheduledEventUpdate]: [ToEventProps<GatewayGuildScheduledEventUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildScheduledEventUserAdd` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildScheduledEventUserAdd]: [ToEventProps<GatewayGuildScheduledEventUserAddDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildScheduledEventUserRemove` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildScheduledEventUserRemove]: [
 		ToEventProps<GatewayGuildScheduledEventUserRemoveDispatchData>,
 	];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildSoundboardSoundCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildSoundboardSoundCreate]: [ToEventProps<GatewayGuildSoundboardSoundCreateDispatch>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildSoundboardSoundDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildSoundboardSoundDelete]: [ToEventProps<GatewayGuildSoundboardSoundDeleteDispatch>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildSoundboardSoundUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildSoundboardSoundUpdate]: [ToEventProps<GatewayGuildSoundboardSoundUpdateDispatch>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildSoundboardSoundsUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildSoundboardSoundsUpdate]: [ToEventProps<GatewayGuildSoundboardSoundsUpdateDispatch>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.SoundboardSounds` dispatches.
+	 */
 	[GatewayDispatchEvents.SoundboardSounds]: [ToEventProps<GatewaySoundboardSoundsDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildStickersUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildStickersUpdate]: [ToEventProps<GatewayGuildStickersUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.GuildUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.GuildUpdate]: [ToEventProps<GatewayGuildUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.IntegrationCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.IntegrationCreate]: [ToEventProps<GatewayIntegrationCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.IntegrationDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.IntegrationDelete]: [ToEventProps<GatewayIntegrationDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.IntegrationUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.IntegrationUpdate]: [ToEventProps<GatewayIntegrationUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.InteractionCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.InteractionCreate]: [ToEventProps<GatewayInteractionCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.InviteCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.InviteCreate]: [ToEventProps<GatewayInviteCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.InviteDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.InviteDelete]: [ToEventProps<GatewayInviteDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessageCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.MessageCreate]: [ToEventProps<GatewayMessageCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessageDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.MessageDelete]: [ToEventProps<GatewayMessageDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessageDeleteBulk` dispatches.
+	 */
 	[GatewayDispatchEvents.MessageDeleteBulk]: [ToEventProps<GatewayMessageDeleteBulkDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessagePollVoteAdd` dispatches.
+	 */
 	[GatewayDispatchEvents.MessagePollVoteAdd]: [ToEventProps<GatewayMessagePollVoteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessagePollVoteRemove` dispatches.
+	 */
 	[GatewayDispatchEvents.MessagePollVoteRemove]: [ToEventProps<GatewayMessagePollVoteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessageReactionAdd` dispatches.
+	 */
 	[GatewayDispatchEvents.MessageReactionAdd]: [ToEventProps<GatewayMessageReactionAddDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessageReactionRemove` dispatches.
+	 */
 	[GatewayDispatchEvents.MessageReactionRemove]: [ToEventProps<GatewayMessageReactionRemoveDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessageReactionRemoveAll` dispatches.
+	 */
 	[GatewayDispatchEvents.MessageReactionRemoveAll]: [ToEventProps<GatewayMessageReactionRemoveAllDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessageReactionRemoveEmoji` dispatches.
+	 */
 	[GatewayDispatchEvents.MessageReactionRemoveEmoji]: [ToEventProps<GatewayMessageReactionRemoveEmojiDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.MessageUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.MessageUpdate]: [ToEventProps<GatewayMessageUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.PresenceUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.PresenceUpdate]: [ToEventProps<GatewayPresenceUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.RateLimited` dispatches.
+	 */
 	[GatewayDispatchEvents.RateLimited]: [ToEventProps<GatewayRateLimitedDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.Ready` dispatches.
+	 */
 	[GatewayDispatchEvents.Ready]: [ToEventProps<GatewayReadyDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.Resumed` dispatches.
+	 */
 	[GatewayDispatchEvents.Resumed]: [ToEventProps<never>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.StageInstanceCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.StageInstanceCreate]: [ToEventProps<GatewayStageInstanceCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.StageInstanceDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.StageInstanceDelete]: [ToEventProps<GatewayStageInstanceDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.StageInstanceUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.StageInstanceUpdate]: [ToEventProps<GatewayStageInstanceUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.SubscriptionCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.SubscriptionCreate]: [ToEventProps<GatewaySubscriptionCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.SubscriptionDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.SubscriptionDelete]: [ToEventProps<GatewaySubscriptionDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.SubscriptionUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.SubscriptionUpdate]: [ToEventProps<GatewaySubscriptionUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ThreadCreate` dispatches.
+	 */
 	[GatewayDispatchEvents.ThreadCreate]: [ToEventProps<GatewayThreadCreateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ThreadDelete` dispatches.
+	 */
 	[GatewayDispatchEvents.ThreadDelete]: [ToEventProps<GatewayThreadDeleteDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ThreadListSync` dispatches.
+	 */
 	[GatewayDispatchEvents.ThreadListSync]: [ToEventProps<GatewayThreadListSyncDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ThreadMemberUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.ThreadMemberUpdate]: [ToEventProps<GatewayThreadMemberUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ThreadMembersUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.ThreadMembersUpdate]: [ToEventProps<GatewayThreadMembersUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.ThreadUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.ThreadUpdate]: [ToEventProps<GatewayThreadUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.TypingStart` dispatches.
+	 */
 	[GatewayDispatchEvents.TypingStart]: [ToEventProps<GatewayTypingStartDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.UserUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.UserUpdate]: [ToEventProps<GatewayUserUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.VoiceServerUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.VoiceServerUpdate]: [ToEventProps<GatewayVoiceServerUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.VoiceStateUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.VoiceStateUpdate]: [ToEventProps<GatewayVoiceStateUpdateDispatchData>];
+	/**
+	 * Listener tuple for `GatewayDispatchEvents.WebhooksUpdate` dispatches.
+	 */
 	[GatewayDispatchEvents.WebhooksUpdate]: [ToEventProps<GatewayWebhooksUpdateDispatchData>];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+/**
+ * Public event map used by shard-level client event emitters.
+ */
 export interface ManagerShardEventsMap extends MappedEvents {}
 
+/**
+ * Required dependencies for constructing a {@link Client}.
+ */
 export interface ClientOptions {
+	/**
+	 * Gateway transport implementation.
+	 */
 	gateway: Gateway;
+	/**
+	 * REST transport implementation.
+	 */
 	rest: REST;
 }
 
+/**
+ * Aggregated result payload yielded from guild member chunk streaming.
+ */
 export interface RequestGuildMembersResult {
+	/**
+	 * Members included in the received chunk.
+	 */
 	members: GatewayGuildMembersChunkDispatchData['members'];
+	/**
+	 * Nonce used to correlate the request and response chunks.
+	 */
 	nonce: NonNullable<GatewayGuildMembersChunkDispatchData['nonce']>;
+	/**
+	 * User IDs that could not be resolved in the request.
+	 */
 	notFound: NonNullable<GatewayGuildMembersChunkDispatchData['not_found']>;
+	/**
+	 * Presence payloads included with the received members.
+	 */
 	presences: NonNullable<GatewayGuildMembersChunkDispatchData['presences']>;
 }
 

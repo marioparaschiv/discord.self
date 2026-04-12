@@ -6,6 +6,9 @@ import type {
 	WebSocketManagerOptions,
 } from '../../ws/WebSocketManager.js';
 
+/**
+ * Resolved manager configuration exposed to shard context strategies.
+ */
 export interface FetchingStrategyOptions extends Pick<
 	WebSocketManagerOptions,
 	| 'compression'
@@ -22,6 +25,9 @@ export interface FetchingStrategyOptions extends Pick<
 	| 'useIdentifyCompression'
 	| 'version'
 > {
+	/**
+	 * Cached or freshly fetched gateway metadata.
+	 */
 	readonly gatewayInformation: GatewayInformation;
 }
 
@@ -29,6 +35,9 @@ export interface FetchingStrategyOptions extends Pick<
  * Strategies responsible solely for making manager information accessible
  */
 export interface IContextFetchingStrategy {
+	/**
+	 * Fully resolved context options for shard construction.
+	 */
 	readonly options: FetchingStrategyOptions;
 	retrieveSessionInfo(): Awaitable<SessionInfo | null>;
 	updateSessionInfo(sessionInfo: SessionInfo | null): Awaitable<void>;

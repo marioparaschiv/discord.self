@@ -37,15 +37,33 @@ import {
 	type Snowflake,
 } from 'discord-api-types/v10';
 
+/**
+ * Body options for starting a forum thread with file attachments.
+ */
 export interface StartForumThreadOptions extends RESTPostAPIGuildForumThreadsJSONBody {
+	/**
+	 * Initial forum message payload with optional attached files.
+	 */
 	message: RESTPostAPIGuildForumThreadsJSONBody['message'] & { files?: RawFile[] };
 }
 
+/**
+ * Body options for creating a channel message with file attachments.
+ */
 export interface CreateMessageOptions extends RESTPostAPIChannelMessageJSONBody {
+	/**
+	 * Files to upload with the message payload.
+	 */
 	files?: RawFile[];
 }
 
+/**
+ * Body options for editing a channel message with file attachments.
+ */
 export interface EditMessageOptions extends RESTPatchAPIChannelMessageJSONBody {
+	/**
+	 * Files to upload with the edited message payload.
+	 */
 	files?: RawFile[];
 }
 

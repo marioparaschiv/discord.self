@@ -6,16 +6,40 @@ import type { Awaitable, RawFile } from '@discord.self/util';
 import type { Agent, Dispatcher, RequestInit, BodyInit, Response } from 'undici';
 import type { IHandler } from '../interfaces/Handler.js';
 
+/**
+ * REST client event payload tuples.
+ */
 export interface RestEvents {
+	/**
+	 * Emitted after inactive request handlers are swept.
+	 */
 	handlerSweep: [sweptHandlers: Collection<string, IHandler>];
+	/**
+	 * Emitted after stale route hash entries are swept.
+	 */
 	hashSweep: [sweptHashes: Collection<string, HashData>];
+	/**
+	 * Emitted when invalid request warning thresholds are reached.
+	 */
 	invalidRequestWarning: [invalidRequestInfo: InvalidRequestWarningData];
+	/**
+	 * Emitted when a request is rate-limited.
+	 */
 	rateLimited: [rateLimitInfo: RateLimitData];
+	/**
+	 * Emitted after a response is received.
+	 */
 	response: [request: APIRequest, response: ResponseLike];
+	/**
+	 * Emitted for debug log messages from the REST client.
+	 */
 	restDebug: [info: string];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+/**
+ * Event map used by REST event emitters.
+ */
 export interface RestEventsMap extends RestEvents {}
 
 /**
@@ -243,6 +267,9 @@ export type GetRetryBackoffFunction = (
  */
 export type GetTimeoutFunction = (route: string, body: unknown) => number;
 
+/**
+ * Metadata describing an outgoing API request.
+ */
 export interface APIRequest {
 	/**
 	 * The data that was used to form the body of this request
@@ -270,13 +297,22 @@ export interface APIRequest {
 	route: string;
 }
 
+/**
+ * Minimal fetch-like response shape returned by REST request handlers.
+ */
 export interface ResponseLike extends Pick<
 	Response,
 	'arrayBuffer' | 'bodyUsed' | 'headers' | 'json' | 'ok' | 'status' | 'statusText' | 'text'
 > {
+	/**
+	 * Stream body when available from the underlying response.
+	 */
 	body: Readable | ReadableStream | null;
 }
 
+/**
+ * Payload emitted for invalid request warning events.
+ */
 export interface InvalidRequestWarningData {
 	/**
 	 * Number of invalid requests that have been made in the window
@@ -290,32 +326,101 @@ export interface InvalidRequestWarningData {
 
 export type { RawFile } from '@discord.self/util';
 
+/**
+ * Build metadata used to populate browser identity headers.
+ */
 export interface RESTBuildMetadata {
+	/**
+	 * Discord web client build number.
+	 */
 	clientBuildNumber?: number;
+	/**
+	 * Discord desktop host version.
+	 */
 	hostVersion?: string;
+	/**
+	 * Discord desktop native build number.
+	 */
 	nativeBuildNumber?: number;
 }
 
+/**
+ * Browser metadata used to build Discord-style client headers.
+ */
 export interface RESTBrowserMetadata {
+	/**
+	 * Value for the `Accept-Language` header.
+	 */
 	acceptLanguage?: string;
+	/**
+	 * Browser family name.
+	 */
 	browser?: string;
+	/**
+	 * Browser version string.
+	 */
 	browserVersion?: string;
+	/**
+	 * Optional explicit Discord build metadata override.
+	 */
 	buildMetadata?: RESTBuildMetadata;
+	/**
+	 * Whether the browser identity should be marked as mobile.
+	 */
 	isMobile?: boolean;
+	/**
+	 * Locale to emit in Discord locale headers.
+	 */
 	locale?: string;
+	/**
+	 * Operating system name.
+	 */
 	os?: string;
+	/**
+	 * Operating system version string.
+	 */
 	osVersion?: string;
+	/**
+	 * `httpcloak` browser preset used during header probing.
+	 */
 	preset?: string;
+	/**
+	 * Probe URL used for discovering cloaked browser headers.
+	 */
 	probeUrl?: string;
+	/**
+	 * Discord release channel in generated super-properties.
+	 */
 	releaseChannel?: string;
+	/**
+	 * Value for the `Sec-CH-UA` header.
+	 */
 	secChUa?: string;
+	/**
+	 * Value for the `Sec-CH-UA-Mobile` header.
+	 */
 	secChUaMobile?: '?0' | '?1';
+	/**
+	 * Value for the `Sec-CH-UA-Platform` header.
+	 */
 	secChUaPlatform?: string;
+	/**
+	 * Additional super-properties entries, or `false` to disable the header.
+	 */
 	superProperties?: Record<string, unknown> | false;
+	/**
+	 * Timezone used in Discord timezone headers.
+	 */
 	timezone?: string;
+	/**
+	 * Value for the `User-Agent` header.
+	 */
 	userAgent?: string;
 }
 
+/**
+ * Authorization data for an authenticated request.
+ */
 export interface AuthData {
 	/**
 	 * The authorization token to use for this request
@@ -384,16 +489,49 @@ export interface RequestData {
 /**
  * Possible headers for an API call
  */
+/**
+ * Possible headers for an API call.
+ */
 export interface RequestHeaders {
+	/**
+	 * Preferred response languages.
+	 */
 	'Accept-Language'?: string;
+	/**
+	 * Authorization header value.
+	 */
 	Authorization?: string;
+	/**
+	 * Browser brand/version client hints.
+	 */
 	'Sec-CH-UA'?: string;
+	/**
+	 * Browser mobile client hint.
+	 */
 	'Sec-CH-UA-Mobile'?: '?0' | '?1';
+	/**
+	 * Browser platform client hint.
+	 */
 	'Sec-CH-UA-Platform'?: string;
+	/**
+	 * Request user agent string.
+	 */
 	'User-Agent'?: string;
+	/**
+	 * URL-encoded Discord audit log reason.
+	 */
 	'X-Audit-Log-Reason'?: string;
+	/**
+	 * Discord locale override.
+	 */
 	'X-Discord-Locale'?: string;
+	/**
+	 * Discord timezone override.
+	 */
 	'X-Discord-Timezone'?: string;
+	/**
+	 * Base64-encoded Discord super-properties.
+	 */
 	'X-Super-Properties'?: string;
 }
 
@@ -414,11 +552,23 @@ export type RouteLike = `/${string}`;
  * Internal request options
  */
 export interface InternalRequest extends RequestData {
+	/**
+	 * Fully resolved route path used for this request.
+	 */
 	fullRoute: RouteLike;
+	/**
+	 * HTTP method used for this request.
+	 */
 	method: RequestMethod;
 }
 
+/**
+ * Handler-focused request payload used for queue processing.
+ */
 export interface HandlerRequestData extends Pick<InternalRequest, 'body' | 'files' | 'signal'> {
+	/**
+	 * Resolved authorization header value, or `false` to omit it.
+	 */
 	auth: boolean | string;
 }
 
@@ -426,8 +576,17 @@ export interface HandlerRequestData extends Pick<InternalRequest, 'body' | 'file
  * Parsed route data for an endpoint
  */
 export interface RouteData {
+	/**
+	 * Bucket route key used for Discord rate-limit bucketing.
+	 */
 	bucketRoute: string;
+	/**
+	 * Major parameter extracted from the request route.
+	 */
 	majorParameter: string;
+	/**
+	 * Original route template before normalization.
+	 */
 	original: RouteLike;
 }
 
@@ -435,6 +594,12 @@ export interface RouteData {
  * Represents a hash and its associated fields
  */
 export interface HashData {
+	/**
+	 * Timestamp of the most recent access for this hash.
+	 */
 	lastAccess: number;
+	/**
+	 * Discord-provided hash string for this bucket.
+	 */
 	value: string;
 }

@@ -32,7 +32,13 @@ export type EndBehavior =
 			behavior: EndBehaviorType.Manual;
 	  };
 
+/**
+ * Options for constructing an {@link AudioReceiveStream}.
+ */
 export interface AudioReceiveStreamOptions extends ReadableOptions {
+	/**
+	 * End-of-stream behavior policy for received audio packets.
+	 */
 	end: EndBehavior;
 }
 

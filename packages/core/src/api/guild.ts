@@ -106,7 +106,13 @@ import {
 	type Snowflake,
 } from 'discord-api-types/v10';
 
+/**
+ * Body options for creating a guild sticker with an uploaded file.
+ */
 export interface CreateStickerOptions extends Omit<RESTPostAPIGuildStickerFormDataBody, 'file'> {
+	/**
+	 * Sticker file payload to upload.
+	 */
 	file: RawFile;
 }
 

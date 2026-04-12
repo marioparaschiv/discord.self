@@ -15,8 +15,14 @@ import {
 } from 'discord-api-types/v10';
 import type { WebhooksAPI } from './webhook.js';
 
+/**
+ * Body and query options for creating an interaction callback response.
+ */
 export interface CreateInteractionResponseOptions
 	extends APIInteractionResponseCallbackData, RESTPostAPIInteractionCallbackQuery {
+	/**
+	 * Files to upload with the interaction response payload.
+	 */
 	files?: RawFile[];
 }
 

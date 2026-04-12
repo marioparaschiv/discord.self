@@ -1,6 +1,9 @@
 import type { RequestInit } from 'undici';
 import type { HandlerRequestData, RouteData, ResponseLike } from '../utils/types.js';
 
+/**
+ * Contract for route-specific REST request handlers.
+ */
 export interface IHandler {
 	/**
 	 * The unique id of the handler

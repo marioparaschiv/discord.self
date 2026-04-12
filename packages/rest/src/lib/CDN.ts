@@ -26,15 +26,27 @@ export interface BaseImageURLOptions {
 	size?: ImageSize;
 }
 
+/**
+ * Emoji URL options when using `webp` output.
+ */
 export interface EmojiURLOptionsWebp extends BaseImageURLOptions {
 	/**
 	 * Whether to use the `animated` query parameter.
 	 */
 	animated?: boolean;
+	/**
+	 * Fixed image extension for this option variant.
+	 */
 	extension?: 'webp';
 }
 
+/**
+ * Emoji URL options when using a non-`webp` extension.
+ */
 export interface EmojiURLOptionsNotWebp extends BaseImageURLOptions {
+	/**
+	 * Image extension to use for emoji rendering.
+	 */
 	extension: Exclude<ImageExtension, 'webp'>;
 }
 

@@ -65,10 +65,25 @@ export enum TransformerType {
  * Represents a pathway from one stream type to another using a transformer.
  */
 export interface Edge {
+	/**
+	 * Relative transformation cost used by pathfinding.
+	 */
 	cost: number;
+	/**
+	 * Source node for this transformation edge.
+	 */
 	from: Node;
+	/**
+	 * Target node for this transformation edge.
+	 */
 	to: Node;
+	/**
+	 * Transformer factory for converting stream input across this edge.
+	 */
 	transformer(input: Readable | string): Readable;
+	/**
+	 * Transformer implementation type for this edge.
+	 */
 	type: TransformerType;
 }
 

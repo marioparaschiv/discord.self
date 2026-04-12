@@ -47,8 +47,17 @@ export enum NetworkingStatusCode {
  * voice gateway is being opened.
  */
 export interface NetworkingOpeningWsState {
+	/**
+	 * Current networking state discriminator.
+	 */
 	code: NetworkingStatusCode.OpeningWs;
+	/**
+	 * Voice gateway connection inputs.
+	 */
 	connectionOptions: ConnectionOptions;
+	/**
+	 * Active voice websocket instance.
+	 */
 	ws: VoiceWebSocket;
 }
 
@@ -56,8 +65,17 @@ export interface NetworkingOpeningWsState {
  * The state that a Networking instance will be in when it is attempting to authorize itself.
  */
 export interface NetworkingIdentifyingState {
+	/**
+	 * Current networking state discriminator.
+	 */
 	code: NetworkingStatusCode.Identifying;
+	/**
+	 * Voice gateway connection inputs.
+	 */
 	connectionOptions: ConnectionOptions;
+	/**
+	 * Active voice websocket instance.
+	 */
 	ws: VoiceWebSocket;
 }
 
@@ -66,10 +84,25 @@ export interface NetworkingIdentifyingState {
  * by Discord, as well as performing IP discovery.
  */
 export interface NetworkingUdpHandshakingState {
+	/**
+	 * Current networking state discriminator.
+	 */
 	code: NetworkingStatusCode.UdpHandshaking;
+	/**
+	 * Partial connection data available during UDP setup.
+	 */
 	connectionData: Pick<ConnectionData, 'connectedClients' | 'ssrc'>;
+	/**
+	 * Voice gateway connection inputs.
+	 */
 	connectionOptions: ConnectionOptions;
+	/**
+	 * Active voice UDP socket.
+	 */
 	udp: VoiceUDPSocket;
+	/**
+	 * Active voice websocket instance.
+	 */
 	ws: VoiceWebSocket;
 }
 
@@ -77,10 +110,25 @@ export interface NetworkingUdpHandshakingState {
  * The state that a Networking instance will be in when selecting an encryption protocol for audio packets.
  */
 export interface NetworkingSelectingProtocolState {
+	/**
+	 * Current networking state discriminator.
+	 */
 	code: NetworkingStatusCode.SelectingProtocol;
+	/**
+	 * Partial connection data available during protocol negotiation.
+	 */
 	connectionData: Pick<ConnectionData, 'connectedClients' | 'ssrc'>;
+	/**
+	 * Voice gateway connection inputs.
+	 */
 	connectionOptions: ConnectionOptions;
+	/**
+	 * Active voice UDP socket.
+	 */
 	udp: VoiceUDPSocket;
+	/**
+	 * Active voice websocket instance.
+	 */
 	ws: VoiceWebSocket;
 }
 
@@ -89,12 +137,33 @@ export interface NetworkingSelectingProtocolState {
  * voice server.
  */
 export interface NetworkingReadyState {
+	/**
+	 * Current networking state discriminator.
+	 */
 	code: NetworkingStatusCode.Ready;
+	/**
+	 * Established voice connection runtime data.
+	 */
 	connectionData: ConnectionData;
+	/**
+	 * Voice gateway connection inputs.
+	 */
 	connectionOptions: ConnectionOptions;
+	/**
+	 * Optional DAVE end-to-end encryption session.
+	 */
 	dave?: DAVESession | undefined;
+	/**
+	 * Reusable RTP packet buffer prepared for transmission.
+	 */
 	preparedPacket?: Buffer | undefined;
+	/**
+	 * Active voice UDP socket.
+	 */
 	udp: VoiceUDPSocket;
+	/**
+	 * Active voice websocket instance.
+	 */
 	ws: VoiceWebSocket;
 }
 
@@ -103,12 +172,33 @@ export interface NetworkingReadyState {
  * is attempting to resume an existing session.
  */
 export interface NetworkingResumingState {
+	/**
+	 * Current networking state discriminator.
+	 */
 	code: NetworkingStatusCode.Resuming;
+	/**
+	 * Established voice connection runtime data.
+	 */
 	connectionData: ConnectionData;
+	/**
+	 * Voice gateway connection inputs.
+	 */
 	connectionOptions: ConnectionOptions;
+	/**
+	 * Optional DAVE end-to-end encryption session.
+	 */
 	dave?: DAVESession | undefined;
+	/**
+	 * Reusable RTP packet buffer prepared for transmission.
+	 */
 	preparedPacket?: Buffer | undefined;
+	/**
+	 * Active voice UDP socket.
+	 */
 	udp: VoiceUDPSocket;
+	/**
+	 * Active voice websocket instance.
+	 */
 	ws: VoiceWebSocket;
 }
 
@@ -117,6 +207,9 @@ export interface NetworkingResumingState {
  * state.
  */
 export interface NetworkingClosedState {
+	/**
+	 * Current networking state discriminator.
+	 */
 	code: NetworkingStatusCode.Closed;
 }
 
@@ -138,11 +231,29 @@ export type NetworkingState =
  * and VOICE_STATE_UPDATE packets.
  */
 export interface ConnectionOptions {
+	/**
+	 * Voice channel ID being connected to.
+	 */
 	channelId: string;
+	/**
+	 * Voice websocket endpoint hostname.
+	 */
 	endpoint: string;
+	/**
+	 * Guild/server ID associated with the voice session.
+	 */
 	serverId: string;
+	/**
+	 * Voice session ID from the gateway.
+	 */
 	sessionId: string;
+	/**
+	 * Voice token from the voice server update.
+	 */
 	token: string;
+	/**
+	 * User ID for the connected account.
+	 */
 	userId: string;
 }
 
@@ -151,15 +262,45 @@ export interface ConnectionOptions {
  * the connection, timing information for playback of streams.
  */
 export interface ConnectionData {
+	/**
+	 * Set of speaking user IDs currently connected.
+	 */
 	connectedClients: Set<string>;
+	/**
+	 * Selected encryption mode.
+	 */
 	encryptionMode: string;
+	/**
+	 * Rolling packet nonce counter.
+	 */
 	nonce: number;
+	/**
+	 * Packet nonce bytes written into encrypted RTP payloads.
+	 */
 	nonceBuffer: Buffer;
+	/**
+	 * Count of audio packets played in this session.
+	 */
 	packetsPlayed: number;
+	/**
+	 * Secret key used for voice packet encryption.
+	 */
 	secretKey: Uint8Array;
+	/**
+	 * RTP sequence counter.
+	 */
 	sequence: number;
+	/**
+	 * Whether this connection is currently marked as speaking.
+	 */
 	speaking: boolean;
+	/**
+	 * Local synchronization source identifier.
+	 */
 	ssrc: number;
+	/**
+	 * RTP timestamp counter.
+	 */
 	timestamp: number;
 }
 

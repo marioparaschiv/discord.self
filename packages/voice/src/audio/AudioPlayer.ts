@@ -63,10 +63,22 @@ export enum AudioPlayerStatus {
  * Options that can be passed when creating an audio player, used to specify its behavior.
  */
 export interface CreateAudioPlayerOptions {
+	/**
+	 * Playback behavior overrides for subscriber and frame handling.
+	 */
 	behaviors?: {
+		/**
+		 * Consecutive missed frames before the player considers playback failed.
+		 */
 		maxMissedFrames?: number;
+		/**
+		 * Behavior used when there are no active subscribers.
+		 */
 		noSubscriber?: NoSubscriberBehavior;
 	};
+	/**
+	 * Whether debug events should be emitted.
+	 */
 	debug?: boolean;
 }
 
@@ -74,6 +86,9 @@ export interface CreateAudioPlayerOptions {
  * The state that an AudioPlayer is in when it has no resource to play. This is the starting state.
  */
 export interface AudioPlayerIdleState {
+	/**
+	 * Current player state discriminator.
+	 */
 	status: AudioPlayerStatus.Idle;
 }
 
@@ -83,13 +98,25 @@ export interface AudioPlayerIdleState {
  * it will re-enter the Idle state.
  */
 export interface AudioPlayerBufferingState {
+	/**
+	 * Cleanup callback used when buffering fails.
+	 */
 	onFailureCallback: () => void;
+	/**
+	 * Listener invoked when the resource becomes readable.
+	 */
 	onReadableCallback: () => void;
+	/**
+	 * Listener invoked when the resource stream emits an error.
+	 */
 	onStreamError: (error: Error) => void;
 	/**
 	 * The resource that the AudioPlayer is waiting for
 	 */
 	resource: AudioResource;
+	/**
+	 * Current player state discriminator.
+	 */
 	status: AudioPlayerStatus.Buffering;
 }
 
@@ -102,6 +129,9 @@ export interface AudioPlayerPlayingState {
 	 * The number of consecutive times that the audio resource has been unable to provide an Opus frame.
 	 */
 	missedFrames: number;
+	/**
+	 * Listener invoked when the resource stream emits an error.
+	 */
 	onStreamError: (error: Error) => void;
 
 	/**
@@ -115,6 +145,9 @@ export interface AudioPlayerPlayingState {
 	 */
 	resource: AudioResource;
 
+	/**
+	 * Current player state discriminator.
+	 */
 	status: AudioPlayerStatus.Playing;
 }
 
@@ -123,6 +156,9 @@ export interface AudioPlayerPlayingState {
  * automatically by the AudioPlayer itself if there are no available subscribers.
  */
 export interface AudioPlayerPausedState {
+	/**
+	 * Listener invoked when the resource stream emits an error.
+	 */
 	onStreamError: (error: Error) => void;
 	/**
 	 * The playback duration in milliseconds of the current audio resource. This includes filler silence packets
@@ -140,6 +176,9 @@ export interface AudioPlayerPausedState {
 	 */
 	silencePacketsRemaining: number;
 
+	/**
+	 * Current player state discriminator.
+	 */
 	status: AudioPlayerStatus.AutoPaused | AudioPlayerStatus.Paused;
 }
 

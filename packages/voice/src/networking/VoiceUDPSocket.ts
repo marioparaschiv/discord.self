@@ -8,7 +8,13 @@ import { isIPv4 } from 'node:net';
  * for Discord.
  */
 export interface SocketConfig {
+	/**
+	 * IPv4 address for the socket endpoint.
+	 */
 	ip: string;
+	/**
+	 * UDP port for the socket endpoint.
+	 */
 	port: number;
 }
 

@@ -1,7 +1,13 @@
 import type { RawFile } from '@discord.self/rest';
 import type { APIInteractionResponseCallbackData } from 'discord-api-types/v10';
 
+/**
+ * File payload that includes an optional attachment description.
+ */
 export interface DescriptiveRawFile extends RawFile {
+	/**
+	 * Description to include in the created attachment object.
+	 */
 	description?: string;
 }
 

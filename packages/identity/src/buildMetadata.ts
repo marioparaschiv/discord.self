@@ -1,13 +1,34 @@
 import { BUILD_NUMBER_REGEX } from './constants.js';
 
+/**
+ * Resolved Discord web/native build metadata used in super-properties.
+ */
 export interface DiscordBuildMetadata {
+	/**
+	 * Current Discord web client build number.
+	 */
 	clientBuildNumber: number;
+	/**
+	 * Current Discord desktop host version.
+	 */
 	hostVersion?: string;
+	/**
+	 * Current Discord desktop native build number.
+	 */
 	nativeBuildNumber?: number;
 }
 
+/**
+ * Configuration for Discord build metadata resolution.
+ */
 export interface DiscordBuildMetadataOptions {
+	/**
+	 * Custom fetch implementation used for metadata requests.
+	 */
 	fetch?: typeof fetch;
+	/**
+	 * Whether to bypass and reset the in-memory metadata cache.
+	 */
 	refresh?: boolean;
 }
 
@@ -21,6 +42,9 @@ interface NativeBuildResponse {
 let cachedBuildMetadata: DiscordBuildMetadata | null = null;
 let cachedBuildMetadataPromise: Promise<DiscordBuildMetadata> | null = null;
 
+/**
+ * Fetches Discord native desktop build metadata from the public update feed.
+ */
 export async function getLatestNativeBuild(fetcher: typeof fetch = fetch) {
 	const response = await fetcher(
 		`https://updates.discord.com/distributions/app/manifests/latest?channel=stable&platform=win&arch=x64&install_id=${crypto.randomUUID()}`,
@@ -47,6 +71,9 @@ export async function getLatestNativeBuild(fetcher: typeof fetch = fetch) {
 	};
 }
 
+/**
+ * Extracts the current Discord web build number from the app shell assets.
+ */
 export async function getLatestDiscordBuildNumber(fetcher: typeof fetch = fetch) {
 	const response = await fetcher('https://discord.com/app');
 
@@ -85,6 +112,9 @@ export async function getLatestDiscordBuildNumber(fetcher: typeof fetch = fetch)
 	throw new Error('Failed to get latest build number from Discord assets');
 }
 
+/**
+ * Resolves and caches combined Discord web/native build metadata.
+ */
 export async function getDiscordBuildMetadata(options: DiscordBuildMetadataOptions = {}) {
 	const fetcher = options.fetch ?? fetch;
 
@@ -119,6 +149,9 @@ export async function getDiscordBuildMetadata(options: DiscordBuildMetadataOptio
 	}
 }
 
+/**
+ * Clears the in-memory metadata cache used by {@link getDiscordBuildMetadata}.
+ */
 export function clearDiscordBuildMetadataCache() {
 	cachedBuildMetadata = null;
 	cachedBuildMetadataPromise = null;

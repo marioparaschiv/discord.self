@@ -25,13 +25,13 @@ runs:
         flags: core
         token: ${{ inputs.CODECOV_TOKEN }}
 
-    - name: Upload Discord.js Coverage
-      if: ${{ hashFiles('packages/discord.js/coverage/cobertura-coverage.xml') != '' }}
+    - name: Upload Client Coverage
+      if: ${{ hashFiles('packages/client/coverage/cobertura-coverage.xml') != '' }}
       uses: codecov/codecov-action@v4
       with:
-        files: ./packages/discord.js/coverage/cobertura-coverage.xml
+        files: ./packages/client/coverage/cobertura-coverage.xml
         disable_search: true
-        flags: discord.js
+        flags: client
         token: ${{ inputs.CODECOV_TOKEN }}
 
     - name: Upload Formatters Coverage

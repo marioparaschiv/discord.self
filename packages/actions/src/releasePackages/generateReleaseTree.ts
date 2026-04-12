@@ -105,7 +105,7 @@ async function getReleaseEntries(dry: boolean, devTag?: string) {
 						// Check changelog release version and assume no changelog if version does not match
 						if (
 							!line.startsWith(
-								`# [${release.name === '@discord.self/discord.js' ? `` : `${release.name}@`}${release.version}]`,
+								`# [${release.name === '@discord.self/client' ? `` : `${release.name}@`}${release.version}]`,
 							)
 						) {
 							break;

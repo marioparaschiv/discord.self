@@ -12,7 +12,7 @@ on:
         required: false
         options:
           - all
-          - '@discord.self/discord.js'
+          - '@discord.self/client'
           - '@discord.self/collection'
           - '@discord.self/core'
           # - '@discord.self/docgen'

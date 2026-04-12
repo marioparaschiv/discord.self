@@ -229,7 +229,7 @@ const linkRegEx =
 const moduleNameRegEx = /^(?<package>(?:@[\w.-]+\/)?[\w.-]+)(?<path>(?:\/[\w.-]+)+)?$/i;
 
 function filePathFromJson(meta: DocgenMetaJson): string {
-	return `${meta.path.slice('packages/discord.js/'.length)}/${meta.file}`;
+	return `${meta.path.slice('packages/client/'.length)}/${meta.file}`;
 }
 
 function fixPrimitiveTypes(type: string, symbol: string | undefined) {

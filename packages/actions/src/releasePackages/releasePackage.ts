@@ -16,7 +16,7 @@ async function checkRegistry(release: ReleaseEntry) {
 }
 
 async function gitTagAndRelease(release: ReleaseEntry, dry: boolean) {
-	const tagName = `${release.name === '@discord.self/discord.js' ? `` : `${release.name}@`}${release.version}`;
+	const tagName = `${release.name === '@discord.self/client' ? `` : `${release.name}@`}${release.version}`;
 
 	if (dry) {
 		info(`[DRY] Release would be "${tagName}", skipping release creation.`);
@@ -33,7 +33,7 @@ async function gitTagAndRelease(release: ReleaseEntry, dry: boolean) {
 			name: tagName,
 			body: release.changelog ?? '',
 			generate_release_notes: release.changelog === undefined,
-			make_latest: release.name === '@discord.self/discord.js' ? 'true' : 'false',
+			make_latest: release.name === '@discord.self/client' ? 'true' : 'false',
 		});
 	} catch (error) {
 		warning(`Failed to create github release: ${error}`);

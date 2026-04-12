@@ -10,6 +10,6 @@
     "@discord.self/ws"
   ],
   "docModel": {
-    "projectFolderUrl": "https://github.com/marioparaschiv/discord.self/tree/main/packages/discord.js"
+    "projectFolderUrl": "https://github.com/marioparaschiv/discord.self/tree/main/packages/client"
   }
 }

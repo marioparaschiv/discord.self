@@ -33,12 +33,12 @@ describe('Format Tag', () => {
 	test('GIVEN tag with no prefix THEN return tag', () => {
 		expect(formatTag('13.5.1')).toEqual({
 			isSubpackage: false,
-			package: '@discord.self/discord.js',
+			package: '@discord.self/client',
 			semver: '13.5.1',
 		});
 		expect(formatTag('13.7.0')).toEqual({
 			isSubpackage: false,
-			package: '@discord.self/discord.js',
+			package: '@discord.self/client',
 			semver: '13.7.0',
 		});
 	});

@@ -7,7 +7,7 @@ packages:
   - packages/api-extractor-utils
   - packages/collection
   - packages/core
-  - packages/discord.js
+  - packages/client
   - packages/docgen
   - packages/formatters
   - packages/identity
@@ -23,6 +23,7 @@ allowBuilds:
   bufferutil: true
   core-js-pure: false
   esbuild: true
+  koffi: true
   protobufjs: true
   rclone.js: true
   sharp: true

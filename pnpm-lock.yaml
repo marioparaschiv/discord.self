@@ -756,7 +756,7 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2(@edge-runtime/vm@3.2.0)(@types/node@22.19.15)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)
 
-  packages/discord.js:
+  packages/client:
     dependencies:
       '@discord.self/collection':
         specifier: workspace:^

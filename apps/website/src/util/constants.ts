@@ -1,5 +1,5 @@
 export const PACKAGES = [
-	{ name: 'discord.js' },
+	{ name: 'client' },
 	{ name: 'discord-api-types' },
 	{ name: 'brokers' },
 	{ name: 'builders' },

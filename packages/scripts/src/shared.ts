@@ -1,7 +1,7 @@
 import { request } from 'undici';
 
 export const PACKAGES = [
-	'discord.js',
+	'client',
 	'brokers',
 	'builders',
 	'collection',

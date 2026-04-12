@@ -13,7 +13,7 @@ body:
     attributes:
       label: Which application or package is this feature request for?
       options:
-        - discord.js
+        - client
         - Documentation
         - Guide
         - Proxy Container

@@ -18,7 +18,7 @@ pnpm-lock.yaml @discord.self/core
 /packages/api-extractor-utils/ @discord.self/api-extractor-utils
 /packages/collection/ @discord.self/collection
 /packages/core/ @discord.self/core
-/packages/discord.js/ @discord.self/core
+/packages/client/ @discord.self/core
 /packages/docgen/ @iCrawl
 /packages/formatters/ @discord.self/formatters
 /packages/identity/ @discord.self/rest

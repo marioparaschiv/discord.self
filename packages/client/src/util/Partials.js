@@ -5,7 +5,7 @@ const { createEnum } = require('./Enums.js');
 /**
  * The enumeration for partials.
  * ```js
- * import { Client, Partials } from 'discord.js';
+ * import { Client, Partials } from '@discord.self/client';
  *
  * const client = new Client({
  *   intents: [

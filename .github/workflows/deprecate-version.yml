@@ -10,7 +10,7 @@ on:
           - '@discord.self/collection'
           - '@discord.self/core'
           - '@discord.self/formatters'
-          - '@discord.self/discord.js'
+          - '@discord.self/client'
           - '@discord.self/identity'
           - '@discord.self/rest'
           - '@discord.self/util'

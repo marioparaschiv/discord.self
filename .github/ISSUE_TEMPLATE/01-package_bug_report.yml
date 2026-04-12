@@ -1,5 +1,5 @@
 name: Bug report
-description: Report an issue with discord.js or one of the remaining runtime packages.
+description: Report an issue with client or one of the remaining runtime packages.
 labels: [bug, need repro]
 body:
   - type: markdown
@@ -13,7 +13,7 @@ body:
     attributes:
       label: Which package is this bug report for?
       options:
-        - discord.js
+        - client
         - collection
         - core
         - formatters
@@ -55,7 +55,7 @@ body:
       label: Versions
       description: List necessary versions here. This includes your package version, runtime version, operating system etc.
       placeholder: |
-        - discord.js 14.24.2 (`npm ls discord.js` or another package)
+        - @discord.self/client 14.24.2 (`npm ls @discord.self/client` or another package)
         - Node.js 24.11.0 (`node --version`)
         - TypeScript 5.9.3 (`npm ls typescript` if you use it)
         - macOS Ventura 13.3.1
@@ -132,5 +132,5 @@ body:
       placeholder: d23280c (commit hash)
       description: |
         The issue might already be fixed in a development release or main. This is not required, but helps us greatly.
-        [discord.js only] To install the latest development release run `npm i discord.js@dev` in your project directory.
-        Run `npm list discord.js` and use the last part of the printed information (`d23280c` for `discord.js@xx.x.x-dev.1530234593.d23280c`)
+        [client only] To install the latest development release run `npm i @discord.self/client@dev` in your project directory.
+        Run `npm list @discord.self/client` and use the last part of the printed information (`d23280c` for `@discord.self/client@xx.x.x-dev.1530234593.d23280c`)

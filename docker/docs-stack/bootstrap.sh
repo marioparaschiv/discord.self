@@ -167,7 +167,7 @@ if [ "$MODE" = "full" ]; then
 		pnpm --filter @discord.self/ws docs
 		pnpm --filter @discord.self/core docs
 
-		pnpm --filter @discord.self/discord.js docs
+		pnpm --filter @discord.self/client docs
 		pnpm --filter @discord.self/formatters docs
 		pnpm --filter @discord.self/identity docs
 		pnpm --filter @discord.self/voice docs

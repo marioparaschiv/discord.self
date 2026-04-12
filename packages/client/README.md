@@ -6,10 +6,10 @@
 	<br />
 	<p>
 		<a href="https://discord.gg/djs"><img src="https://img.shields.io/badge/join_us-on_discord-5865F2?logo=discord&logoColor=white" alt="Discord server" /></a>
-		<a href="https://www.npmjs.com/package/discord.js"><img src="https://img.shields.io/npm/v/discord.js.svg?maxAge=3600" alt="npm version" /></a>
-		<a href="https://www.npmjs.com/package/discord.js"><img src="https://img.shields.io/npm/dt/discord.js.svg?maxAge=3600" alt="npm downloads" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/client"><img src="https://img.shields.io/npm/v/%40discord.self%2Fclient.svg?maxAge=3600" alt="npm version" /></a>
+		<a href="https://www.npmjs.com/package/@discord.self/client"><img src="https://img.shields.io/npm/dt/%40discord.self%2Fclient.svg?maxAge=3600" alt="npm downloads" /></a>
 		<a href="https://github.com/discordjs/discord.js/actions"><img src="https://github.com/discordjs/discord.js/actions/workflows/tests.yml/badge.svg" alt="Tests status" /></a>
-		<a href="https://github.com/discordjs/discord.js/commits/main/packages/discord.js"><img alt="Last commit." src="https://img.shields.io/github/last-commit/discordjs/discord.js?logo=github&logoColor=ffffff&path=packages%2Fdiscord.js" /></a>
+		<a href="https://github.com/marioparaschiv/discord.self/commits/main/packages/client"><img alt="Last commit." src="https://img.shields.io/github/last-commit/marioparaschiv/discord.self?logo=github&logoColor=ffffff&path=packages%2Fclient" /></a>
 		<a href="https://opencollective.com/discordjs"><img src="https://img.shields.io/opencollective/backers/discordjs?maxAge=3600&logo=opencollective" alt="backers" /></a>
 		<a href="https://codecov.io/gh/discordjs/discord.js"><img src="https://codecov.io/gh/discordjs/discord.js/branch/main/graph/badge.svg?precision=2" alt="Code coverage" /></a>
 	</p>
@@ -34,10 +34,10 @@ discord.js is a powerful [Node.js](https://nodejs.org) module that allows you to
 **Node.js 22.12.0 or newer is required.**
 
 ```sh
-npm install discord.js
-yarn add discord.js
-pnpm add discord.js
-bun add discord.js
+npm install @discord.self/client
+yarn add @discord.self/client
+pnpm add @discord.self/client
+bun add @discord.self/client
 ```
 
 ### Optional packages
@@ -48,13 +48,13 @@ bun add discord.js
 
 ## Example usage
 
-Install discord.js:
+Install @discord.self/client:
 
 ```sh
-npm install discord.js
-yarn add discord.js
-pnpm add discord.js
-bun add discord.js
+npm install @discord.self/client
+yarn add @discord.self/client
+pnpm add @discord.self/client
+bun add @discord.self/client
 ```
 
 These examples use [ES modules](https://nodejs.org/api/esm.html#enabling).
@@ -62,7 +62,7 @@ These examples use [ES modules](https://nodejs.org/api/esm.html#enabling).
 Register a slash command against the Discord API:
 
 ```js
-import { REST, Routes } from 'discord.js';
+import { REST, Routes } from '@discord.self/client';
 
 const commands = [
   {
@@ -87,7 +87,7 @@ try {
 Afterwards we can create a quite simple example bot:
 
 ```js
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Events, GatewayIntentBits } from '@discord.self/client';
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -134,14 +134,14 @@ If you don't understand something in the documentation, you are experiencing pro
 
 [website]: https://discord.js.org
 [website-source]: https://github.com/discordjs/discord.js/tree/main/apps/website
-[documentation]: https://discord.js.org/docs/packages/discord.js/stable
+[documentation]: https://discord.js.org/docs/packages/client/stable
 [guide]: https://discordjs.guide
 [guide-source]: https://github.com/discordjs/discord.js/tree/main/apps/guide
 [guide-update]: https://discordjs.guide/legacy/additional-info/changes-in-v14
 [discord]: https://discord.gg/djs
 [discord-developers]: https://discord.gg/discord-developers
-[source]: https://github.com/discordjs/discord.js/tree/main/packages/discord.js
-[npm]: https://www.npmjs.com/package/discord.js
+[source]: https://github.com/marioparaschiv/discord.self/tree/main/packages/client
+[npm]: https://www.npmjs.com/package/@discord.self/client
 [related-libs]: https://discord.com/developers/docs/topics/community-resources#libraries
 [rpc]: https://www.npmjs.com/package/discord-rpc
 [rpc-source]: https://github.com/discordjs/RPC

@@ -28,11 +28,11 @@ packages:core:
       - any-glob-to-any-file:
           - packages/core/*
           - packages/core/**/*
-packages:discord.js:
+packages:client:
   - changed-files:
       - any-glob-to-any-file:
-          - packages/discord.js/*
-          - packages/discord.js/**/*
+          - packages/client/*
+          - packages/client/**/*
 packages:docgen:
   - changed-files:
       - any-glob-to-any-file:

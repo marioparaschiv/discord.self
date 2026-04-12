@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@discord.self/discord.js",
+  "name": "@discord.self/client",
   "version": "14.16.3",
   "description": "A patched discord.js client focused on user-account sessions",
   "scripts": {
@@ -13,7 +13,7 @@
     "docs:test": "docgen -i \"./src/*.js\" \"./src/**/*.js\" -c ./docs/index.json -r ../../",
     "docs:new": "api-extractor run --local --minify && generate-split-documentation",
     "prepack": "pnpm run lint && pnpm run test && node ./scripts/esmDts.mjs",
-    "changelog": "git cliff --prepend ./CHANGELOG.md -u -c ./cliff.toml -r ../../ --include-path 'packages/discord.js/*'",
+    "changelog": "git cliff --prepend ./CHANGELOG.md -u -c ./cliff.toml -r ../../ --include-path 'packages/client/*'",
     "release": "cliff-jumper"
   },
   "main": "./src/index.js",
@@ -59,7 +59,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/marioparaschiv/discord.self.git",
-    "directory": "packages/discord.js"
+    "directory": "packages/client"
   },
   "bugs": {
     "url": "https://github.com/marioparaschiv/discord.self/issues"

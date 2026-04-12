@@ -33,8 +33,13 @@ export default {
 				permanent: true,
 			},
 			{
-				source: '/guide/:path*',
-				destination: `${GUIDE_REDIRECT_URL.replace(/\/$/, '')}/:path*`,
+				source: '/guide',
+				destination: `${GUIDE_REDIRECT_URL.replace(/\/$/, '')}/client`,
+				permanent: false,
+			},
+			{
+				source: '/guide/:path+',
+				destination: `${GUIDE_REDIRECT_URL.replace(/\/$/, '')}/:path+`,
 				permanent: false,
 			},
 		];

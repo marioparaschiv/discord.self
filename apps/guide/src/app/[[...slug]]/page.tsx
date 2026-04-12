@@ -10,13 +10,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }): Promise<Metadata> {
 	const params = await props.params;
-	const page = source.getPage(params.slug);
+	const slug = params.slug?.length ? params.slug : ['client'];
+	const page = source.getPage(slug);
 
 	if (!page) {
 		notFound();
 	}
 
-	const image = ['/og', ...(params.slug ?? []), 'image.png'].join('/');
+	const image = ['/og', ...slug, 'image.png'].join('/');
 	return {
 		title: page.data.title,
 		description: page.data.description,
@@ -32,7 +33,8 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
 
 export default async function Page(props: { readonly params: Promise<{ slug?: string[] }> }) {
 	const params = await props.params;
-	const page = source.getPage(params.slug);
+	const slug = params.slug?.length ? params.slug : ['client'];
+	const page = source.getPage(slug);
 
 	if (!page) {
 		notFound();

@@ -7,7 +7,7 @@ import { DESCRIPTION } from '@/util/constants';
 export default async function Page() {
 	return (
 		<div className="mx-auto flex min-h-screen w-full max-w-screen-lg flex-col place-content-center place-items-center gap-24 px-8 pt-12 pb-16">
-			<div className="flex w-full flex-col gap-10 rounded-3xl bg-[#5865f2]/15 px-6 py-10 text-center sm:px-10">
+			<div className="flex flex-col gap-10 text-center">
 				<h1 className="text-base-heading-xl font-black sm:text-7xl sm:leading-tight">
 					A{' '}
 					<span className="bg-base-blurple-400 text-base-neutral-0 relative rounded-sm px-3 py-2">

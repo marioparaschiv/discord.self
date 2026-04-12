@@ -22,6 +22,7 @@
 		"docs:stack:up": "docker compose -f docker/docs-stack/docker-compose.yml up -d",
 		"docs:stack:bootstrap": "docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm bootstrap",
 		"docs:stack:upload": "docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload bootstrap",
+		"deploy": "bash scripts/deploy-on-pull.sh",
 		"prepare": "is-ci || husky",
 		"update": "pnpm --recursive update --interactive",
 		"update:latest": "pnpm --recursive update --interactive --latest"

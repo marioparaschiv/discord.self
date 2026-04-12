@@ -1,5 +1,5 @@
 name: 'Upload documentation'
-description: 'Uploads the docs.api.json file to a neon postgresql database'
+description: 'Uploads docs.api.json files to object storage and updates per-package version manifests'
 inputs:
   package:
     description: 'The package string'

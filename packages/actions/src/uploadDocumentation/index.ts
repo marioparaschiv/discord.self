@@ -2,29 +2,26 @@ import { readFile } from 'node:fs/promises';
 import process from 'node:process';
 import { getInput, setFailed } from '@actions/core';
 import { create } from '@actions/glob';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import Cloudflare from 'cloudflare';
+import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import pLimit from 'p-limit';
 
 if (
 	!process.env.CF_R2_DOCS_URL ||
 	!process.env.CF_R2_DOCS_ACCESS_KEY_ID ||
 	!process.env.CF_R2_DOCS_SECRET_ACCESS_KEY ||
-	!process.env.CF_R2_DOCS_BUCKET ||
-	!process.env.CF_R2_DOCS_BUCKET_URL ||
-	!process.env.CF_D1_DOCS_API_KEY ||
-	!process.env.CF_D1_DOCS_ID ||
-	!process.env.CF_ACCOUNT_ID
+	!process.env.CF_R2_DOCS_BUCKET
 ) {
 	setFailed('Missing environment variables');
 }
 
 const pkg = getInput('package') || '*';
 const version = getInput('version') || 'main';
+const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
 
 const S3 = new S3Client({
 	region: 'auto',
 	endpoint: process.env.CF_R2_DOCS_URL!,
+	forcePathStyle,
 	credentials: {
 		accessKeyId: process.env.CF_R2_DOCS_ACCESS_KEY_ID!,
 		secretAccessKey: process.env.CF_R2_DOCS_SECRET_ACCESS_KEY!,
@@ -33,9 +30,91 @@ const S3 = new S3Client({
 	responseChecksumValidation: 'WHEN_REQUIRED',
 });
 
-const client = new Cloudflare({
-	apiToken: process.env.CF_D1_DOCS_API_KEY,
-});
+interface DocsManifest {
+	packageName: string;
+	updatedAt: string;
+	versions: string[];
+}
+
+function parseVersion(version: string) {
+	const [base] = version.split(/[-+]/);
+	const parts = base?.split('.');
+
+	if (!parts || parts.length !== 3) {
+		return null;
+	}
+
+	const parsed = parts.map((part) => Number.parseInt(part, 10));
+
+	if (parsed.some((part) => Number.isNaN(part))) {
+		return null;
+	}
+
+	return parsed as [number, number, number];
+}
+
+function compareVersionDescending(left: string, right: string) {
+	const leftParsed = parseVersion(left);
+	const rightParsed = parseVersion(right);
+
+	if (leftParsed && rightParsed) {
+		for (let index = 0; index < 3; index++) {
+			if (leftParsed[index] !== rightParsed[index]) {
+				return rightParsed[index]! - leftParsed[index]!;
+			}
+		}
+
+		return right.localeCompare(left);
+	}
+
+	if (leftParsed && !rightParsed) {
+		return -1;
+	}
+
+	if (!leftParsed && rightParsed) {
+		return 1;
+	}
+
+	return right.localeCompare(left, undefined, { numeric: true, sensitivity: 'base' });
+}
+
+function sortVersions(versions: string[]) {
+	const deduped = [...new Set(versions.filter((version) => version.trim().length > 0))];
+	const includesMain = deduped.includes('main');
+	const releaseVersions = deduped.filter((version) => version !== 'main').sort(compareVersionDescending);
+
+	return includesMain ? ['main', ...releaseVersions] : releaseVersions;
+}
+
+async function loadManifest(packageName: string): Promise<DocsManifest> {
+	const key = `manifests/${packageName}.json`;
+
+	try {
+		const response = await S3.send(
+			new GetObjectCommand({
+				Bucket: process.env.CF_R2_DOCS_BUCKET,
+				Key: key,
+			}),
+		);
+		const body = await response.Body?.transformToString?.();
+		if (!body) {
+			return { packageName, updatedAt: new Date().toISOString(), versions: [] };
+		}
+
+		const parsed = JSON.parse(body) as Partial<DocsManifest>;
+		const versions = Array.isArray(parsed.versions)
+			? parsed.versions.filter((item): item is string => typeof item === 'string')
+			: [];
+
+		return {
+			packageName,
+			updatedAt: parsed.updatedAt ?? new Date().toISOString(),
+			versions,
+		};
+	} catch {
+		return { packageName, updatedAt: new Date().toISOString(), versions: [] };
+	}
+}
 
 const limit = pLimit(10);
 const promises = [];
@@ -49,9 +128,8 @@ for await (const file of globber.globGenerator()) {
 			limit(async () => {
 				console.log(`Uploading ${file} with ${version}...`);
 				const json = JSON.parse(data);
-				const name = json.name ?? json.n;
-
-				const key = `${name.replace('@discordjs/', '')}/${version}.json`;
+				const packageName = String(json.name ?? json.n ?? '').replace('@discordjs/', '');
+				const key = `${packageName}/${version}.json`;
 
 				await S3.send(
 					new PutObjectCommand({
@@ -60,11 +138,22 @@ for await (const file of globber.globGenerator()) {
 						Body: data,
 					}),
 				);
-				await client.d1.database.raw(process.env.CF_D1_DOCS_ID!, {
-					account_id: process.env.CF_ACCOUNT_ID!,
-					sql: `insert into documentation (name, version, url) values (?, ?, ?) on conflict (name, version) do update set url = excluded.url;`,
-					params: [name.replace('@discordjs/', ''), version, process.env.CF_R2_DOCS_BUCKET_URL + '/' + key],
-				});
+
+				const currentManifest = await loadManifest(packageName);
+				const manifest: DocsManifest = {
+					packageName,
+					updatedAt: new Date().toISOString(),
+					versions: sortVersions([...currentManifest.versions, version]),
+				};
+
+				await S3.send(
+					new PutObjectCommand({
+						Bucket: process.env.CF_R2_DOCS_BUCKET,
+						Key: `manifests/${packageName}.json`,
+						Body: JSON.stringify(manifest),
+						ContentType: 'application/json',
+					}),
+				);
 			}),
 		);
 	} catch (error) {

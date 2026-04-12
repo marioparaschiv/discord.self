@@ -28,6 +28,7 @@
 **/coverage
 **/__tests__
 **/out
+.git
 
 # yarn
 .pnp.*
@@ -42,6 +43,8 @@
 **/.prettiercache
 **/.eslintcache
 **/.vercel
+**/.pnpm-store
+docker/docs-stack/data
 
 # Docker specific
 **/.cliff-jumperrc.json
@@ -62,6 +65,5 @@
 **/LICENSE
 **/tsconfig.eslint.json
 **/tsconfig.docs.json
-**/docs/
+packages/*/docs/
 **/vitest.config.ts
-

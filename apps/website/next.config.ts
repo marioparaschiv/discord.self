@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 export default {
+	output: 'standalone',
 	images: {
 		dangerouslyAllowSVG: true,
 		contentDispositionType: 'attachment',

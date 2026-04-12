@@ -18,6 +18,7 @@ if (
 
 const pkg = getInput('package') || '*';
 const version = getInput('version') || 'main';
+const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
 
 const queue = new PQueue({ concurrency: 10, interval: 60_000, intervalCap: 1_000 });
 const promises = [];
@@ -26,6 +27,7 @@ const failedUploads: string[] = [];
 const S3 = new S3Client({
 	region: 'auto',
 	endpoint: process.env.CF_R2_DOCS_URL!,
+	forcePathStyle,
 	credentials: {
 		accessKeyId: process.env.CF_R2_DOCS_ACCESS_KEY_ID!,
 		secretAccessKey: process.env.CF_R2_DOCS_SECRET_ACCESS_KEY!,

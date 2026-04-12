@@ -33,17 +33,16 @@
 			"env": [
 				"VERCEL_ENV",
 				"NEXT_PUBLIC_LOCAL_DEV",
+				"NEXT_PUBLIC_SEARCH_API_URL",
+				"NEXT_PUBLIC_SEARCH_API_KEY",
 				"EDGE_CONFIG",
 				"MAX_FETCH_SIZE",
-				"CF_ACCOUNT_ID",
 				"CF_R2_DOCS_URL",
 				"CF_R2_DOCS_ACCESS_KEY_ID",
 				"CF_R2_DOCS_SECRET_ACCESS_KEY",
 				"CF_R2_DOCS_TOKEN",
 				"CF_R2_DOCS_BUCKET",
-				"CF_R2_DOCS_BUCKET_URL",
-				"CF_D1_DOCS_ID",
-				"CF_D1_DOCS_API_KEY"
+				"CF_R2_DOCS_BUCKET_URL"
 			],
 			"dependsOn": ["^build", "^docs"],
 			"inputs": [
@@ -64,17 +63,16 @@
 			"env": [
 				"VERCEL_ENV",
 				"NEXT_PUBLIC_LOCAL_DEV",
+				"NEXT_PUBLIC_SEARCH_API_URL",
+				"NEXT_PUBLIC_SEARCH_API_KEY",
 				"EDGE_CONFIG",
 				"MAX_FETCH_SIZE",
-				"CF_ACCOUNT_ID",
 				"CF_R2_DOCS_URL",
 				"CF_R2_DOCS_ACCESS_KEY_ID",
 				"CF_R2_DOCS_SECRET_ACCESS_KEY",
 				"CF_R2_DOCS_TOKEN",
 				"CF_R2_DOCS_BUCKET",
-				"CF_R2_DOCS_BUCKET_URL",
-				"CF_D1_DOCS_ID",
-				"CF_D1_DOCS_API_KEY"
+				"CF_R2_DOCS_BUCKET_URL"
 			],
 			"dependsOn": ["^build"],
 			"inputs": [

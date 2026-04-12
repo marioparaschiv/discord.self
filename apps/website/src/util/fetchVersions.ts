@@ -1,63 +1,87 @@
-import type Cloudflare from 'cloudflare';
 import { ENV } from './env';
+
+interface DocsManifest {
+	versions: string[];
+}
+
+function parseVersion(version: string) {
+	const [base] = version.split(/[-+]/);
+	const parts = base?.split('.');
+
+	if (!parts || parts.length !== 3) {
+		return null;
+	}
+
+	const parsed = parts.map((part) => Number.parseInt(part, 10));
+
+	if (parsed.some((part) => Number.isNaN(part))) {
+		return null;
+	}
+
+	return parsed as [number, number, number];
+}
+
+function compareVersionDescending(left: string, right: string) {
+	const leftParsed = parseVersion(left);
+	const rightParsed = parseVersion(right);
+
+	if (leftParsed && rightParsed) {
+		for (let index = 0; index < 3; index++) {
+			if (leftParsed[index] !== rightParsed[index]) {
+				return rightParsed[index]! - leftParsed[index]!;
+			}
+		}
+
+		return right.localeCompare(left);
+	}
+
+	if (leftParsed && !rightParsed) {
+		return -1;
+	}
+
+	if (!leftParsed && rightParsed) {
+		return 1;
+	}
+
+	return right.localeCompare(left, undefined, { numeric: true, sensitivity: 'base' });
+}
+
+function sortVersions(versions: string[]) {
+	const deduped = [...new Set(versions.filter((version) => version.trim().length > 0))];
+	const includesMain = deduped.includes('main');
+	const releases = deduped.filter((version) => version !== 'main').sort(compareVersionDescending);
+
+	return includesMain ? ['main', ...releases] : releases;
+}
 
 export async function fetchVersions(packageName: string) {
 	if (ENV.IS_LOCAL_DEV) {
 		return [{ version: 'main' }];
 	}
 
-	try {
-		const response = await fetch(
-			`https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ACCOUNT_ID}/d1/database/${process.env.CF_D1_DOCS_ID}/query`,
-			{
-				headers: {
-					Authorization: `Bearer ${process.env.CF_D1_DOCS_API_KEY}`,
-					'Content-Type': 'application/json',
-				},
-				method: 'POST',
-				body: JSON.stringify({
-					sql: `WITH parsed AS (
-								SELECT
-										version,
-										CASE 
-												WHEN version = 'main' THEN NULL 
-												ELSE CAST(substr(version, 1, instr(version, '.') - 1) AS INTEGER)
-										END AS major,
-										CASE 
-												WHEN version = 'main' THEN NULL 
-												ELSE substr(version, instr(version, '.') + 1)
-										END AS rest
-								FROM documentation
-								WHERE name = ?
-								),
-								parsed2 AS (
-										SELECT
-												version,
-												major,
-												CASE 
-														WHEN version = 'main' THEN NULL 
-														ELSE CAST(substr(rest, 1, instr(rest, '.') - 1) AS INTEGER)
-												END AS minor,
-												CASE 
-														WHEN version = 'main' THEN NULL 
-														ELSE CAST(substr(rest, instr(rest, '.') + 1) AS INTEGER)
-												END AS patch
-										FROM parsed
-								)
-								SELECT version
-								FROM parsed2
-								ORDER BY 
-										CASE WHEN version = 'main' THEN 0 ELSE 1 END,
-										major DESC, 
-										minor DESC, 
-										patch DESC;`,
-					params: [packageName],
-				}),
-			},
-		);
+	if (!process.env.CF_R2_DOCS_BUCKET_URL) {
+		return [];
+	}
 
-		const data = (await response.json()) as Cloudflare.D1Resource.Database.QueryResultsSinglePage;
-		return (data.result[0]?.results ?? []) as { version: string }[];
+	try {
+		const bucketUrl = process.env.CF_R2_DOCS_BUCKET_URL.endsWith('/')
+			? process.env.CF_R2_DOCS_BUCKET_URL.slice(0, -1)
+			: process.env.CF_R2_DOCS_BUCKET_URL;
+
+		const response = await fetch(`${bucketUrl}/manifests/${packageName}.json`, {
+			cache: 'no-store',
+		});
+
+		if (!response.ok) {
+			return [];
+		}
+
+		const manifest = (await response.json()) as Partial<DocsManifest>;
+		const versions = Array.isArray(manifest.versions)
+			? manifest.versions.filter((version): version is string => typeof version === 'string')
+			: [];
+
+		return sortVersions(versions).map((version) => ({ version }));
 	} catch {
 		return [];
 	}

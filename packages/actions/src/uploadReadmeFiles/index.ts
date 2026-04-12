@@ -13,10 +13,12 @@ if (
 	setFailed('Missing environment variables.');
 	process.exit(1);
 }
+const forcePathStyle = process.env.S3_FORCE_PATH_STYLE === 'true';
 
 const S3READMEFiles = new S3Client({
 	region: 'auto',
 	endpoint: process.env.CF_R2_READMES_URL,
+	forcePathStyle,
 	credentials: {
 		accessKeyId: process.env.CF_R2_READMES_ACCESS_KEY_ID,
 		secretAccessKey: process.env.CF_R2_READMES_SECRET_ACCESS_KEY,

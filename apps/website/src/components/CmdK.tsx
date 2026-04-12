@@ -14,10 +14,45 @@ import { isDrawerOpenAtom } from '@/stores/drawer';
 import { cx } from '@/styles/cva';
 import { resolveKind } from '@/util/resolveNodeKind';
 
-const client = new MeiliSearch({
-	host: 'https://search.discordjs.dev',
-	apiKey: 'f3482b8e976a8b1092394aafbfb91f391242f40b0a6f45a008a5a72b354fb07e',
-});
+const searchHost = process.env.NEXT_PUBLIC_SEARCH_API_URL;
+const searchApiKey = process.env.NEXT_PUBLIC_SEARCH_API_KEY;
+const client = searchHost
+	? new MeiliSearch(searchApiKey ? { host: searchHost, apiKey: searchApiKey } : { host: searchHost })
+	: null;
+let meiliIndexUidsCache: string[] | null = null;
+
+function resolveIndexUid(indexUid: string, availableIndexUids: readonly string[]) {
+	if (availableIndexUids.includes(indexUid)) {
+		return indexUid;
+	}
+
+	for (const candidate of availableIndexUids) {
+		if (!candidate.endsWith('-main')) {
+			continue;
+		}
+
+		const packageName = candidate.slice(0, -'-main'.length);
+		if (indexUid.startsWith(`${packageName}-`)) {
+			return candidate;
+		}
+	}
+
+	return null;
+}
+
+async function getAvailableIndexUids() {
+	if (!client) {
+		return [];
+	}
+
+	if (meiliIndexUidsCache) {
+		return meiliIndexUidsCache;
+	}
+
+	const indexes = await client.getIndexes({ limit: 10_000 });
+	meiliIndexUidsCache = indexes.results.map((index) => index.uid);
+	return meiliIndexUidsCache;
+}
 
 export function CmdK({ dependencies }: { readonly dependencies: string[] }) {
 	const pathname = usePathname();
@@ -88,17 +123,42 @@ export function CmdK({ dependencies }: { readonly dependencies: string[] }) {
 		// };
 
 		const searchDoc = async (searchString: string, version: string) => {
-			const result = await client.multiSearch({
-				queries: [`${packageName?.replaceAll('.', '-')}-${version}`, ...dependencies].map((dep) => ({
-					indexUid: dep,
-					// eslint-disable-next-line id-length
-					q: searchString,
-					limit: 25,
-					attributesToSearchOn: ['name'],
-					sort: ['type:asc'],
-				})),
-			});
-			setSearchResults(result.results.flatMap((res) => res.hits));
+			if (!client) {
+				setSearchResults([]);
+				return;
+			}
+
+			const requestedIndexUids = [`${packageName?.replaceAll('.', '-')}-${version}`, ...dependencies];
+
+			try {
+				const availableIndexUids = await getAvailableIndexUids();
+				const resolvedIndexUids = requestedIndexUids
+					.map((indexUid) => resolveIndexUid(indexUid, availableIndexUids))
+					.filter((indexUid): indexUid is string => indexUid !== null);
+				const uniqueIndexUids = [...new Set(resolvedIndexUids)];
+
+				if (!uniqueIndexUids.length) {
+					setSearchResults([]);
+					return;
+				}
+
+				const result = await client.multiSearch({
+					queries: uniqueIndexUids.map((indexUid) => ({
+						indexUid,
+						// eslint-disable-next-line id-length
+						q: searchString,
+						limit: 25,
+						attributesToSearchOn: ['name'],
+						sort: ['type:asc'],
+					})),
+				});
+
+				setSearchResults(result.results.flatMap((res) => res.hits));
+			} catch {
+				// Refresh stale cache and fail closed in the UI.
+				meiliIndexUidsCache = null;
+				setSearchResults([]);
+			}
 		};
 
 		if (search && packageName) {

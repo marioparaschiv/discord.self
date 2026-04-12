@@ -58,15 +58,9 @@
   color: fbca04
 - name: packages:api-extractor-model
   color: fbca04
-- name: packages:brokers
-  color: fbca04
-- name: packages:builders
-  color: fbca04
 - name: packages:collection
   color: fbca04
 - name: packages:core
-  color: fbca04
-- name: packages:create-discord-bot
   color: fbca04
 - name: packages:client
   color: fbca04
@@ -74,15 +68,9 @@
   color: fbca04
 - name: packages:formatters
   color: fbca04
-- name: packages:next
-  color: fbca04
-- name: packages:proxy
+- name: packages:identity
   color: fbca04
 - name: packages:rest
-  color: fbca04
-- name: packages:structures
-  color: fbca04
-- name: packages:ui
   color: fbca04
 - name: packages:util
   color: fbca04

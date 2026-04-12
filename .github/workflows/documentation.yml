@@ -5,12 +5,9 @@ on:
       - 'main'
     paths:
       - 'packages/*/src/**'
-      - '!packages/create-discord-bot/**'
-      - '!packages/ui/**'
     tags:
       - '**'
       - '!create-discord-app@*'
-      - '!@discord.self/create-discord-bot@*'
   workflow_dispatch:
     inputs:
       ref:

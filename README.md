@@ -36,6 +36,7 @@ pnpm add @discord.self/client
 ## Docs
 
 - [Documentation](https://dself.marioparaschiv.com/docs)
+- [Guide](https://dself.marioparaschiv.com/guide)
 - [Token Guide](https://gist.github.com/marioparaschiv/a565ef085466864aefed1597fd531445)
 
 ## Packages

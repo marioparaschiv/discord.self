@@ -21,14 +21,9 @@ export default async function Page() {
 					<Link className={buttonStyles({ variant: 'filled' })} href="/docs">
 						Docs
 					</Link>
-					<a
-						className={buttonStyles({ variant: 'discreet' })}
-						href="https://discordjs.guide"
-						rel="noopener noreferrer"
-						target="_blank"
-					>
-						Guide <ExternalLink aria-hidden data-slot="icon" size={18} />
-					</a>
+					<Link className={buttonStyles({ variant: 'discreet' })} href="/guide">
+						Guide
+					</Link>
 					<a
 						className={buttonStyles({ variant: 'discreet' })}
 						href="https://github.com/marioparaschiv/discord.self"

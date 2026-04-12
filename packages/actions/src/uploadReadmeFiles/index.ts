@@ -28,6 +28,19 @@ const S3READMEFiles = new S3Client({
 });
 
 const promises = [];
+const packageFilter = (() => {
+	const fromEnv = (process.env.BOOTSTRAP_PACKAGES ?? '').trim();
+	if (!fromEnv || fromEnv === '*') {
+		return new Set<string>();
+	}
+
+	return new Set(
+		fromEnv
+			.split(',')
+			.map((packageName) => packageName.replace(/^@discord(?:\.self|js)\//, '').trim())
+			.filter(Boolean),
+	);
+})();
 
 // Find all packages with an api-extractor.json file.
 const globber = await create('packages/*/api-extractor.json');
@@ -35,6 +48,10 @@ const globber = await create('packages/*/api-extractor.json');
 for await (const apiExtractorFile of globber.globGenerator()) {
 	const readmePath = apiExtractorFile.replace('/api-extractor.json', '/README.md');
 	const packageName = apiExtractorFile.split('/').at(-2)!;
+	if (packageFilter.size > 0 && !packageFilter.has(packageName)) {
+		continue;
+	}
+
 	const readmeKey = `${packageName}/home-README.md`;
 	info(`Uploading ${readmePath}...`);
 

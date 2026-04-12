@@ -6,6 +6,7 @@ export const PACKAGES = [
 	{ name: 'collection' },
 	{ name: 'core' },
 	{ name: 'formatters' },
+	{ name: 'identity' },
 	{ name: 'next' },
 	{ name: 'proxy' },
 	{ name: 'rest' },

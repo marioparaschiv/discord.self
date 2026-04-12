@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { BuiltinDocumentationLinks } from '@/util/builtinDocumentationLinks';
+import { normalizeDocsPackageName } from '@/util/normalizeDocsPackageName';
 import { Scrollbars } from './OverlayScrollbars';
 import { SyntaxHighlighter } from './SyntaxHighlighter';
 
@@ -13,7 +14,7 @@ export async function DocNode({ node, version }: { readonly node?: any; readonly
 					return (
 						<Link
 							className="text-base-blurple-400 hover:text-base-blurple-500 dark:hover:text-base-blurple-300 font-mono"
-							href={`/docs/packages/${node.resolvedPackage.packageName}/${node.resolvedPackage.version ?? version}/${node.uri}`}
+							href={`/docs/packages/${normalizeDocsPackageName(node.resolvedPackage.packageName)}/${node.resolvedPackage.version ?? version}/${node.uri}`}
 							key={`${node.uri}-${idx}`}
 							// @ts-expect-error - unstable_dynamicOnHover is not part of the public types
 							unstable_dynamicOnHover

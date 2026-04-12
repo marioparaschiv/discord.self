@@ -960,6 +960,9 @@ importers:
       '@discord.self/api-extractor':
         specifier: workspace:^
         version: link:../api-extractor
+      '@discord.self/scripts':
+        specifier: workspace:^
+        version: link:../scripts
       '@favware/cliff-jumper':
         specifier: ^6.0.0
         version: 6.0.0

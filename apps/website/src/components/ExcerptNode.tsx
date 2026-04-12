@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
 import { BuiltinDocumentationLinks } from '@/util/builtinDocumentationLinks';
+import { normalizeDocsPackageName } from '@/util/normalizeDocsPackageName';
 
 export async function ExcerptNode({ node, version }: { readonly node?: any; readonly version: string }) {
 	const createExcerpt = (excerpts: any, idx: number) => {
@@ -20,7 +21,7 @@ export async function ExcerptNode({ node, version }: { readonly node?: any; read
 						return (
 							<Link
 								className="text-base-blurple-400 hover:text-base-blurple-500 dark:hover:text-base-blurple-300"
-								href={`/docs/packages/${excerpt.resolvedItem.packageName}/${excerpt.resolvedItem.version ?? version}/${excerpt.resolvedItem.uri}`}
+								href={`/docs/packages/${normalizeDocsPackageName(excerpt.resolvedItem.packageName)}/${excerpt.resolvedItem.version ?? version}/${excerpt.resolvedItem.uri}`}
 								key={`${excerpt.resolvedItem.displayName}-${idx}`}
 								// @ts-expect-error - unstable_dynamicOnHover is not part of the public types
 								unstable_dynamicOnHover

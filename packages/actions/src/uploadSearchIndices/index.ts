@@ -24,6 +24,22 @@ const docsBucketUrl = process.env.CF_R2_DOCS_BUCKET_URL.endsWith('/')
 	? process.env.CF_R2_DOCS_BUCKET_URL.slice(0, -1)
 	: process.env.CF_R2_DOCS_BUCKET_URL;
 
+function normalizePackageName(packageName: string) {
+	return packageName.replace(/^@discord(?:\.self|js)\//, '').trim();
+}
+
+function parsePackageFilter() {
+	const fromEnv = process.env.BOOTSTRAP_PACKAGES ?? '';
+	if (!fromEnv || fromEnv === '*') {
+		return [];
+	}
+
+	return fromEnv
+		.split(',')
+		.map((packageName) => normalizePackageName(packageName))
+		.filter(Boolean);
+}
+
 interface DocsManifest {
 	versions: string[];
 }
@@ -56,9 +72,16 @@ const client = new MeiliSearch({
 const limit = pLimit(5);
 
 try {
+	const packages = parsePackageFilter();
+	const selectedPackages = new Set(packages);
+
 	console.log('Generating all indices...');
 	const indices = await generateAllIndices({
 		fetchPackageVersions: async (pkg) => {
+			if (selectedPackages.size > 0 && !selectedPackages.has(pkg)) {
+				return [];
+			}
+
 			console.info(`Fetching versions for ${pkg}...`);
 			const manifest = await fetchManifest(pkg);
 			return manifest?.versions ?? [];

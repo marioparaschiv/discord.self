@@ -31,11 +31,59 @@ Normal restart (no rebuild):
 docker compose -f docker/docs-stack/docker-compose.yml up -d
 ```
 
-Run bootstrap (docs upload + indexing) only when needed:
+Run full bootstrap (build docs + upload + indexing) when needed:
 
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap up bootstrap
-docker compose -f docker/docs-stack/docker-compose.yml logs -f bootstrap
+docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm bootstrap
+```
+
+Fast refresh after building docs locally (upload + indexing only, no docs rebuild):
+
+```bash
+docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload bootstrap
+```
+
+`upload` mode does not require restarting `website`.
+
+Fast refresh for specific packages only:
+
+```bash
+docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_PACKAGES=identity,rest bootstrap
+```
+
+`BOOTSTRAP_PACKAGES` accepts comma-separated package names (with or without `@discord.self/` prefix).
+
+If you changed any upload tooling code under `packages/actions` or `packages/scripts`, force a rebuild once:
+
+```bash
+docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_FORCE_ACTIONS_BUILD=true bootstrap
+```
+
+## Recommended local loop (fast)
+
+1. Keep stack running:
+
+```bash
+docker compose -f docker/docs-stack/docker-compose.yml up -d
+```
+
+2. Build only what changed on host (example):
+
+```bash
+pnpm --filter @discord.self/identity docs
+```
+
+3. Push docs/search to local MinIO+Meili:
+
+```bash
+docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload bootstrap
+```
+
+Only one package changed:
+
+```bash
+pnpm --filter @discord.self/identity docs
+docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_PACKAGES=identity bootstrap
 ```
 
 ## Useful endpoints

@@ -19,6 +19,9 @@
 		"fmt:affected": "turbo run format --filter=...[origin/main] --concurrency=4",
 		"docs": "turbo run docs --concurrency=4",
 		"docs:affected": "turbo run docs --filter=...[origin/main] --concurrency=4",
+		"docs:stack:up": "docker compose -f docker/docs-stack/docker-compose.yml up -d",
+		"docs:stack:bootstrap": "docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm bootstrap",
+		"docs:stack:upload": "docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload bootstrap",
 		"prepare": "is-ci || husky",
 		"update": "pnpm --recursive update --interactive",
 		"update:latest": "pnpm --recursive update --interactive --latest"

@@ -7,6 +7,7 @@ export const PACKAGES = [
 	'collection',
 	'core',
 	'formatters',
+	'identity',
 	'next',
 	'proxy',
 	'rest',

@@ -69,11 +69,11 @@ commit_parsers = [
 ]
 filter_commits = true
 protect_breaking_commits = true
-tag_pattern = "@discordjs/{{name}}@[0-9]*"
+tag_pattern = "@discord.self/{{name}}@[0-9]*"
 ignore_tags = ""
 topo_order = false
 sort_commits = "newest"
 
 [remote.github]
-owner = "discordjs"
-repo = "discord.js"
+owner = "marioparaschiv"
+repo = "discord.self"

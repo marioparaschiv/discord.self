@@ -53,4 +53,4 @@ bun.lockb
 .prettiercache
 .eslintcache
 .pnpm-store/
-docker/docs-stack/data/
+docker/docs/data/

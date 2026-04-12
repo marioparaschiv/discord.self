@@ -6,3 +6,4 @@ src/assets/readme
 src/styles/unocss.css
 next-env.d.ts
 .source
+**/*.api.json

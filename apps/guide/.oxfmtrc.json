@@ -1,0 +1,22 @@
+{
+	"printWidth": 120,
+	"useTabs": true,
+	"singleQuote": true,
+	"quoteProps": "as-needed",
+	"trailingComma": "all",
+	"endOfLine": "lf",
+	"sortTailwindcss": {
+		"functions": ["cva", "cx"]
+	},
+	"sortPackageJson": false,
+	"ignorePatterns": [
+		".next",
+		".turbo",
+		".vscode",
+		"coverage",
+		"src/assets/readme",
+		"src/styles/unocss.css",
+		"next-env.d.ts",
+		".source"
+	]
+}

@@ -3,12 +3,8 @@ export function normalizeDocsPackageName(packageName: string | null | undefined)
 		return '';
 	}
 
-	if (packageName.startsWith('@discord.self/')) {
-		return packageName.slice('@discord.self/'.length);
-	}
-
-	if (packageName.startsWith('@discordjs/')) {
-		return packageName.slice('@discordjs/'.length);
+	if (/^@discord(?:\.self|js)\//.test(packageName)) {
+		return packageName.replace(/^@discord(?:\.self|js)\//, '');
 	}
 
 	return packageName;

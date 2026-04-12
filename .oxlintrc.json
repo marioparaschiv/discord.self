@@ -1,0 +1,15 @@
+{
+	"env": {
+		"builtin": true
+	},
+	"ignorePatterns": [
+		"**/node_modules/**",
+		".git/**",
+		"**/dist/**",
+		"**/template/**",
+		"**/coverage/**",
+		"**/storybook-static/**",
+		"**/.next/**",
+		"**/shiki.bundle.ts"
+	]
+}

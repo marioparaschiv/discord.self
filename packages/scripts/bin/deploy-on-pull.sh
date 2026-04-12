@@ -22,7 +22,7 @@ pnpm run build
 if [ -n "${DEPLOY_CMD}" ]; then
 	sh -c "${DEPLOY_CMD}"
 elif [ "${SELF_HOSTED}" = "1" ]; then
-	docker compose -f docker/docs-stack/docker-compose.yml up -d --build
+	docker compose -f docker/docs/docker-compose.yml up -d --build
 fi
 
 echo "Deployment script completed."

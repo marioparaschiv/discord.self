@@ -13,12 +13,12 @@ describe('Format Tag', () => {
 			package: 'collection',
 			semver: '0.6.0',
 		});
-		expect(formatTag('@discordjs/proxy@0.1.0')).toEqual({
+		expect(formatTag('@discord.self/proxy@0.1.0')).toEqual({
 			isSubpackage: true,
 			package: 'proxy',
 			semver: '0.1.0',
 		});
-		expect(formatTag('@discordjs/builders@0.13.0')).toEqual({
+		expect(formatTag('@discord.self/builders@0.13.0')).toEqual({
 			isSubpackage: true,
 			package: 'builders',
 			semver: '0.13.0',

@@ -162,7 +162,7 @@ function resolveCanonicalReference(
 	) {
 		const member = canonicalReference.memberReferences[0]!;
 		return {
-			package: canonicalReference.packageName?.replace('@discordjs/', ''),
+			package: canonicalReference.packageName?.replace(/^@discord(?:\.self|js)\//, ''),
 			item: {
 				kind: member.selector!.selector,
 				displayName: member.memberIdentifier!.identifier,
@@ -256,7 +256,7 @@ function itemExcerptText(excerpt: Excerpt, apiPackage: ApiPackage, parent?: ApiT
 						displayName: foundItem.displayName,
 						containerKey: foundItem.containerKey,
 						uri: resolveItemURI(foundItem),
-						packageName: resolved.package?.replace('@discordjs/', ''),
+						packageName: resolved.package?.replace(/^@discord(?:\.self|js)\//, ''),
 						version: resolved.version,
 					},
 				};
@@ -278,7 +278,7 @@ function itemExcerptText(excerpt: Excerpt, apiPackage: ApiPackage, parent?: ApiT
 						displayName: token.text,
 						containerKey: `${parent.containerKey}|${token.text}`,
 						uri: `${resolveItemURI(parent)}#${token.text}`,
-						packageName: resolvedParent?.package?.replace('@discordjs/', ''),
+						packageName: resolvedParent?.package?.replace(/^@discord(?:\.self|js)\//, ''),
 					},
 				};
 			}
@@ -361,7 +361,9 @@ function itemTsDoc(item: DocNode, apiItem: ApiItem) {
 						text: linkText ?? foundItem?.displayName ?? resolved!.item.displayName,
 						uri: resolveItemURI(foundItem ?? resolved!.item),
 						resolvedPackage: {
-							packageName: resolved?.package ?? apiItem.getAssociatedPackage()?.displayName.replace('@discordjs/', ''),
+							packageName:
+								resolved?.package ??
+								apiItem.getAssociatedPackage()?.displayName.replace(/^@discord(?:\.self|js)\//, ''),
 							version: resolved?.package
 								? (apiItem.getAssociatedPackage()?.dependencies?.[resolved.package] ?? null)
 								: null,
@@ -515,8 +517,8 @@ function resolveFileUrl(item: ApiDeclaredItem) {
 		const pkgName = parts?.shift();
 		const version = parts?.shift()?.split('_')?.[0];
 
-		// https://github.com/marioparaschiv/discord.self/tree/main/node_modules/.pnpm/@discordjs+builders@1.9.0/node_modules/@discordjs/builders/dist/index.d.ts#L1764
-		// https://github.com/marioparaschiv/discord.self/tree/main/node_modules/.pnpm/@discordjs+ws@1.1.1_bufferutil@4.0.8_utf-8-validate@6.0.4/node_modules/@discord.self/ws/dist/index.d.ts#L...
+		// https://github.com/marioparaschiv/discord.self/tree/main/node_modules/.pnpm/@discord.self+builders@1.9.0/node_modules/@discord.self/builders/dist/index.d.ts#L1764
+		// https://github.com/marioparaschiv/discord.self/tree/main/node_modules/.pnpm/@discord.self+ws@1.1.1_bufferutil@4.0.8_utf-8-validate@6.0.4/node_modules/@discord.self/ws/dist/index.d.ts#L...
 		if (!unscoped && pkgName?.startsWith('discordjs+')) {
 			let currentItem = item;
 			while (currentItem.parent && currentItem.parent.kind !== ApiItemKind.EntryPoint)

@@ -11,7 +11,7 @@
 			"outputs": ["dist/**"],
 			"outputLogs": "errors-only"
 		},
-		"@discordjs/ui#build-storybook": {
+		"@discord.self/ui#build-storybook": {
 			"dependsOn": ["build"],
 			"inputs": [".storybook/**/*", "src/**", "package.json", "tsconfig.json", "vite.config.ts"],
 			"outputs": ["dist/**", "storybook-static/**"],
@@ -90,76 +90,81 @@
 			"outputLogs": "new-only"
 		},
 		"lint": {
-			"dependsOn": ["^build"],
 			"inputs": [
-				"../../eslint.config.js",
-				"../../.prettierrc.json",
-				"../../tsconfig.eslint.json",
-				".prettierrc.js",
+				"../../.oxlintrc.json",
+				"../../.oxfmtrc.json",
+				"../../.prettierignore",
+				"../../tsconfig.json",
+				".oxfmtrc.json",
+				".prettierignore",
 				"bin/**",
 				"src/**",
 				"scripts/**",
 				"package.json",
-				"tsconfig.eslint.json"
+				"tsconfig.json"
 			],
 			"outputs": [],
 			"outputLogs": "errors-only"
 		},
 		"@discord.self/guide#lint": {
-			"dependsOn": ["^build", "build:local"],
 			"inputs": [
-				"../../eslint.config.js",
-				"../../.prettierrc.json",
-				"../../tsconfig.eslint.json",
-				".prettierrc.js",
+				"../../.oxlintrc.json",
+				"../../.oxfmtrc.json",
+				"../../.prettierignore",
+				"../../tsconfig.json",
+				".oxfmtrc.json",
+				".prettierignore",
 				"src/**",
 				"!src/styles/unocss.css",
-				"tsconfig.eslint.json"
+				"tsconfig.json"
 			],
 			"outputs": [],
 			"outputLogs": "errors-only"
 		},
 		"@discord.self/website#lint": {
-			"dependsOn": ["^build", "build:local"],
 			"inputs": [
-				"../../eslint.config.js",
-				"../../.prettierrc.json",
-				"../../tsconfig.eslint.json",
-				".prettierrc.js",
+				"../../.oxlintrc.json",
+				"../../.oxfmtrc.json",
+				"../../.prettierignore",
+				"../../tsconfig.json",
+				".oxfmtrc.json",
+				".prettierignore",
 				"src/**",
 				"!src/styles/unocss.css",
-				"tsconfig.eslint.json"
+				"tsconfig.json"
 			],
 			"outputs": [],
 			"outputLogs": "errors-only"
 		},
 		"format": {
-			"dependsOn": ["^build"],
 			"inputs": [
-				"../../eslint.config.js",
-				"../../.prettierrc.json",
-				"../../tsconfig.eslint.json",
-				".prettierrc.js",
+				"../../.oxlintrc.json",
+				"../../.oxfmtrc.json",
+				"../../.prettierignore",
+				"../../tsconfig.json",
+				".oxfmtrc.json",
+				".prettierignore",
 				"bin/**",
 				"src/**",
 				"scripts/**",
 				"package.json",
-				"tsconfig.eslint.json"
+				"tsconfig.json"
 			],
 			"outputs": [],
 			"outputLogs": "errors-only"
 		},
 		"@discord.self/guide#format": {
-			"dependsOn": ["^build"],
 			"inputs": [
-				"../../eslint.config.js",
-				"../../.prettierrc.json",
-				"../../tsconfig.eslint.json",
-				".prettierrc.js",
+				"../../.oxlintrc.json",
+				"../../.oxfmtrc.json",
+				"../../.prettierignore",
+				"../../tsconfig.json",
+				".oxfmtrc.json",
+				".prettierignore",
 				"src/**",
 				"!src/styles/unocss.css",
 				"package.json",
-				"tsconfig.eslint.json"
+				"tsconfig.json"
 			],
 			"outputs": [],
 			"outputLogs": "errors-only"

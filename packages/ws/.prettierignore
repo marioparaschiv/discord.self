@@ -5,3 +5,4 @@ dist-docs
 docs/docs.api.json
 CHANGELOG.md
 tsup.config.bundled*
+**/*.api.json

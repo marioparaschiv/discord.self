@@ -1,5 +1,6 @@
 CODEOWNERS
 CHANGELOG.md
+**/*.api.json
 tsup.config.bundled*
 vitest.config.ts.timestamp*
 pnpm-lock.yaml

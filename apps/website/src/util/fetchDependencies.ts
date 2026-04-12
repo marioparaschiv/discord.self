@@ -2,6 +2,8 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { ENV } from './env';
 
+const INTERNAL_PACKAGE_SCOPE_REGEX = /^@discord(?:\.self|js)\//;
+
 export async function fetchDependencies({
 	packageName,
 	version,
@@ -19,8 +21,11 @@ export async function fetchDependencies({
 			const parsedDependencies = JSON.parse(fileContent);
 
 			return Object.entries<string>(parsedDependencies)
-				.filter(([key]) => key.startsWith('@discordjs/') && !key.includes('api-extractor'))
-				.map(([key, value]) => `${key.replace('@discordjs/', '').replaceAll('.', '-')}-${sanitizeVersion(value)}`);
+				.filter(([key]) => INTERNAL_PACKAGE_SCOPE_REGEX.test(key) && !key.includes('api-extractor'))
+				.map(
+					([key, value]) =>
+						`${key.replace(INTERNAL_PACKAGE_SCOPE_REGEX, '').replaceAll('.', '-')}-${sanitizeVersion(value)}`,
+				);
 		} catch {
 			return [];
 		}
@@ -34,8 +39,11 @@ export async function fetchDependencies({
 		const parsedDependencies = await fileContent.json();
 
 		return Object.entries<string>(parsedDependencies)
-			.filter(([key]) => key.startsWith('@discordjs/') && !key.includes('api-extractor'))
-			.map(([key, value]) => `${key.replace('@discordjs/', '').replaceAll('.', '-')}-${sanitizeVersion(value)}`);
+			.filter(([key]) => INTERNAL_PACKAGE_SCOPE_REGEX.test(key) && !key.includes('api-extractor'))
+			.map(
+				([key, value]) =>
+					`${key.replace(INTERNAL_PACKAGE_SCOPE_REGEX, '').replaceAll('.', '-')}-${sanitizeVersion(value)}`,
+			);
 	} catch {
 		return [];
 	}

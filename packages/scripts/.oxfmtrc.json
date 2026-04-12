@@ -1,0 +1,10 @@
+{
+	"printWidth": 120,
+	"useTabs": true,
+	"singleQuote": true,
+	"quoteProps": "as-needed",
+	"trailingComma": "all",
+	"endOfLine": "lf",
+	"sortPackageJson": false,
+	"ignorePatterns": [".turbo", "coverage", "dist", "turbo", "tsup.config.bundled*"]
+}

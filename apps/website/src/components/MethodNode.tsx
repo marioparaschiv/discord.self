@@ -47,8 +47,8 @@ async function MethodBodyNode({
 									{'>'}
 								</>
 							) : null}
-							({method.parameters?.length ? <ParameterNode node={method.parameters} version={version} /> : null}
-							) : <ExcerptNode node={method.returnTypeExcerpt} version={version} />
+							({method.parameters?.length ? <ParameterNode node={method.parameters} version={version} /> : null}) :{' '}
+							<ExcerptNode node={method.returnTypeExcerpt} version={version} />
 						</span>
 					</h3>
 

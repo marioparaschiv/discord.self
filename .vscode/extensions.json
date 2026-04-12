@@ -1,7 +1,5 @@
 {
 	"recommendations": [
-		"esbenp.prettier-vscode",
-		"dbaeumer.vscode-eslint",
 		"tamasfe.even-better-toml",
 		"github.vscode-pull-request-github",
 		"codezombiech.gitignore",

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/lintstagedrc.schema.json",
-	"*": "prettier --ignore-unknown --write",
-	"{src/**,__tests__/**}.{mjs,js,cjs,ts,tsx}": "eslint --fix",
+	"*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,json,jsonc,md,mdx,toml,yml,yaml}": "oxfmt",
+	"{src/**,__tests__/**}.{mjs,js,cjs,ts,tsx}": "oxlint --import-plugin --react-plugin --jsx-a11y-plugin --nextjs-plugin --jsdoc-plugin --vitest-plugin --promise-plugin --node-plugin --fix --format=stylish",
 	"src/**.ts": "vitest related --run --config ../../vitest.config.ts"
 }

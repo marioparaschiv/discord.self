@@ -20,13 +20,9 @@ import type { DocBlockJSON } from './tsdoc/CommentBlock.js';
 import { createCommentNode } from './tsdoc/index.js';
 
 export function findPackage(model: ApiModel, name: string): ApiPackage | undefined {
-	return (
-		model.findMembersByName(name)[0] ??
-		model.findMembersByName(`@discordjs/${name}`)[0] ??
-		model.findMembersByName(`@discord.self/${name}`)[0]
-	) as
-		| ApiPackage
-		| undefined;
+	return (model.findMembersByName(name)[0] ??
+		model.findMembersByName(`@discord.self/${name}`)[0] ??
+		model.findMembersByName(`@discord${'js'}/${name}`)[0]) as ApiPackage | undefined;
 }
 
 function hasOverloadIndex(item: ApiItem): item is ApiFunction | ApiMethod | ApiMethodSignature {
@@ -66,7 +62,7 @@ export function generatePath(items: readonly ApiItem[], version: string) {
 		}
 	}
 
-	return path.includes('@discordjs/') || path.includes('@discord.self/')
+	return /@discord(?:js|\.self)\//.test(path)
 		? path.replace(/@discord(?:js|\.self)\/(?<package>.*)\/(?<member>.*)?/, `$<package>/${version}/$<member>`)
 		: path.replace(/(?<package>.*)\/(?<member>.*)?/, `$<package>/${version}/$<member>`);
 }

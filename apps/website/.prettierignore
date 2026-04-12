@@ -7,3 +7,4 @@ src/assets/readme
 src/styles/unocss.css
 next-env.d.ts
 src/util/shiki.bundle.ts
+**/*.api.json

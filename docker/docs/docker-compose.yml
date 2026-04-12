@@ -62,13 +62,13 @@ services:
       SEARCH_API_URL: ${SEARCH_API_URL:-http://meilisearch:7700}
       SEARCH_API_KEY: ${SEARCH_API_KEY:-localdevkey}
       S3_FORCE_PATH_STYLE: '${S3_FORCE_PATH_STYLE:-true}'
-    command: ['sh', '/workspace/docker/docs-stack/bootstrap.sh']
+    command: ['sh', '/workspace/docker/docs/bootstrap.sh']
 
   website:
     restart: ${DOCS_RESTART_POLICY:-unless-stopped}
     build:
       context: ../..
-      dockerfile: docker/docs-stack/website.Dockerfile
+      dockerfile: docker/docs/website.Dockerfile
       args:
         NEXT_PUBLIC_SEARCH_API_URL: ${NEXT_PUBLIC_SEARCH_API_URL:-http://localhost:7700}
         NEXT_PUBLIC_SEARCH_API_KEY: ${NEXT_PUBLIC_SEARCH_API_KEY:-localdevkey}

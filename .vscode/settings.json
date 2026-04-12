@@ -1,18 +1,12 @@
 {
-	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-	"eslint.useESLintClass": true,
-	"eslint.useFlatConfig": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": "never",
-		"source.fixAll.eslint": "always",
 		"source.fixAll": "always"
 	},
 	"editor.trimAutoWhitespace": false,
 	"files.associations": {
-		"tsconfig.json": "jsonc",
-		"tsconfig.eslint.json": "jsonc"
+		"tsconfig.json": "jsonc"
 	},
 	"files.insertFinalNewline": true,
 	"files.eol": "\n",

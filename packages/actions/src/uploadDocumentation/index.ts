@@ -208,9 +208,7 @@ for (const pattern of patterns) {
 				limit(async () => {
 					console.log(`Uploading ${file} with ${version}...`);
 					const json = JSON.parse(data);
-					const packageName = String(json.name ?? json.n ?? '')
-						.replace('@discord.self/', '')
-						.replace('@discordjs/', '');
+					const packageName = String(json.name ?? json.n ?? '').replace(/^@discord(?:\.self|js)\//, '');
 					const key = `${packageName}/${version}.json`;
 					uploadedPackages.add(packageName);
 

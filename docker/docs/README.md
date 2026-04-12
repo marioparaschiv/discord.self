@@ -12,7 +12,7 @@ Self-hosted docs stack:
 1. Copy env template:
 
 ```bash
-cp docker/docs-stack/.env.example .env
+cp docker/docs/.env.example .env
 ```
 
 2. For production, set strong secrets at minimum:
@@ -30,13 +30,13 @@ cp docker/docs-stack/.env.example .env
 ## Start
 
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml up -d --build
+docker compose -f docker/docs/docker-compose.yml up -d --build
 ```
 
 Normal restart:
 
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml up -d
+docker compose -f docker/docs/docker-compose.yml up -d
 ```
 
 ## Bootstrap Docs
@@ -44,19 +44,19 @@ docker compose -f docker/docs-stack/docker-compose.yml up -d
 Full bootstrap:
 
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm bootstrap
+docker compose -f docker/docs/docker-compose.yml --profile bootstrap run --rm bootstrap
 ```
 
 Upload/index only:
 
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload bootstrap
+docker compose -f docker/docs/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload bootstrap
 ```
 
 Package-scoped upload/index:
 
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_PACKAGES=identity,rest bootstrap
+docker compose -f docker/docs/docker-compose.yml --profile bootstrap run --rm -e BOOTSTRAP_MODE=upload -e BOOTSTRAP_PACKAGES=identity,rest bootstrap
 ```
 
 `BOOTSTRAP_PACKAGES` accepts comma-separated package names, with or without `@discord.self/` prefix.
@@ -71,5 +71,5 @@ docker compose -f docker/docs-stack/docker-compose.yml --profile bootstrap run -
 ## Reset Data
 
 ```bash
-docker compose -f docker/docs-stack/docker-compose.yml down -v
+docker compose -f docker/docs/docker-compose.yml down -v
 ```

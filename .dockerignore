@@ -44,7 +44,7 @@
 **/.prettiercache
 **/.eslintcache
 **/.pnpm-store
-docker/docs-stack/data
+docker/docs/data
 
 # Docker specific
 **/.cliff-jumperrc.json

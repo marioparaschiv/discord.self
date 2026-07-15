@@ -11,7 +11,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: dessant/lock-threads@v5
+      - uses: dessant/lock-threads@v6
         with:
           issue-inactive-days: 365
           issue-lock-reason: resolved
